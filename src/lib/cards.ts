@@ -1,8 +1,3 @@
-export interface Player {
-	name: string,
-	field: Field,
-}
-
 interface ArmorType {
 	id: string;
 	name: string;
@@ -35,6 +30,7 @@ let ArmorTypes:ArmorType[] = [
 		name: 'cloth',
 	},
 ]
+let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
 
 export interface ChampInstance {
 	champ:Champ
@@ -44,7 +40,11 @@ export interface ChampInstance {
 }
 
 export type Field = ChampInstance[]
-let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
+export interface Player {
+	name: string,
+	field: Field,
+}
+
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 function roll(base:number, dice:number) {
@@ -54,7 +54,7 @@ function roll(base:number, dice:number) {
 		.reduce((total, value) => total+value, base) 
 }
 
-export let Cards:Champ[] = [ 
+export let Champs:Champ[] = [ 
 	{ 
 		id: 'Garen',
 		name: 'Tanque',
@@ -111,14 +111,14 @@ export let Cards:Champ[] = [
 		
 ]
 
-export let CardMap = Object.fromEntries(Cards.map(card => [ card.id, card ]))
+export let ChampMap = Object.fromEntries(Champs.map(card => [ card.id, card ]))
 export let Attack = (attacker:Champ, defender:Champ) => {
 	let ar = attacker.attack
 	let dr = defender.defense
 	let bonus = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
-		.reduce((total, [_,value]) => total+roll(0, value), 0) 
+		.reduce((total, [_,dice]) => total+roll(0, dice), 0) 
 	return Math.max(ar+bonus-dr, 0);
 }
 
-export let Deck = Cards.flatMap(card => Array(costFrequency[card.cost]).fill(card))
+export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))
