@@ -48,8 +48,7 @@ function combatRound(player:Player, target:Player) {
 				continue;
 		}
 		let damage = Attack(turn.champinstance.champ, enemy.champ)
-		enemy.hp -= damage
-		if (enemy.hp<0) enemy.hp = 0
+		enemy.hp = Math.max(enemy.hp-damage, 0)
 		console.log(turn.player.name, ':', turn.champinstance.champ.name, 'attacks', enemy.champ.name, 'for', damage, 'HP, his HP is now ', enemy.hp)
 	}
 
