@@ -29,7 +29,7 @@ function reset(field:Field) {
 }
 
 function combatRound(player:Player, target:Player) {
-	console.log('Combat round...')
+	log.push('Combat round...')
 	let turns = [...player.field.map(champinstance => ({
 		champinstance, player:player, enemy: target
 	})), ...target.field.map(champinstance => ({
@@ -39,19 +39,20 @@ function combatRound(player:Player, target:Player) {
 
 	for(let turn of turns) {
 		if(turn.champinstance.hp<=0) {
-			console.log(turn.player.name, ':', turn.champinstance.champ.name, 'is out of combat.')
+			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} is out of combat.`)
 			continue
 		}
 		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
-			console.log(turn.player.name, ': no enemy found')
+			log.push(`${turn.player.name}: no enemy found`)
 			continue;
 		}
 		let damage = Attack(turn.champinstance.champ, enemy.champ)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
-		console.log(turn.player.name, ':', turn.champinstance.champ.name, 'attacks', enemy.champ.name, 'for', damage, 'HP, his HP is now ', enemy.hp)
+		log.push(`${turn.player.name}: ${turn.champinstance.champ.name} attacks ${enemy.champ.name} for ${damage} HP, his HP is now ${enemy.hp}`)
 	}
 }
+let log:string[] = []
 reset(home.field)
 reset(visitor.field)
 for(let i = 0; i < 5; i++) {
@@ -78,3 +79,6 @@ else
 	<hr>
 	<ViewField player={home} />
 </div>
+{#each log as msg}
+		{msg}<br>
+{/each}
