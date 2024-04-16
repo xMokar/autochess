@@ -1,5 +1,5 @@
 <script lang="ts">
-import { type Player, type Field } from '$lib/cards'
+import { type Player, type Field } from '$lib/system'
 
 export let player:Player
 export let mirrored = false

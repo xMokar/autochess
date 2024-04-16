@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Attack, type Player, type Field, type FieldSlot } from "$lib/cards";
+    import { Attack, type Player, type Field, type ChampInstance } from "$lib/system";
     import ViewField from "./ViewField.svelte";
 
 export let home:Player
 export let visitor:Player
 
-function findEnemy(attacker:FieldSlot, targetField:Field) {
+function findEnemy(attacker:ChampInstance, targetField:Field) {
 	let enemies = targetField
 		.filter(target => target.hp>0)
 		.map(target => {
