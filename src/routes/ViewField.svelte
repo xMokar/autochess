@@ -21,13 +21,14 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 {player.name}<hr>
 {#each fieldToArray(player.field, mirrored) as slot}
 	<div class="col-4">
-		<div class="card">
+		<div class="card"><div class="card-body">
+
 		{#if slot}
-		{slot.champ.name} HP:{slot.hp}
+		{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span>
 		{:else}
 		&nbsp;
 		{/if}
-		</div>
+		</div></div>
 	</div>
 {/each}
 </div>
