@@ -40,14 +40,14 @@ let Classes:Class[] = [
 	}
 ]
 
-export interface FieldSlot {
+export interface ChampInstance {
 	champ:Champ
 	x:number
 	y:number
 	hp: number
 }
 
-export type Field = FieldSlot[]
+export type Field = ChampInstance[]
 let ClassMap = Object.fromEntries(Classes.map(c => [ c.id, c ]))
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 

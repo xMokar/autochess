@@ -23,45 +23,45 @@ function findEnemy(attacker:FieldSlot, targetField:Field) {
 
 
 function reset(field:Field) {
-	for(let slot of field) {
-		slot.hp = slot.champ.hp
+	for(let champinstance of field) {
+		champinstance.hp = champinstance.champ.hp
 	}
 }
 
-function calculate(player:Player, target:Player) {
+function combatRound(player:Player, target:Player) {
 	console.log('Combat round...')
-	let field = [...player.field.map(slot => ({
-		slot, player:player, enemy: target
-	})), ...target.field.map(slot => ({
-		slot, player:target, enemy: player
+	let turns = [...player.field.map(champinstance => ({
+		champinstance, player:player, enemy: target
+	})), ...target.field.map(champinstance => ({
+		champinstance, player:target, enemy: player
 	}))]
-		.sort((a, b) => b.slot.champ.movespeed-a.slot.champ.movespeed)
+		.sort((a, b) => b.champinstance.champ.movespeed-a.champinstance.champ.movespeed)
 
-	for(let fieldslot of field) {
-		if(fieldslot.slot.hp<=0) {
-			console.log(fieldslot.player.name, ':', fieldslot.slot.champ.name, 'is out of combat.')
+	for(let turn of turns) {
+		if(turn.champinstance.hp<=0) {
+			console.log(turn.player.name, ':', turn.champinstance.champ.name, 'is out of combat.')
 			continue
 		}
-		let enemy = findEnemy(fieldslot.slot, fieldslot.enemy.field)
+		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
-				console.log(fieldslot.player.name, ': no enemy found')
+				console.log(turn.player.name, ': no enemy found')
 				continue;
 		}
-		let damage = Attack(fieldslot.slot.champ, enemy.champ)
+		let damage = Attack(turn.champinstance.champ, enemy.champ)
 		enemy.hp -= damage
 		if (enemy.hp<0) enemy.hp = 0
-		console.log(fieldslot.player.name, ':', fieldslot.slot.champ.name, 'attacks', enemy.champ.name, 'for', damage, 'HP, his HP is now ', enemy.hp)
+		console.log(turn.player.name, ':', turn.champinstance.champ.name, 'attacks', enemy.champ.name, 'for', damage, 'HP, his HP is now ', enemy.hp)
 	}
 
 }
 reset(home.field)
 reset(visitor.field)
 for(let i = 0; i < 5; i++) {
-	calculate(home, visitor)
+	combatRound(home, visitor)
 }
 
-let homeAlive = home.field.filter(slot => slot.hp>0).length>0
-let visitorAlive = visitor.field.filter(slot => slot.hp>0).length>0
+let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
+let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
 
 let winner = ""
 if (homeAlive && visitorAlive)
