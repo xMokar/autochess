@@ -3,7 +3,7 @@ export interface Player {
 	field: Field,
 }
 
-interface Class {
+interface ArmorType {
 	id: string;
 	name: string;
 }
@@ -15,29 +15,25 @@ export interface Champ {
 	attack: number;
 	defense: number;
 	movespeed: number;
-	class: Class;
+	armorType: ArmorType;
 	cost: number;
-	bonuses: {[key:string]:number};
+	armorpen: {[key:string]:number};
 }
 
 
-let Classes:Class[] = [
+let ArmorTypes:ArmorType[] = [
 	{
-		id: 'tank',
-		name: 'Tank',
+		id: 'iron',
+		name: 'Iron',
 	},
 	{
-		id: 'archer',
-		name: 'Archer',
+		id: 'leather',
+		name: 'Leather',
 	},
 	{
-		id: 'mage',
-		name: 'Mage',
+		id: 'cloth',
+		name: 'cloth',
 	},
-	{
-		id: 'fighter',
-		name: 'Fighter',
-	}
 ]
 
 export interface ChampInstance {
@@ -48,7 +44,7 @@ export interface ChampInstance {
 }
 
 export type Field = ChampInstance[]
-let ClassMap = Object.fromEntries(Classes.map(c => [ c.id, c ]))
+let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 function roll(base:number, dice:number) {
@@ -63,53 +59,53 @@ export let Cards:Champ[] = [
 		id: 'Garen',
 		name: 'Tanque',
 		hp: 20,
-		attack: 6,
-		defense: 4,
+		attack: 10,
+		defense:12,
 		movespeed: 5,
-		class: ClassMap.tank,
+		armorType: ArmorTypeMap.iron,
 		cost: 1,
-		bonuses: {
-			archer: 3
+		armorpen: {
+			leather: 1
 		}
 	},
 	{
 		id: 'Lux',
 		name: 'Mago',
 		hp: 10,
-		attack: 8,
-		defense: 2,
+		attack: 16,
+		defense: 7,
 		movespeed: 5,
-		class: ClassMap.mage,
+		armorType: ArmorTypeMap.cloth,
 		cost: 1,
-		bonuses: {
-			tank: 3
+		armorpen: {
+			iron: 1
 		}
 	},
 	{
 		id: 'Ashe',
 		name: 'Arquero',
 		hp: 15,
-		attack: 7,
-		defense: 3,
+		attack: 13,
+		defense: 9,
 		movespeed: 6,
-		class: ClassMap.archer,
+		armorType: ArmorTypeMap.leather,
 		cost: 1,
-		bonuses: {
-			mage: 3
+		armorpen: {
+			cloth: 1
 		}
 	},
 	{
 		id: 'Udyr',
 		name: 'Peleador',
 		movespeed: 6,
-		class: ClassMap.fighter,
+		armorType: ArmorTypeMap.leather,
 		hp: 25,
-		attack: 5,
-		defense: 3,
+		attack: 14,
+		defense:10,
 		cost: 1,
-		bonuses: {
-			mage: 1,
-			archer: 1,
+		armorpen: {
+			cloth: 1,
+			leather: 1,
 		}
 	},
 		
@@ -117,11 +113,11 @@ export let Cards:Champ[] = [
 
 export let CardMap = Object.fromEntries(Cards.map(card => [ card.id, card ]))
 export let Attack = (attacker:Champ, defender:Champ) => {
-	let ar = roll(attacker.attack, 1)
-	let dr = roll(defender.defense, 1)
-	let bonus = Object.entries(attacker.bonuses)
-		.filter(([target, _]) => defender.class.id == target)
-		.reduce((total, [_,value]) => total+value, 0) 
+	let ar = attacker.attack
+	let dr = defender.defense
+	let bonus = Object.entries(attacker.armorpen)
+		.filter(([target, _]) => defender.armorType.id == target)
+		.reduce((total, [_,value]) => total+roll(0, value), 0) 
 	return Math.max(ar+bonus-dr, 0);
 }
 
