@@ -121,8 +121,9 @@ export let Attack = (attacker:Champ, defender:Champ) => {
 	let dr = defender.defense
 	let bonus = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
-		.reduce((total, [_,dice]) => total+roll(0, dice), 0) 
-	return Math.max(ar+bonus-dr, 0);
+		.map(([_, dice]) => roll(0, dice))
+		
+	return [Math.max(ar-dr,0), ...bonus]
 }
 
 export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))

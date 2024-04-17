@@ -67,9 +67,10 @@ function combatRound(player:Player, target:Player) {
 			log.push(`${turn.player.name}: no enemy found`)
 			continue;
 		}
-		let damage = Attack(turn.champinstance.champ, enemy.champ)
+		let damageRolls = Attack(turn.champinstance.champ, enemy.champ)
+		let damage = damageRolls.reduce((total, v) => total+v)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
-		log.push(`${turn.player.name}: ${turn.champinstance.champ.name} attacks ${enemy.champ.name} for ${damage} HP, his HP is now ${enemy.hp}`)
+		log.push(`${turn.player.name}: ${turn.champinstance.champ.name} attacks ${enemy.champ.name} for ${damageRolls.join('+')}=${damage}`)
 	}
 }
 let log:string[] = []
