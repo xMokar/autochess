@@ -51,9 +51,9 @@ export let Champs:Champ[] = [
 	{ 
 		id: 'tank',
 		name: 'Tanque',
-		hp: 20,
+		hp: 15,
 		attack: 1,
-		defense:2,
+		defense:3,
 		movespeed: 5,
 		armorType: ArmorTypeMap.iron,
 		cost: 1,
@@ -63,7 +63,7 @@ export let Champs:Champ[] = [
 	{
 		id: 'mage',
 		name: 'Mago',
-		hp: 10,
+		hp: 15,
 		attack: 6,
 		defense: 0,
 		movespeed: 5,
@@ -97,7 +97,7 @@ export let Champs:Champ[] = [
 		armorType: ArmorTypeMap.leather,
 		hp: 15,
 		attack: 5,
-		defense:1,
+		defense:2,
 		cost: 1,
 		armorpen: {
 			cloth: 1,
