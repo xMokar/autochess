@@ -6,14 +6,14 @@ let player1 = {
 		name: 'player1',
 		field: [
 			{
-				champ: ChampMap.shield,
+				champ: ChampMap.tank,
 				hp: 0,
 				x: 0,
 				y: 0
 			},
 			{
 				hp: 0,
-				champ: ChampMap.bow,
+				champ: ChampMap.archer,
 				x: 0,
 				y: 2
 			}
@@ -24,14 +24,14 @@ let player2 = {
 		name: 'player2',
 		field: [
 			{
-				champ: ChampMap.fists,
+				champ: ChampMap.fighter,
 				hp: 0,
 				x: 0,
 				y: 0
 			},
 			{
 				hp: 0,
-				champ: ChampMap.fire,
+				champ: ChampMap.mage,
 				x: 2,
 				y: 2
 			}

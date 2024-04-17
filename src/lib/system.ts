@@ -56,11 +56,11 @@ function roll(base:number, dice:number) {
 
 export let Champs:Champ[] = [ 
 	{ 
-		id: 'shield',
-		name: 'Escudo',
+		id: 'tank',
+		name: 'Tanque',
 		hp: 20,
 		attack: 8,
-		defense:12,
+		defense:10,
 		movespeed: 5,
 		armorType: ArmorTypeMap.iron,
 		cost: 1,
@@ -68,8 +68,8 @@ export let Champs:Champ[] = [
 		}
 	},
 	{
-		id: 'fire',
-		name: 'Fuego',
+		id: 'mage',
+		name: 'Mago',
 		hp: 10,
 		attack: 14,
 		defense: 7,
@@ -83,11 +83,11 @@ export let Champs:Champ[] = [
 		}
 	},
 	{
-		id: 'bow',
-		name: 'Arco',
+		id: 'archer',
+		name: 'Arquero',
 		hp: 15,
 		attack: 13,
-		defense: 9,
+		defense: 8,
 		movespeed: 6,
 		armorType: ArmorTypeMap.leather,
 		cost: 1,
@@ -98,13 +98,13 @@ export let Champs:Champ[] = [
 		}
 	},
 	{
-		id: 'fists',
-		name: 'Puños',
+		id: 'fighter',
+		name: 'Peleador',
 		movespeed: 6,
 		armorType: ArmorTypeMap.leather,
 		hp: 25,
 		attack: 14,
-		defense:10,
+		defense:8,
 		cost: 1,
 		armorpen: {
 			cloth: 1,
