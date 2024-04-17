@@ -22,6 +22,25 @@ function findEnemy(attacker:ChampInstance, targetField:Field) {
 }
 
 
+function run() {
+	log = []
+	reset(home.field)
+	reset(visitor.field)
+	for(let i=0; i<5; i++) {
+		combatRound(home, visitor)
+	}
+	let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
+	let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
+	if (homeAlive && visitorAlive)
+		log.push("It's a tie")
+	else if (homeAlive) 
+		log.push(`${home.name} is the winner`)
+	else if (visitorAlive)
+		log.push(`${visitor.name} is the winner`)
+	log = log
+	home = home
+	visitor = visitor
+}
 function reset(field:Field) {
 	for(let champinstance of field) {
 		champinstance.hp = champinstance.champ.hp
@@ -37,6 +56,7 @@ function combatRound(player:Player, target:Player) {
 	}))]
 		.sort((a, b) => b.champinstance.champ.movespeed-a.champinstance.champ.movespeed)
 
+	
 	for(let turn of turns) {
 		if(turn.champinstance.hp<=0) {
 			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} is out of combat.`)
@@ -55,30 +75,23 @@ function combatRound(player:Player, target:Player) {
 let log:string[] = []
 reset(home.field)
 reset(visitor.field)
-for(let i = 0; i < 5; i++) {
-	combatRound(home, visitor)
-}
 
-let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
-let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
 
-let winner = ""
-if (homeAlive && visitorAlive)
-	winner = "TIE"
-else if (homeAlive) 
-	winner = "HOME"
-else if (visitorAlive)
-	winner = "VISITOR"
-else
-	winner = "???"
 </script>
 
 <div class="container">
-	Winner: {winner}
-	<ViewField player={visitor} mirrored={true} />
-	<hr>
-	<ViewField player={home} />
+	<div class="row">
+		<div class="col-6">
+			<ViewField player={visitor} mirrored={true} />
+			<hr>
+			<ViewField player={home} />
+		</div>
+		<div class="col-6">
+			<button on:click={run} class="btn btn-primary">Calculate</button>
+			<br>
+			{#each log as msg}
+				{msg}<br>
+			{/each}
+		</div>
+	</div>
 </div>
-{#each log as msg}
-		{msg}<br>
-{/each}
