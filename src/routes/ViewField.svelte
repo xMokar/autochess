@@ -38,9 +38,12 @@ function add(index:number) {
 		player.field = player.field
 	}
 }
+
+$: isAlive = player.field.filter(champinstance => champinstance.hp>0).length>0
+$: status = isAlive? "bg-primary": "bg-danger"
 </script>
 <div class="card mb-3">
-	<div class="card-header bg-primary text-white">
+	<div class="card-header {status} text-white">
 		{player.name}
 	</div>
 
