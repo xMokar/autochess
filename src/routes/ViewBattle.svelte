@@ -58,6 +58,7 @@ function resetAll() {
 }
 
 function combatRound(player:Player, target:Player) {
+	log.push('')
 	log.push(`Ronda de combate,  se tiró un moneda... <b>${player.name}</b> empieza.`)
 	let turns = [...player.field.map(champinstance => ({
 		champinstance, player:player, enemy: target
@@ -66,26 +67,47 @@ function combatRound(player:Player, target:Player) {
 	}))]
 		.sort((a, b) => b.champinstance.champ.movespeed-a.champinstance.champ.movespeed)
 
+	let total = {
+		[player.name]: {
+				dmgmax: 0,
+				dmg: 0,
+			},
+		[target.name]: {
+				dmgmax: 0,
+				dmg: 0,
+			}
+	}
 	
 	for(let turn of turns) {
 		if(turn.champinstance.hp<=0) {
-			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
+			//log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
 			continue
 		}
 		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
-			log.push(`<b>${turn.player.name}</b>: no hay objetivos`)
+			//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
 			continue;
 		}
 		let damageRolls = Attack(turn.champinstance.champ, enemy.champ)
 		let damage = damageRolls.reduce((total, v) => total+v)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
+
+		// general damage calculations/stats
+		let dr = enemy.champ.defense
+		let dmgmin = Math.max(turn.champinstance.champ.attack-dr,0)
+		let dice_thrown = damageRolls.length-1
+		let dmg_perthrow = 6-dr
+		let dmgmax = dmgmin+(dice_thrown*dmg_perthrow)
+		total[turn.player.name].dmgmax += dmgmax
+		total[turn.player.name].dmg += damage
+		
 		if(damage>0) {
-			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage} (HP: ${enemy.hp})`)
+			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+d')}=${damage}(${dmgmin}-${dmgmax}) (HP: ${enemy.hp})`)
 		} else {
 			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
 		}
 	}
+	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
 let log:string[] = []
 reset(home.field)

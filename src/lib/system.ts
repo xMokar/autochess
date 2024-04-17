@@ -29,6 +29,10 @@ let ArmorTypes:ArmorType[] = [
 		id: 'cloth',
 		name: 'cloth',
 	},
+	{
+		id: 'greencloth',
+		name: 'Green cloth'
+	},
 ]
 let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
 
@@ -58,6 +62,9 @@ export let Champs:Champ[] = [
 		armorType: ArmorTypeMap.iron,
 		cost: 1,
 		armorpen: {
+			iron: 1,
+			cloth: 2,
+			leather: 2,
 		}
 	},
 	{
@@ -70,9 +77,9 @@ export let Champs:Champ[] = [
 		armorType: ArmorTypeMap.cloth,
 		cost: 1,
 		armorpen: {
-			cloth: 2,
-			leather: 1,
-			iron: 1,
+			cloth: 1,
+			leather: 2,
+			iron:3
 		}
 	},
 	{
@@ -82,12 +89,12 @@ export let Champs:Champ[] = [
 		attack: 5,
 		defense: 1,
 		movespeed: 6,
-		armorType: ArmorTypeMap.leather,
+		armorType: ArmorTypeMap.greencloth,
 		cost: 1,
 		armorpen: {
 			cloth: 2,
-			leather: 1,
-			iron: 0,
+			leather: 3,
+			greencloth: 1,
 		}
 	},
 	{
@@ -95,13 +102,14 @@ export let Champs:Champ[] = [
 		name: 'Peleador',
 		movespeed: 6,
 		armorType: ArmorTypeMap.leather,
-		hp: 15,
+		hp: 20,
 		attack: 5,
 		defense:2,
 		cost: 1,
 		armorpen: {
-			cloth: 1,
-			leather: 1,
+			greencloth: 3,
+			cloth: 3,
+			leather: 2,
 			iron: 1,
 		}
 	},

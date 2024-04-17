@@ -83,7 +83,7 @@ $: status = isAlive? "bg-primary": "bg-danger"
 				ARMOR: <span class="armor {slot.champ.armorType.id}">.</span>
 			</div>
 			<div class="col-12">
-				ATK DIE:<br>
+				Dados de ataque:<br>
 				{#each Object.entries(slot.champ.armorpen) as [armor, dice]}
 					{#each Array(dice) as _}
 						<span class="armor {armor}"></span>
