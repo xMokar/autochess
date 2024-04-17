@@ -50,6 +50,7 @@ function resetAll() {
 	reset(visitor.field)
 	home = home
 	visitor = visitor
+	log = []
 }
 
 function combatRound(player:Player, target:Player) {
