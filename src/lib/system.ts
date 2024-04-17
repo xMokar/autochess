@@ -114,7 +114,7 @@ export let Attack = (attacker:Champ, defender:Champ) => {
 	let dr = defender.defense
 	let bonus = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
-		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.floor(Math.random()*6)+1))
+		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.max((Math.floor(Math.random()*6)+1)-dr,0)))
 		
 	return [Math.max(ar-dr,0), ...bonus]
 }
