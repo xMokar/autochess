@@ -26,7 +26,11 @@ function run() {
 	log = []
 	resetAll()
 	for(let i=0; i<5; i++) {
-		combatRound(home, visitor)
+		let homeFirst = Math.random()*100>50
+		if (homeFirst)
+			combatRound(home, visitor)
+		else
+			combatRound(visitor, home)
 	}
 	let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
 	let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
@@ -54,7 +58,7 @@ function resetAll() {
 }
 
 function combatRound(player:Player, target:Player) {
-	log.push('Ronda de combate...')
+	log.push(`Ronda de combate,  se tiro un moneda... ${player.name} empieza.`)
 	let turns = [...player.field.map(champinstance => ({
 		champinstance, player:player, enemy: target
 	})), ...target.field.map(champinstance => ({
