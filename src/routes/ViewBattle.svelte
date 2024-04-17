@@ -24,8 +24,7 @@ function findEnemy(attacker:ChampInstance, targetField:Field) {
 
 function run() {
 	log = []
-	reset(home.field)
-	reset(visitor.field)
+	resetAll()
 	for(let i=0; i<5; i++) {
 		combatRound(home, visitor)
 	}
@@ -45,6 +44,12 @@ function reset(field:Field) {
 	for(let champinstance of field) {
 		champinstance.hp = champinstance.champ.hp
 	}
+}
+function resetAll() {
+	reset(home.field)
+	reset(visitor.field)
+	home = home
+	visitor = visitor
 }
 
 function combatRound(player:Player, target:Player) {
@@ -91,7 +96,8 @@ reset(visitor.field)
 			<ViewField player={home} />
 		</div>
 		<div class="col-6">
-			<button on:click={run} class="btn btn-primary">Calculate</button>
+			<button on:click={run} class="btn btn-primary">Pelear</button>
+			<button on:click={resetAll} class="btn btn-secondary">Reiniciar</button>
 			<br>
 			{#each log as msg}
 				{msg}<br>
