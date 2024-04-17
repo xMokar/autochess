@@ -1,5 +1,5 @@
 <script lang="ts">
-import { type Player, type Field } from '$lib/system'
+import { type Player, type Field, type ChampInstance, Champs, ChampMap } from '$lib/system'
 
 export let player:Player
 export let mirrored = false
@@ -16,6 +16,28 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 	return [ ...newfield.slice(6), ...newfield.slice(3,6), ...newfield.slice(0,3)]
 }
 
+function remove(champinstance:ChampInstance) {
+	return () => {
+		player.field=player.field.filter(ci => ci.x!=champinstance.x && ci.y!=champinstance.y)
+	}
+}
+
+function add(index:number) {
+	return (ev:Event) => {
+		if(!ev.target)
+			return
+		let select = ev.target as HTMLSelectElement
+		let y = Math.floor(index/3)
+
+		player.field.push({
+			x: index%3,
+			y: mirrored? 2-y: y,
+			hp: 0,
+			champ: ChampMap[select.value]
+		})
+		player.field = player.field
+	}
+}
 </script>
 <div class="card mb-3">
 	<div class="card-header bg-primary text-white">
@@ -23,13 +45,22 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 	</div>
 
 	<div class="card-body"><div class="row gx-1">
-{#each fieldToArray(player.field, mirrored) as slot}
+{#each fieldToArray(player.field, mirrored) as slot, index (index)}
 	<div class="col-4">
 		
 		<div class="card mb-3">
 		<div class="card-header">
 		{#if slot}
-		{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
+			<span class="badge bg-danger" on:click={remove(slot)}>x</span>
+			{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
+		{:else}
+			<select on:change={add(index)}>
+				<option value="">-</option>
+				{#each Champs as champ}
+					<option value="{champ.id}">{champ.name}</option>
+				{/each}
+			</select>
+		
 		{/if}
 		</div>
 		<div class="card-body">
