@@ -42,19 +42,19 @@ function add(index:number) {
 $: isAlive = player.field.filter(champinstance => champinstance.hp>0).length>0
 $: status = isAlive? "bg-primary": "bg-danger"
 </script>
-<div class="card mb-3">
+<div class="card mb-1">
 	<div class="card-header {status} text-white">
 		{player.name}
 	</div>
 
-	<div class="card-body"><div class="row gx-1">
+	<div class="card-body p-1"><div class="row gx-1">
 {#each fieldToArray(player.field, mirrored) as slot, index (index)}
 	<div class="col-4">
 		
-		<div class="card mb-3">
+		<div class="card mb-1">
 		<div class="card-header">
 		{#if slot}
-			<span class="badge bg-danger" on:click={remove(slot)}>x</span>
+			<span role="button" class="badge bg-danger" on:click={remove(slot)}>x</span>
 			{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
 		{:else}
 			<select on:change={add(index)}>
@@ -66,7 +66,7 @@ $: status = isAlive? "bg-primary": "bg-danger"
 		
 		{/if}
 		</div>
-		<div class="card-body">
+		<div class="card-body p-1">
 
 		{#if slot}
 		<div class="row">
