@@ -48,7 +48,7 @@ function reset(field:Field) {
 }
 
 function combatRound(player:Player, target:Player) {
-	log.push('Combat round...')
+	log.push('Ronda de combate...')
 	let turns = [...player.field.map(champinstance => ({
 		champinstance, player:player, enemy: target
 	})), ...target.field.map(champinstance => ({
@@ -59,18 +59,22 @@ function combatRound(player:Player, target:Player) {
 	
 	for(let turn of turns) {
 		if(turn.champinstance.hp<=0) {
-			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} is out of combat.`)
+			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} esta fuera de combate.`)
 			continue
 		}
 		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
-			log.push(`${turn.player.name}: no enemy found`)
+			log.push(`${turn.player.name}: no hay objetivos`)
 			continue;
 		}
 		let damageRolls = Attack(turn.champinstance.champ, enemy.champ)
 		let damage = damageRolls.reduce((total, v) => total+v)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
-		log.push(`${turn.player.name}: ${turn.champinstance.champ.name} attacks ${enemy.champ.name} for ${damageRolls.join('+')}=${damage}`)
+		if(damage>0) {
+			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage}`)
+		} else {
+			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
+		}
 	}
 }
 let log:string[] = []
