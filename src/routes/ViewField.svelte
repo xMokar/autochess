@@ -18,7 +18,7 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 
 function remove(champinstance:ChampInstance) {
 	return () => {
-		player.field=player.field.filter(ci => ci.x!=champinstance.x && ci.y!=champinstance.y)
+		player.field=player.field.filter(ci => !(ci.x==champinstance.x && ci.y==champinstance.y))
 	}
 }
 
