@@ -47,13 +47,6 @@ export interface Player {
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
-function roll(base:number, dice:number) {
-	return Array(dice)
-		.fill(0)
-		.map(_ => Math.floor(Math.random()*6)+1)
-		.reduce((total, value) => total+value, base) 
-}
-
 export let Champs:Champ[] = [ 
 	{ 
 		id: 'tank',
@@ -121,7 +114,7 @@ export let Attack = (attacker:Champ, defender:Champ) => {
 	let dr = defender.defense
 	let bonus = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
-		.map(([_, dice]) => roll(0, dice))
+		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.floor(Math.random()*6)+1))
 		
 	return [Math.max(ar-dr,0), ...bonus]
 }
