@@ -17,19 +17,55 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 }
 
 </script>
-<div class="row">
-{player.name}<hr>
+<div class="card mb-3">
+	<div class="card-header bg-primary text-white">
+		{player.name}
+	</div>
+
+	<div class="card-body"><div class="row gx-1">
 {#each fieldToArray(player.field, mirrored) as slot}
 	<div class="col-4">
-		<div class="card"><div class="card-body">
+		
+		<div class="card mb-3">
+		<div class="card-header">
+		{#if slot}
+		{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
+		{/if}
+		</div>
+		<div class="card-body">
 
 		{#if slot}
-		{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span>
+		<div class="row">
+			<div class="col-6">
+				ATK: {slot.champ.attack}
+			</div>
+			<div class="col-6">
+				DEF: {slot.champ.defense}
+			</div>
+			<div class="col-6">
+				SPD: {slot.champ.movespeed}
+			</div>
+			<div class="col-12">
+				ARMOR: <span class="armor {slot.champ.armorType.id}">.</span>
+			</div>
+			<div class="col-12">
+				ATK DIE:<br>
+				{#each Object.entries(slot.champ.armorpen) as [armor, dice]}
+					{#each Array(dice) as _}
+						<span class="armor {armor}"></span>
+					{/each}
+				{/each}
+			</div>
+		</div>
+
+
 		{:else}
 		&nbsp;
 		{/if}
 		</div></div>
 	</div>
 {/each}
+</div>
+</div>
 </div>
 

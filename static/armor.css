@@ -1,0 +1,20 @@
+.armor {
+  display:inline-block!important;
+  height:20px!important;
+  width:20px!important;
+  vertical-align:text-top!important;
+  line-height:24px!important;
+  background:url(/armor.jpg) no-repeat!important;
+}
+
+.iron {
+  background-position:-110px -2px!important;
+}
+
+.leather {
+  background-position: -352px -78px!important;
+}
+
+.cloth {
+	background-position: -57px -133px !important;
+}
