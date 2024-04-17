@@ -37,9 +37,9 @@ function run() {
 	if (homeAlive && visitorAlive)
 		log.push("It's a tie")
 	else if (homeAlive) 
-		log.push(`${home.name} is the winner`)
+		log.push(`${home.name} es el ganador`)
 	else if (visitorAlive)
-		log.push(`${visitor.name} is the winner`)
+		log.push(`${visitor.name} es el ganador`)
 	log = log
 	home = home
 	visitor = visitor
@@ -58,7 +58,7 @@ function resetAll() {
 }
 
 function combatRound(player:Player, target:Player) {
-	log.push(`Ronda de combate,  se tiro un moneda... ${player.name} empieza.`)
+	log.push(`Ronda de combate,  se tiró un moneda... <b>${player.name}</b> empieza.`)
 	let turns = [...player.field.map(champinstance => ({
 		champinstance, player:player, enemy: target
 	})), ...target.field.map(champinstance => ({
@@ -69,21 +69,21 @@ function combatRound(player:Player, target:Player) {
 	
 	for(let turn of turns) {
 		if(turn.champinstance.hp<=0) {
-			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} esta fuera de combate.`)
+			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
 			continue
 		}
 		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
-			log.push(`${turn.player.name}: no hay objetivos`)
+			log.push(`<b>${turn.player.name}</b>: no hay objetivos`)
 			continue;
 		}
 		let damageRolls = Attack(turn.champinstance.champ, enemy.champ)
 		let damage = damageRolls.reduce((total, v) => total+v)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
 		if(damage>0) {
-			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage} (HP: ${enemy.hp})`)
+			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage} (HP: ${enemy.hp})`)
 		} else {
-			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
+			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
 		}
 	}
 }
@@ -105,7 +105,7 @@ reset(visitor.field)
 			<button on:click={resetAll} class="btn btn-secondary">Reiniciar</button>
 			<br>
 			{#each log as msg}
-				{msg}<br>
+				{@html msg}<br>
 			{/each}
 		</div>
 	</div>
