@@ -77,7 +77,7 @@ function combatRound(player:Player, target:Player) {
 		let damage = damageRolls.reduce((total, v) => total+v)
 		enemy.hp = Math.max(enemy.hp-damage, 0)
 		if(damage>0) {
-			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage}`)
+			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+')}=${damage} (HP: ${enemy.hp})`)
 		} else {
 			log.push(`${turn.player.name}: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
 		}
