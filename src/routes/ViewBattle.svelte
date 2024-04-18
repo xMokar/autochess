@@ -145,7 +145,7 @@ let log:string[] = []
 			{#each Champs as source}
 				{#each Champs as target}
 					{@const damage = calculateDamage(source, target)}
-					{source.name}->{target.name}: {damage.sides}-{damage.max} (promedio: {(damage.sides+damage.max)/2})<br>
+					{source.name}->{target.name}: {damage.rolls.length}d{damage.sides}({damage.sides}-{damage.max}) (promedio: {(damage.sides+damage.max)/2})<br>
 				{/each}
 				<br>
 			{/each}
