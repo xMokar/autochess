@@ -89,12 +89,12 @@ export let Champs:Champ[] = [
 		attack: 5,
 		defense: 1,
 		movespeed: 6,
-		armorType: ArmorTypeMap.greencloth,
+		armorType: ArmorTypeMap.cloth,
 		cost: 1,
 		armorpen: {
 			cloth: 2,
 			leather: 3,
-			greencloth: 1,
+			iron: 1,
 		}
 	},
 	{
@@ -107,7 +107,6 @@ export let Champs:Champ[] = [
 		defense:2,
 		cost: 1,
 		armorpen: {
-			greencloth: 3,
 			cloth: 3,
 			leather: 2,
 			iron: 1,
