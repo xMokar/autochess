@@ -53,6 +53,10 @@ $: status = isAlive? "bg-success": "bg-secondary"
 </script>
 <div class="card mb-1">
 	<div class="card-header {status} text-white">
+		<!-- 
+		we're not doing any validation, if the user enters HTML code here, it'll be used in the logs
+		no big deal :)
+		-->
 		<input type="text" bind:value={player.name} />
 		<span class="badge bg-danger position-absolute top-0 end-0">{player.field.reduce((total, v) => total+v.hp, 0)}</span><br>
 	</div>
