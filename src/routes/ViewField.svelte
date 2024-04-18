@@ -49,11 +49,12 @@ function add(index:number) {
 }
 
 $: isAlive = player.field.filter(champinstance => champinstance.hp>0).length>0
-$: status = isAlive? "bg-primary": "bg-danger"
+$: status = isAlive? "bg-success": "bg-secondary"
 </script>
 <div class="card mb-1">
 	<div class="card-header {status} text-white">
 		{player.name}
+		<span class="badge bg-danger position-absolute top-0 end-0">{player.field.reduce((total, v) => total+v.hp, 0)}</span><br>
 	</div>
 
 	<div class="card-body p-1"><div class="row gx-1">
