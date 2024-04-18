@@ -68,6 +68,9 @@ $: status = isAlive? "bg-primary": "bg-danger"
 				<option value="{champ.id}">{champ.name}</option>
 			{/each}
 		</select>
+		{#if slot}
+		<span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
+		{/if}
 		
 		</div>
 		<div class="card-body p-1">
