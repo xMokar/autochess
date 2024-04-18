@@ -63,7 +63,7 @@ $: status = isAlive? "bg-success": "bg-secondary"
 
 	<div class="card-body p-1"><div class="row gx-1">
 {#each fieldToArray(player.field, mirrored) as slot, index (index)}
-	<div class="col-4 mb-1">
+	<div class="col-4 mb-1" style="min-height: 175px">
 		
 		<div class="card h-100">
 		<div class="card-header">
