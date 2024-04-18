@@ -62,7 +62,7 @@ function Attack(attacker:Champ, defender:Champ) {
 	let dr = defender.defense
 	let bonus = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
-		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.max((Math.floor(Math.random()*6)+1)-dr,0)))
+		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.max((Math.floor(Math.random()*ar)+1)-dr,0)))
 		
 	return [Math.max(ar-dr,0), ...bonus]
 }
@@ -74,7 +74,7 @@ function calculateDamage(source:Champ, target:Champ) {
 		// general damage calculations/stats
 		let min = Math.max(source.attack-target.defense,0)
 		let dice_thrown = rolls.length-1
-		let dmg_perthrow = 6-target.defense
+		let dmg_perthrow = Math.max(source.attack-target.defense, 0)
 		let max = min+(dice_thrown*dmg_perthrow)
 		return {
 			rolls,
