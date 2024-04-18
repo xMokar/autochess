@@ -7,19 +7,23 @@
   background:url(/armor.jpg) no-repeat!important;
 }
 
+/* x: 4, x:y 27px */
 .iron {
-  background-position:-108px -1px!important;
+  background-position:-110px -2px!important;
 }
 
+/* x: 13(26.7), x: 3(26) */
 .leather {
-  background-position: -348px -79px!important;
+  background-position: -350px -79px!important;
 }
 
+
+/* x: 2(), y:5() */ 
 .cloth {
-	background-position: -55px -133px !important;
+	background-position: -56px -134px !important;
 }
 
 .greencloth {
-	background-position: -295px -133px !important;
+	background-position: -297px -134px !important;
 }
 
