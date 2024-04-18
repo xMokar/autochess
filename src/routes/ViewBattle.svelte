@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { type Player, type Field, type ChampInstance, type Champ } from "$lib/system";
+    import { type Player, type Field, type ChampInstance, type Champ, Champs } from "$lib/system";
     import ViewField from "./ViewField.svelte";
 
 export let home:Player
 export let visitor:Player
 
-function findEnemy(attacker:ChampInstance, targetField:Field) {
-	let enemies = targetField
+function findTarget(attacker:ChampInstance, target:Field) {
+	let targets = target
 		.filter(target => target.hp>0)
 		.map(target => {
 			let distance = Math.sqrt(
@@ -16,9 +16,9 @@ function findEnemy(attacker:ChampInstance, targetField:Field) {
 			return { target, distance }
 		})
 		.sort((a, b) => a.distance-b.distance)
-	if (enemies.length==0)
+	if (targets.length==0)
 		return undefined
-	return enemies[0].target
+	return targets[0].target
 }
 
 
@@ -67,14 +67,14 @@ function Attack(attacker:Champ, defender:Champ) {
 	return [Math.max(ar-dr,0), ...bonus]
 }
 
-function calculateDamage(source:ChampInstance, target:ChampInstance) {
-		let rolls = Attack(source.champ, target.champ)
+function calculateDamage(source:Champ, target:Champ) {
+		let rolls = Attack(source, target)
 		let done = rolls.reduce((total, v) => total+v)
 
 		// general damage calculations/stats
-		let min = Math.max(source.champ.attack-target.champ.defense,0)
+		let min = Math.max(source.attack-target.defense,0)
 		let dice_thrown = rolls.length-1
-		let dmg_perthrow = 6-target.champ.defense
+		let dmg_perthrow = 6-target.defense
 		let max = min+(dice_thrown*dmg_perthrow)
 		return {
 			rolls,
@@ -110,12 +110,12 @@ function combatRound(player:Player, target:Player)  {
 			//log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
 			continue
 		}
-		let enemy = findEnemy(turn.champinstance, turn.enemy.field)
+		let enemy = findTarget(turn.champinstance, turn.enemy.field)
 		if(!enemy) {
 			//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
 			continue;
 		}
-		let damage = calculateDamage(turn.champinstance, enemy)
+		let damage = calculateDamage(turn.champinstance.champ, enemy.champ)
 		total[turn.player.name].dmgmax += damage.max
 		total[turn.player.name].dmg += damage.done
 		
@@ -125,9 +125,6 @@ function combatRound(player:Player, target:Player)  {
 	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
 let log:string[] = []
-reset(home.field)
-reset(visitor.field)
-
 
 </script>
 
@@ -144,6 +141,16 @@ reset(visitor.field)
 			{#each log as msg}
 				{@html msg}<br>
 			{/each}
+			<hr>
+			Tabla de balance de daño:<br>
+			{#each Champs as source}
+				{#each Champs as target}
+					{@const damage = calculateDamage(source, target)}
+					{source.name}->{target.name}: {damage.min}-{damage.max}<br>
+				{/each}
+				<br>
+			{/each}
+
 		</div>
 	</div>
 </div>
