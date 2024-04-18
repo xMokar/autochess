@@ -15,7 +15,7 @@ let player1 = {
 				hp: 0,
 				champ: ChampMap.archer,
 				x: 0,
-				y: 2
+				y: 1
 			}
 		],
 	}
@@ -32,8 +32,8 @@ let player2 = {
 			{
 				hp: 0,
 				champ: ChampMap.mage,
-				x: 2,
-				y: 2
+				x: 0,
+				y: 1
 			}
 		]
 	}
