@@ -57,9 +57,10 @@ function resetAll() {
 	log = []
 }
 
-function Attack(attacker:Champ, defender:Champ) {
-	let sides = attacker.attack-defender.defense
-	let roll=() => Math.max(((Math.floor(Math.random()*sides)))+1, -10)
+function Attack(attacker:Champ, defender:Champ, sides:number) {
+	if(!sides)
+		return [0]
+	let roll=() => Math.max(((Math.floor(Math.random()*sides)))+1, 0)
 	let rolls = Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
 		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
@@ -68,16 +69,15 @@ function Attack(attacker:Champ, defender:Champ) {
 }
 
 function calculateDamage(source:Champ, target:Champ) {
-		let rolls = Attack(source, target)
-		let done = rolls.reduce((total, v) => total+v)
-
-		// general damage calculations/stats
 		let sides = Math.max(source.attack-target.defense,0)
-		let dice_thrown = rolls.length
-		let max = (dice_thrown*sides)
+		let rolls = Attack(source, target, sides)
+		let total = rolls.reduce((total, v) => total+v)
+		let num_dice = rolls.length
+		let max = num_dice*sides
+
 		return {
 			rolls,
-			done,
+			total,
 			sides,
 			max
 		}
@@ -116,10 +116,10 @@ function combatRound(player:Player, target:Player)  {
 		}
 		let damage = calculateDamage(turn.champinstance.champ, enemy.champ)
 		total[turn.player.name].dmgmax += damage.max
-		total[turn.player.name].dmg += damage.done
+		total[turn.player.name].dmg += damage.total
 		
-		log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}(HP: ${enemy.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.done}</b>`)
-		enemy.hp = Math.max(enemy.hp-damage.done, 0)
+		log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}(HP: ${enemy.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
+		enemy.hp = Math.max(enemy.hp-damage.total, 0)
 	}
 	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
@@ -145,7 +145,7 @@ let log:string[] = []
 			{#each Champs as source}
 				{#each Champs as target}
 					{@const damage = calculateDamage(source, target)}
-					{source.name}->{target.name}: {damage.sides}-{damage.max}<br>
+					{source.name}->{target.name}: {damage.sides}-{damage.max} (promedio: {(damage.sides+damage.max)/2})<br>
 				{/each}
 				<br>
 			{/each}
