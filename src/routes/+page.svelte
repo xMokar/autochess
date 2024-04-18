@@ -3,7 +3,7 @@ import { ChampMap, type Field, type Player } from '$lib/system'
 import ViewBattle from './ViewBattle.svelte';
 
 let player1 = { 
-		name: 'Kuno',
+		name: 'Argentina',
 		field: [
 			{
 				champ: ChampMap.tank,
@@ -21,7 +21,7 @@ let player1 = {
 	}
 
 let player2 = {
-		name: 'Sergio',
+		name: 'Mexico',
 		field: [
 			{
 				champ: ChampMap.fighter,
