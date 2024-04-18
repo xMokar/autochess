@@ -28,13 +28,22 @@ function add(index:number) {
 			return
 		let select = ev.target as HTMLSelectElement
 		let y = Math.floor(index/3)
+		y = mirrored? 2-y: y
+		let x = index%3
 
-		player.field.push({
-			x: index%3,
-			y: mirrored? 2-y: y,
-			hp: 0,
-			champ: ChampMap[select.value]
-		})
+		let existing = player.field.find(ci => ci.x==x && ci.y==y)
+		if(existing && !select.value) {
+			player.field=player.field.filter(ci => !(ci.x==x && ci.y==y))
+		} if(existing) {
+			existing.champ = ChampMap[select.value]
+		} else if(!existing) { 
+			player.field.push({
+				x: x,
+				y: y,
+				hp: 0,
+				champ: ChampMap[select.value]
+			})
+		}
 		player.field = player.field
 	}
 }
@@ -53,18 +62,13 @@ $: status = isAlive? "bg-primary": "bg-danger"
 		
 		<div class="card mb-1">
 		<div class="card-header">
-		{#if slot}
-			<span role="button" class="badge bg-danger" on:click={remove(slot)}>x</span>
-			{slot.champ.name} <span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
-		{:else}
-			<select on:change={add(index)}>
-				<option value="">-</option>
-				{#each Champs as champ}
-					<option value="{champ.id}">{champ.name}</option>
-				{/each}
-			</select>
+		<select on:change={add(index)} value={slot?slot.champ.id:""}>
+			<option value="">-</option>
+			{#each Champs as champ}
+				<option value="{champ.id}">{champ.name}</option>
+			{/each}
+		</select>
 		
-		{/if}
 		</div>
 		<div class="card-body p-1">
 
