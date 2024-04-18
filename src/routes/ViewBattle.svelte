@@ -35,7 +35,7 @@ function run() {
 	let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
 	let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
 	if (homeAlive && visitorAlive)
-		log.push("It's a tie")
+		log.push("Empate!")
 	else if (homeAlive) 
 		log.push(`${home.name} es el ganador`)
 	else if (visitorAlive)
@@ -101,11 +101,7 @@ function combatRound(player:Player, target:Player) {
 		total[turn.player.name].dmgmax += dmgmax
 		total[turn.player.name].dmg += damage
 		
-		if(damage>0) {
-			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}: ${damageRolls.join('+d')}=${damage}(${dmgmin}-${dmgmax}) (HP: ${enemy.hp})`)
-		} else {
-			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}, no hace daño.`)
-		}
+			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}(HP: ${enemy.hp+damage}): ${damageRolls.join('+d')}(${dmgmin}-${dmgmax})=<b>${damage}</b>`)
 	}
 	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
