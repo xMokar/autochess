@@ -6,19 +6,19 @@ export let home:Player
 export let visitor:Player
 
 function findTarget(attacker:ChampInstance, target:Field) {
-	let targets = target
+	let calculateDistance = (target:ChampInstance) => {
+		let distance = Math.sqrt(
+			Math.pow(attacker.x- (target.x), 2)+
+			Math.pow(attacker.y- (-target.y-1), 2)
+		)
+		return { target, distance }
+	}
+	return target
 		.filter(target => target.hp>0)
-		.map(target => {
-			let distance = Math.sqrt(
-				Math.pow(attacker.x- (target.x), 2)+
-				Math.pow(attacker.y- (-target.y-1), 2)
-			)
-			return { target, distance }
-		})
+		.map(calculateDistance)
 		.sort((a, b) => a.distance-b.distance)
-	if (targets.length==0)
-		return undefined
-	return targets[0].target
+		.map(({target}) => target) 
+		.shift()
 }
 
 
