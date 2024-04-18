@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Attack, type Player, type Field, type ChampInstance } from "$lib/system";
+    import { type Player, type Field, type ChampInstance, type Champ } from "$lib/system";
     import ViewField from "./ViewField.svelte";
 
 export let home:Player
@@ -57,7 +57,34 @@ function resetAll() {
 	log = []
 }
 
-function combatRound(player:Player, target:Player) {
+function Attack(attacker:Champ, defender:Champ) {
+	let ar = attacker.attack
+	let dr = defender.defense
+	let bonus = Object.entries(attacker.armorpen)
+		.filter(([target, _]) => defender.armorType.id == target)
+		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.max((Math.floor(Math.random()*6)+1)-dr,0)))
+		
+	return [Math.max(ar-dr,0), ...bonus]
+}
+
+function calculateDamage(source:ChampInstance, target:ChampInstance) {
+		let rolls = Attack(source.champ, target.champ)
+		let done = rolls.reduce((total, v) => total+v)
+
+		// general damage calculations/stats
+		let min = Math.max(source.champ.attack-target.champ.defense,0)
+		let dice_thrown = rolls.length-1
+		let dmg_perthrow = 6-target.champ.defense
+		let max = min+(dice_thrown*dmg_perthrow)
+		return {
+			rolls,
+			done,
+			min,
+			max
+		}
+
+}
+function combatRound(player:Player, target:Player)  {
 	log.push('')
 	log.push(`Ronda de combate,  se tiró un moneda... <b>${player.name}</b> empieza.`)
 	let turns = [...player.field.map(champinstance => ({
@@ -88,20 +115,12 @@ function combatRound(player:Player, target:Player) {
 			//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
 			continue;
 		}
-		let damageRolls = Attack(turn.champinstance.champ, enemy.champ)
-		let damage = damageRolls.reduce((total, v) => total+v)
-		enemy.hp = Math.max(enemy.hp-damage, 0)
-
-		// general damage calculations/stats
-		let dr = enemy.champ.defense
-		let dmgmin = Math.max(turn.champinstance.champ.attack-dr,0)
-		let dice_thrown = damageRolls.length-1
-		let dmg_perthrow = 6-dr
-		let dmgmax = dmgmin+(dice_thrown*dmg_perthrow)
-		total[turn.player.name].dmgmax += dmgmax
-		total[turn.player.name].dmg += damage
+		let damage = calculateDamage(turn.champinstance, enemy)
+		total[turn.player.name].dmgmax += damage.max
+		total[turn.player.name].dmg += damage.done
 		
-			log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}(HP: ${enemy.hp+damage}): ${damageRolls.join('+d')}(${dmgmin}-${dmgmax})=<b>${damage}</b>`)
+		log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca ${enemy.champ.name}(HP: ${enemy.hp}): ${damage.rolls.join('+d')}(${damage.min}-${damage.max})=<b>${damage.done}</b>`)
+		enemy.hp = Math.max(enemy.hp-damage.done, 0)
 	}
 	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }

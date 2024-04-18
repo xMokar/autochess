@@ -117,14 +117,5 @@ export let Champs:Champ[] = [
 ]
 
 export let ChampMap = Object.fromEntries(Champs.map(card => [ card.id, card ]))
-export let Attack = (attacker:Champ, defender:Champ) => {
-	let ar = attacker.attack
-	let dr = defender.defense
-	let bonus = Object.entries(attacker.armorpen)
-		.filter(([target, _]) => defender.armorType.id == target)
-		.flatMap(([_, dice]) => Array(dice).fill(0).map(() => Math.max((Math.floor(Math.random()*6)+1)-dr,0)))
-		
-	return [Math.max(ar-dr,0), ...bonus]
-}
 
 export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))
