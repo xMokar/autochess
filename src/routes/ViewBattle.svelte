@@ -61,11 +61,9 @@ function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
 	if(!sides)
 		return [0]
 	let roll = () => Math.max(Math.floor(Math.random()*sides)+1, 0)
-	let rolls = Object.entries(attacker.armorpen)
+	return Object.entries(attacker.armorpen)
 		.filter(([target, _]) => defender.armorType.id == target)
 		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
-		
-	return rolls
 }
 
 interface DamageRoll {
@@ -165,13 +163,33 @@ let log:string[] = []
 			{/each}
 			<hr>
 			Tabla de balance de daño:<br>
+			<table class="table table-bordered table-striped">
+			<thead><tr>
+				<th>Origen</th>
+				<th>Destino</th>
+				<th>Dados</th>
+				<th>Rango</th>
+				<th>Promedio</th>
+			</tr></thead>
+		
+			<tbody>
 			{#each Champs as source}
 				{#each Champs as target}
 					{@const damage = calculateDamage(source, target)}
-					{source.name}->{target.name}: {damage.rolls.length}d{damage.sides}({damage.rolls.length}-{damage.max}) (promedio: {(damage.rolls.length+damage.max)/2})<br>
+					<tr>
+						<td>{source.name}</td>
+						<td>{target.name}</td>
+						<td class="text-end">{damage.rolls.length}d{damage.sides}</td>
+						<td class="text-end">{damage.rolls.length}-{damage.max}</td>
+						<td class="text-end">{(damage.rolls.length+damage.max)/2}</td>
+					</tr>
 				{/each}
-				<br>
+				<tr>
+					<td colspan="5"></td>
+				</tr>
 			{/each}
+			</tbody>
+			</table>
 
 		</div>
 	</div>
