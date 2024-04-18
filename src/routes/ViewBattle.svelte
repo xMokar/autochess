@@ -112,7 +112,7 @@ reset(visitor.field)
 
 </script>
 
-<div class="container">
+<div class="container mt-2">
 	<div class="row">
 		<div class="col-6">
 			<ViewField player={visitor} mirrored={true} />
