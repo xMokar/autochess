@@ -51,7 +51,7 @@ function add(index:number) {
 $: isAlive = player.field.filter(champinstance => champinstance.hp>0).length>0
 $: status = isAlive? "bg-success": "bg-secondary"
 </script>
-<div class="card mb-1">
+<div class="card mb-1" >
 	<div class="card-header {status} text-white">
 		<!-- 
 		we're not doing any validation, if the user enters HTML code here, it'll be used in the logs
@@ -63,9 +63,9 @@ $: status = isAlive? "bg-success": "bg-secondary"
 
 	<div class="card-body p-1"><div class="row gx-1">
 {#each fieldToArray(player.field, mirrored) as slot, index (index)}
-	<div class="col-4">
+	<div class="col-4 mb-1">
 		
-		<div class="card mb-1">
+		<div class="card h-100">
 		<div class="card-header">
 		<select on:change={add(index)} value={slot?slot.champ.id:""}>
 			<option value="">-</option>
