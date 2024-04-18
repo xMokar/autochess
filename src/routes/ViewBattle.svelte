@@ -120,6 +120,10 @@ function combatRound(player:Player, target:Player)  {
 		
 		log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}(HP: ${enemy.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
 		enemy.hp = Math.max(enemy.hp-damage.total, 0)
+		if (enemy.hp==0) {
+			log.push(`* ${enemy.champ.name} de <b>${turn.enemy.name}</b> ha caido`)
+		}
+
 	}
 	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
