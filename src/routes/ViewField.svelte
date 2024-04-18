@@ -92,7 +92,7 @@ $: status = isAlive? "bg-success": "bg-secondary"
 			</div>
 			<div class="col-12">
 				Dados de ataque:<br>
-				{#each Object.entries(slot.champ.armorpen) as [armor, dice]}
+				{#each Object.entries(slot.champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
 					{#each Array(dice) as _}
 						<span class="armor {armor}"></span>
 					{/each}
