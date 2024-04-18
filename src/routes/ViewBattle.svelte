@@ -57,7 +57,7 @@ function resetAll() {
 	log = []
 }
 
-function Attack(attacker:Champ, defender:Champ, sides:number) {
+function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
 	if(!sides)
 		return [0]
 	let roll=() => Math.max(((Math.floor(Math.random()*sides)))+1, 0)
@@ -68,9 +68,15 @@ function Attack(attacker:Champ, defender:Champ, sides:number) {
 	return rolls
 }
 
+interface DamageRoll {
+	rolls:number[],
+	total:number,
+	sides:number,
+	max:number
+}
 function calculateDamage(source:Champ, target:Champ) {
 		let sides = Math.max(source.attack-target.defense,0)
-		let rolls = Attack(source, target, sides)
+		let rolls = AttackRolls(source, target, sides)
 		let total = rolls.reduce((total, v) => total+v)
 		let num_dice = rolls.length
 		let max = num_dice*sides
@@ -80,21 +86,48 @@ function calculateDamage(source:Champ, target:Champ) {
 			total,
 			sides,
 			max
-		}
+		} as DamageRoll
 
 }
-function combatRound(player:Player, target:Player)  {
+
+function Attack(source:Player, champinstance:ChampInstance, target:Player) {
+	if(champinstance.hp<=0) {
+		//log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
+		return null
+	}
+	let targetChampInstance = findTarget(champinstance, target.field)
+	if(!targetChampInstance) {
+		//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
+		return null
+	}
+	let damage = calculateDamage(champinstance.champ, targetChampInstance.champ)
+	
+	log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
+	targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.total, 0)
+	if (targetChampInstance.hp==0) {
+		log.push(`* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido`)
+	}
+	return damage
+}
+
+interface Turn {
+	champinstance:ChampInstance,
+	source:Player,
+	target:Player,
+}
+
+function combatRound(source:Player, target:Player)  {
 	log.push('')
-	log.push(`Ronda de combate,  se tiró un moneda... <b>${player.name}</b> empieza.`)
-	let turns = [...player.field.map(champinstance => ({
-		champinstance, player:player, enemy: target
+	log.push(`Ronda de combate,  se tiró un moneda... <b>${source.name}</b> empieza.`)
+	let turns:Turn[] = [...source.field.map(champinstance => ({
+		champinstance, source, target
 	})), ...target.field.map(champinstance => ({
-		champinstance, player:target, enemy: player
+		champinstance, source:target, target: source
 	}))]
 		.sort((a, b) => b.champinstance.champ.movespeed-a.champinstance.champ.movespeed)
 
 	let total = {
-		[player.name]: {
+		[source.name]: {
 				dmgmax: 0,
 				dmg: 0,
 			},
@@ -105,27 +138,14 @@ function combatRound(player:Player, target:Player)  {
 	}
 	
 	for(let turn of turns) {
-		if(turn.champinstance.hp<=0) {
-			//log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
+		let damage = Attack(turn.source, turn.champinstance, turn.target)
+		if (!damage)
 			continue
-		}
-		let enemy = findTarget(turn.champinstance, turn.enemy.field)
-		if(!enemy) {
-			//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
-			continue;
-		}
-		let damage = calculateDamage(turn.champinstance.champ, enemy.champ)
-		total[turn.player.name].dmgmax += damage.max
-		total[turn.player.name].dmg += damage.total
-		
-		log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} ataca a ${enemy.champ.name}(HP: ${enemy.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
-		enemy.hp = Math.max(enemy.hp-damage.total, 0)
-		if (enemy.hp==0) {
-			log.push(`* ${enemy.champ.name} de <b>${turn.enemy.name}</b> ha caido`)
-		}
 
+		total[turn.source.name].dmgmax += damage.max
+		total[turn.source.name].dmg += damage.total
 	}
-	log.push(`Daño realizado: <b>${player.name}</b>: ${total[player.name].dmg}/${total[player.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
+	log.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }
 let log:string[] = []
 
