@@ -5,21 +5,38 @@
 export let home:Player
 export let visitor:Player
 
-function findTarget(attacker:ChampInstance, target:Field) {
-	let calculateDistance = (target:ChampInstance) => {
-		let distance = Math.sqrt(
-			Math.pow(attacker.x- (target.x), 2)+
-			Math.pow(attacker.y- (-target.y-1), 2)
-		)
-		return { target, distance }
-	}
-	return target
-		.filter(target => target.hp>0)
-		.map(calculateDistance)
-		.sort((a, b) => a.distance-b.distance)
-		.map(({target}) => target) 
-		.shift()
+
+function coordinatesBetween(point1:ChampInstance, point2:ChampInstance) {
+    const dx = point2.x - point1.x;
+    const dy = point2.y - point1.y;
+    
+    // Calculate the number of points to interpolate (including both endpoints)
+    const numPoints = Math.max(Math.abs(dx), Math.abs(dy));
+	return Array(numPoints).fill(null).map((_, i) => {
+        const x = Math.round(point1.x + i * (dx / numPoints));
+        const y = Math.round(point1.y + i * (dy / numPoints));
+        return { x, y };
+    })
 }
+
+let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
+		closest1: (attacker:ChampInstance, target:Field) => {
+			let calculateDistance = (target:ChampInstance) => {
+				let distance = Math.sqrt(
+					Math.pow(attacker.x- (target.x), 2)+
+					Math.pow(attacker.y- (-target.y-1), 2)
+				)
+				return { target, distance }
+			}
+			return target
+				.filter(target => target.hp>0)
+				.map(calculateDistance)
+				.sort((a, b) => a.distance-b.distance)
+				.map(({target}) => target) 
+				.slice(0,1)
+		}
+}
+
 
 
 function run() {
@@ -92,19 +109,26 @@ function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.champinstance.champ.name} esta fuera de combate.`)
 		return null
 	}
-	let targetChampInstance = findTarget(champinstance, target.field)
-	if(!targetChampInstance) {
-		//log.push(`<b>${turn.player.name}</b>: no tiene a quien atacar.`)
-		return null
+	let targets = targetting[champinstance.champ.targetting.id](champinstance, target.field)
+	let total_damage:DamageRoll = {
+			sides:0,
+			rolls:[],
+			total:0,
+			max:0,
 	}
-	let damage = calculateDamage(champinstance.champ, targetChampInstance.champ)
-	
-	log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
-	targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.total, 0)
-	if (targetChampInstance.hp==0) {
-		log.push(`* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido`)
+	for(let targetChampInstance of targets) {
+		let damage = calculateDamage(champinstance.champ, targetChampInstance.champ)
+		total_damage.rolls.push(...damage.rolls)
+		total_damage.total += damage.total
+		total_damage.max += damage.max
+		
+		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
+		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.total, 0)
+		if (targetChampInstance.hp==0) {
+			log.push(`* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido`)
+		}
 	}
-	return damage
+	return total_damage
 }
 
 interface Turn {
@@ -138,7 +162,6 @@ function combatRound(source:Player, target:Player)  {
 		let damage = Attack(turn.source, turn.champinstance, turn.target)
 		if (!damage)
 			continue
-
 		total[turn.source.name].dmgmax += damage.max
 		total[turn.source.name].dmg += damage.total
 	}

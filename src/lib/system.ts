@@ -3,6 +3,23 @@ interface ArmorType {
 	name: string;
 }
 
+interface Targetting {
+	id: string;
+	name: string;
+}
+
+let targetting:Targetting[] = [
+	{
+		id: 'closest1',
+		name: 'Closest enemy',
+	},
+	{
+		id: 'farthest1',
+		name: 'Farthest enemy',
+	}
+]
+
+let TargettingMap = Object.fromEntries(targetting.map(t => [ t.id, t ]))
 export interface Champ {
 	id: string;
 	name: string;
@@ -11,6 +28,7 @@ export interface Champ {
 	defense: number;
 	movespeed: number;
 	armorType: ArmorType;
+	targetting: Targetting;
 	cost: number;
 	armorpen: {[key:string]:number};
 }
@@ -53,6 +71,22 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 export let Champs:Champ[] = [ 
 	{ 
+		id: 'rogue',
+		name: 'Pícaro',
+		hp: 10,
+		attack: 6,
+		defense:1,
+		movespeed: 7,
+		armorType: ArmorTypeMap.cloth,
+		targetting: TargettingMap.closest1,
+		cost: 1,
+		armorpen: {
+			iron: 3,
+			cloth: 3,
+			leather: 3,
+		}
+	},
+	{ 
 		id: 'tank',
 		name: 'Tanque',
 		hp: 10,
@@ -60,6 +94,7 @@ export let Champs:Champ[] = [
 		defense:3,
 		movespeed: 5,
 		armorType: ArmorTypeMap.iron,
+		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
 			iron: 2,
@@ -75,6 +110,7 @@ export let Champs:Champ[] = [
 		defense: 0,
 		movespeed: 5,
 		armorType: ArmorTypeMap.cloth,
+		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
 			cloth: 1,
@@ -90,6 +126,7 @@ export let Champs:Champ[] = [
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.cloth,
+		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
 			cloth: 2,
@@ -102,6 +139,7 @@ export let Champs:Champ[] = [
 		name: 'Peleador',
 		movespeed: 6,
 		armorType: ArmorTypeMap.leather,
+		targetting: TargettingMap.closest1,
 		hp: 15,
 		attack: 5,
 		defense:2,
