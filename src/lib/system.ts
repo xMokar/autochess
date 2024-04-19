@@ -21,9 +21,9 @@ let targetting:Targetting[] = [
 		targets: 1,
 	},
 	{
-		id: 'farthest3',
-		name: '3 Más lejanos',
-		targets: 3,
+		id: 'farthest2',
+		name: '2 Más lejanos',
+		targets: 2,
 	},
 	
 	{
@@ -143,7 +143,7 @@ export let Champs:Champ[] = [
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.cloth,
-		targetting: TargettingMap.farthest3,
+		targetting: TargettingMap.farthest2,
 		cost: 1,
 		armorpen: {
 			cloth: 1,

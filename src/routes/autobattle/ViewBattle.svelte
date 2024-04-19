@@ -60,7 +60,7 @@ let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 				.map(({target}) => target) 
 				.slice(0,1)
 		}, 
-		farthest3: (attacker:ChampInstance, target:Field) => {
+		farthest2: (attacker:ChampInstance, target:Field) => {
 			return target
 				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
