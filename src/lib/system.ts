@@ -6,25 +6,30 @@ interface ArmorType {
 interface Targetting {
 	id: string;
 	name: string;
+	targets: number;
 }
 
 let targetting:Targetting[] = [
 	{
 		id: 'closest1',
 		name: 'Más cercano',
+		targets: 1,
 	},
 	{
 		id: 'farthest1',
 		name: 'Más lejano',
+		targets: 1,
 	},
 	{
 		id: 'farthest3',
 		name: '3 Más lejanos',
+		targets: 3,
 	},
 	
 	{
 		id: 'farthest1_direct',
-		name: 'Más lejano directo'
+		name: 'Más lejano directo',
+		targets: 1,
 	}
 ]
 
@@ -159,7 +164,7 @@ export let Champs:Champ[] = [
 		armorpen: {
 			cloth: 2,
 			leather: 3,
-			iron: 2,
+			iron: 4,
 		}
 	},
 	{
