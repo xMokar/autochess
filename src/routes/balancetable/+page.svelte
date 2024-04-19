@@ -12,7 +12,7 @@
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
-						<th>Contra</th>
+						<th class="w-100">Contra</th>
 						<th title="Dados">Dds</th>
 						<th title="Rango de daño">Rng</th>
 						<th title="Promedio de daño">Prm</th>
