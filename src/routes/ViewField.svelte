@@ -1,5 +1,6 @@
 <script lang="ts">
 import { type Player, type Field, type ChampInstance, Champs, ChampMap } from '$lib/system'
+    import ViewUnit from './viewUnit.svelte';
 
 export let player:Player
 export let mirrored = false
@@ -83,36 +84,12 @@ $: status = isAlive? "bg-success": "bg-secondary"
 		<div class="card-body p-1">
 
 		{#if slot}
-		<div class="row">
-			<div class="col-6">
-				ATK: {slot.champ.attack}
-			</div>
-			<div class="col-6">
-				DEF: {slot.champ.defense}
-			</div>
-			<div class="col-6">
-				SPD: {slot.champ.movespeed}
-			</div>
-			<div class="col-12">
-				ARMOR: <span class="armor {slot.champ.armorType.id}">.</span>
-			</div>
-			<div class="col-12">
-				Ataca a: <br>
-				&nbsp;{slot.champ.targetting.name}<br>
-				Dados de ataque:<br>
-				{#each Object.entries(slot.champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
-					{#each Array(dice) as _}
-						<span class="armor {armor}"></span>
-					{/each}
-				{/each}
-			</div>
-		</div>
-
-
+			<ViewUnit champ="{slot.champ}" />
 		{:else}
 		&nbsp;
 		{/if}
-		</div></div>
+		</div>
+		</div>
 	</div>
 {/each}
 </div>

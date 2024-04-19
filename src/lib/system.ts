@@ -139,15 +139,15 @@ export let Champs:Champ[] = [
 		id: 'archer',
 		name: 'Arquero',
 		hp: 10,
-		attack: 3,
+		attack: 4,
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.cloth,
 		targetting: TargettingMap.farthest3,
 		cost: 1,
 		armorpen: {
-			cloth: 2,
-			leather: 2,
+			cloth: 1,
+			leather: 1,
 			iron: 1,
 		}
 	},
