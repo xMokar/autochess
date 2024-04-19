@@ -1,22 +1,13 @@
-# create-svelte
+# Introducción
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Este es un juego simulador de combate estilo auto-chess.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+Esta disponible en [https://autochess-iota.vercel.app/](https://autochess-iota.vercel.app/)
 ```
 
-## Developing
+## Desarrollo y pruebas
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Una vez que hayas clonado este repositorio puedes ejecutarlo de la siguiente manera.
 
 ```bash
 npm run dev
@@ -25,14 +16,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+## Mecanicas del juego
 
-To create a production version of your app:
+Aún tengo que escribir esto...
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
