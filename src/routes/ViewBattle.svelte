@@ -34,6 +34,21 @@ let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
+		},
+		farthest1: (attacker:ChampInstance, target:Field) => {
+			let calculateDistance = (target:ChampInstance) => {
+				let distance = Math.sqrt(
+					Math.pow(attacker.x- (target.x), 2)+
+					Math.pow(attacker.y- (-target.y-1), 2)
+				)
+				return { target, distance }
+			}
+			return target
+				.filter(target => target.hp>0)
+				.map(calculateDistance)
+				.sort((a, b) => b.distance-a.distance)
+				.map(({target}) => target) 
+				.slice(0,1)
 		}
 }
 

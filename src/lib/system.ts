@@ -126,7 +126,7 @@ export let Champs:Champ[] = [
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.cloth,
-		targetting: TargettingMap.closest1,
+		targetting: TargettingMap.farthest1,
 		cost: 1,
 		armorpen: {
 			cloth: 2,
