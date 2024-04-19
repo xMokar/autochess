@@ -146,7 +146,7 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		armorpen: {
-			cloth: 1,
+			cloth: 2,
 			leather: 1,
 			iron: 1,
 		}
