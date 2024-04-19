@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type Player, type Field, type ChampInstance, type Champ, Champs } from "$lib/system";
+    import { type Player, type Field, type ChampInstance, type DamageRoll, calculateDamage } from "$lib/system";
     import ViewField from "./ViewField.svelte";
 
 export let home:Player
@@ -89,35 +89,6 @@ function resetAll() {
 	log = []
 }
 
-function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
-	if(!sides)
-		return [0]
-	let roll = () => Math.max(Math.floor(Math.random()*sides)+1, 0)
-	return Object.entries(attacker.armorpen)
-		.filter(([target, _]) => defender.armorType.id == target)
-		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
-}
-
-interface DamageRoll {
-	rolls:number[],
-	total:number,
-	sides:number,
-	max:number
-}
-function calculateDamage(source:Champ, target:Champ) {
-	let sides = Math.max(source.attack-target.defense,0)
-	let rolls = AttackRolls(source, target, sides)
-	let total = rolls.reduce((total, v) => total+v)
-	let num_dice = rolls.length
-	let max = num_dice*sides
-
-	return {
-		rolls,
-		total,
-		sides,
-		max
-	} as DamageRoll
-}
 
 function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 	if(champinstance.hp<=0) {
@@ -187,6 +158,7 @@ let log:string[] = []
 </script>
 
 <div class="container mt-2">
+	<a href="/balancetable">Balance Table</a>
 	<div class="row">
 		<div class="col-6">
 			<ViewField player={visitor} mirrored={true} />
@@ -199,36 +171,6 @@ let log:string[] = []
 			{#each log as msg}
 				{@html msg}<br>
 			{/each}
-			<hr>
-			Tabla de balance de daño:<br>
-			<table class="table table-bordered table-striped">
-			<thead><tr>
-				<th>Origen</th>
-				<th>Destino</th>
-				<th>Dados</th>
-				<th>Rango</th>
-				<th>Promedio</th>
-			</tr></thead>
-		
-			<tbody>
-			{#each Champs as source}
-				{#each Champs as target}
-					{@const damage = calculateDamage(source, target)}
-					<tr>
-						<td>{source.name}</td>
-						<td>{target.name}</td>
-						<td class="text-end">{damage.rolls.length}d{damage.sides}</td>
-						<td class="text-end">{damage.rolls.length}-{damage.max}</td>
-						<td class="text-end">{(damage.rolls.length+damage.max)/2}</td>
-					</tr>
-				{/each}
-				<tr>
-					<td colspan="5"></td>
-				</tr>
-			{/each}
-			</tbody>
-			</table>
-
 		</div>
 	</div>
 </div>

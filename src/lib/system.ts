@@ -156,3 +156,33 @@ export let Champs:Champ[] = [
 export let ChampMap = Object.fromEntries(Champs.map(card => [ card.id, card ]))
 
 export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))
+
+function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
+	if(!sides)
+		return [0]
+	let roll = () => Math.max(Math.floor(Math.random()*sides)+1, 0)
+	return Object.entries(attacker.armorpen)
+		.filter(([target, _]) => defender.armorType.id == target)
+		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
+}
+
+export interface DamageRoll {
+	rolls:number[],
+	total:number,
+	sides:number,
+	max:number
+}
+export function calculateDamage(source:Champ, target:Champ) {
+	let sides = Math.max(source.attack-target.defense,0)
+	let rolls = AttackRolls(source, target, sides)
+	let total = rolls.reduce((total, v) => total+v)
+	let num_dice = rolls.length
+	let max = num_dice*sides
+
+	return {
+		rolls,
+		total,
+		sides,
+		max
+	} as DamageRoll
+}
