@@ -95,6 +95,8 @@ $: status = isAlive? "bg-success": "bg-secondary"
 				ARMOR: <span class="armor {slot.champ.armorType.id}">.</span>
 			</div>
 			<div class="col-12">
+				Ataca a: <br>
+				&nbsp;{slot.champ.targetting.name}<br>
 				Dados de ataque:<br>
 				{#each Object.entries(slot.champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
 					{#each Array(dice) as _}

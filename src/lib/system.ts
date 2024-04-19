@@ -11,11 +11,11 @@ interface Targetting {
 let targetting:Targetting[] = [
 	{
 		id: 'closest1',
-		name: 'Closest enemy',
+		name: 'Enemigo mas cercano',
 	},
 	{
 		id: 'farthest1',
-		name: 'Farthest enemy',
+		name: 'Enemigo mas lejano',
 	}
 ]
 
@@ -71,17 +71,17 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 export let Champs:Champ[] = [ 
 	{ 
-		id: 'rogue',
-		name: 'Pícaro',
+		id: 'assassin',
+		name: 'Asesino',
 		hp: 10,
 		attack: 6,
 		defense:1,
 		movespeed: 7,
 		armorType: ArmorTypeMap.cloth,
-		targetting: TargettingMap.closest1,
+		targetting: TargettingMap.farthest1,
 		cost: 1,
 		armorpen: {
-			iron: 3,
+			iron: 1,
 			cloth: 3,
 			leather: 3,
 		}
