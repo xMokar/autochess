@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Champ } from "$lib/system";
+    import ArmorIcon from "./ArmorIcon.svelte";
 
 	export let champ:Champ
 	console.log('xxx',champ)
@@ -16,7 +17,7 @@
 		SPD: {champ.movespeed}
 	</div>
 	<div class="col-12">
-		ARMOR: <span class="armor {champ.armorType.id}">.</span>
+		ARMOR: <ArmorIcon armor={champ.armorType.id} /> 
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>
@@ -24,7 +25,7 @@
 		Dados de ataque:<br>
 		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
 			{#each Array(dice) as _}
-				<span class="armor {armor}"></span>
+				<ArmorIcon {armor} />
 			{/each}
 		{/each}
 	</div>

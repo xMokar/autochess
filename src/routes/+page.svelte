@@ -1,5 +1,6 @@
 <script>
     import { Champs, calculateDamage } from "$lib/system";
+    import ArmorIcon from "./autobattle/ArmorIcon.svelte";
     import ViewUnit from "./autobattle/viewUnit.svelte";
 	let faces = [1,2,3,4,5,6]
 	function table(face) {
@@ -28,7 +29,7 @@
 					{#each Champs as target}
 						{@const damage = calculateDamage(source, target)}
 						<tr>
-							<td>{target.name}</td>
+							<td><ArmorIcon armor={target.armorType.id} /> {target.name} </td>
 							<td>{source.targetting.targets}</td>
 							<td class="text-end">{damage.rolls.length*source.targetting.targets}d{damage.sides}</td>
 							<td class="text-end">{damage.rolls.length*source.targetting.targets}-{damage.max*source.targetting.targets}</td>
