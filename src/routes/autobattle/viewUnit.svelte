@@ -8,25 +8,23 @@
 
 <div class="row">
 	<div class="col-6">
-		ATK: {champ.attack}
+		<b>ATK:</b> {champ.attack}
 	</div>
 	<div class="col-6">
-		DEF: {champ.defense}
+		<b>DEF:</b> {champ.defense}
 	</div>
 	<div class="col-6">
-		SPD: {champ.movespeed}
+		<b>SPD:</b> {champ.movespeed}
 	</div>
 	<div class="col-12">
-		ARMOR: <ArmorIcon armor={champ.armorType.id} /> 
+		<b>ARMOR:</b> <ArmorIcon armor={champ.armorType.id} /> 
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>
 		&nbsp;{champ.targetting.name}<br>
-		Dados de ataque:<br>
+		<b>Dados de ataque:</b><br>
 		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
-			{#each Array(dice) as _}
-				<ArmorIcon {armor} />
-			{/each}
+				<ArmorIcon {armor} />x{dice}&nbsp;
 		{/each}
 	</div>
 </div>

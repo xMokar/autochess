@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
     import { Champs, calculateDamage } from "$lib/system";
     import ArmorIcon from "./autobattle/ArmorIcon.svelte";
     import ViewUnit from "./autobattle/viewUnit.svelte";
 	let faces = [1,2,3,4,5,6]
-	function table(face) {
+	function table(face:number) {
 		return faces.map(x => Math.ceil(x/(6/face)))
 	}
 </script>
@@ -12,14 +12,13 @@
 	<h4>Lista de unidades</h4>
 	<div class="row">
 		{#each Champs as source}
-		<div class="col-4 mb-2 g-1">
+		<div class="col-3 mb-2 g-1">
 			<div class="card">
-				<div class="card-header">{source.name}</div>
+				<div class="card-header"><ArmorIcon armor={source.armorType.id} /> {source.name}</div>
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
 						<th class="w-100">Contra</th>
-						<th title="Objetivos">Objs</th>
 						<th title="Dados">Dds</th>
 						<th title="Rango de daño">Rng</th>
 						<th title="Promedio de daño">Prm</th>
@@ -28,12 +27,14 @@
 					<tbody>
 					{#each Champs as target}
 						{@const damage = calculateDamage(source, target)}
+						{@const dice = damage.rolls.length }
 						<tr>
-							<td><ArmorIcon armor={target.armorType.id} /> {target.name} </td>
-							<td>{source.targetting.targets}</td>
-							<td class="text-end">{damage.rolls.length*source.targetting.targets}d{damage.sides}</td>
-							<td class="text-end">{damage.rolls.length*source.targetting.targets}-{damage.max*source.targetting.targets}</td>
-							<td class="text-end">{(damage.rolls.length*source.targetting.targets+damage.max*source.targetting.targets)/2}</td>
+							<td>{target.name} 
+<ArmorIcon armor={target.armorType.id} />x{dice}
+							</td>
+							<td class="text-end">{damage.rolls.length}d{damage.sides}</td>
+							<td class="text-end">{damage.rolls.length}-{damage.max}</td>
+							<td class="text-end">{(damage.rolls.length+damage.max)/2}</td>
 						</tr>
 					{/each}
 					</tbody>
@@ -50,7 +51,7 @@
 
 	<div class="row">
 		{#each Champs as champ}
-			<div class="col-3 mb-2">
+			<div class="col-2 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">{champ.name}</div>
 					<div class="card-body">
