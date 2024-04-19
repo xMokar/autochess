@@ -60,6 +60,14 @@ let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 				.map(({target}) => target) 
 				.slice(0,1)
 		}, 
+		farthest3: (attacker:ChampInstance, target:Field) => {
+			return target
+				.filter(target => target.hp>0)
+				.map((target) => calculateDistance(attacker, target))
+				.sort((a, b) => b.distance-a.distance)
+				.map(({target}) => target) 
+				.slice(0,3)
+		}, 
 		farthest1_direct: (attacker:ChampInstance, target:Field) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
 			if(!farthest1) return []

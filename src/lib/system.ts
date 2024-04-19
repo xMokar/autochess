@@ -18,6 +18,11 @@ let targetting:Targetting[] = [
 		name: 'Más lejano',
 	},
 	{
+		id: 'farthest3',
+		name: '3 Más lejanos',
+	},
+	
+	{
 		id: 'farthest1_direct',
 		name: 'Más lejano directo'
 	}
@@ -128,6 +133,22 @@ export let Champs:Champ[] = [
 	{
 		id: 'archer',
 		name: 'Arquero',
+		hp: 10,
+		attack: 3,
+		defense: 1,
+		movespeed: 6,
+		armorType: ArmorTypeMap.cloth,
+		targetting: TargettingMap.farthest3,
+		cost: 1,
+		armorpen: {
+			cloth: 2,
+			leather: 2,
+			iron: 1,
+		}
+	},
+	{
+		id: 'gunner',
+		name: 'Pistolero',
 		hp: 10,
 		attack: 5,
 		defense: 1,
