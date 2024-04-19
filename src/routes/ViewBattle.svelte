@@ -5,50 +5,72 @@
 export let home:Player
 export let visitor:Player
 
+function setBattleCoordinates(player:Player) {
+	for(let ci of player.field) {
+		ci.x = ci.setx
+		ci.y = player.mirrored? -ci.sety-1: ci.sety
+	}
+}
+setBattleCoordinates(visitor)
+setBattleCoordinates(home)
 
-function coordinatesBetween(point1:ChampInstance, point2:ChampInstance) {
+interface Coordinate {
+	x: number;
+	y: number;
+}
+function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;
     const dy = point2.y - point1.y;
     
     // Calculate the number of points to interpolate (including both endpoints)
     const numPoints = Math.max(Math.abs(dx), Math.abs(dy));
-	return Array(numPoints).fill(null).map((_, i) => {
+	let coordinates = Array(numPoints).fill(null).map((_, i) => {
         const x = Math.round(point1.x + i * (dx / numPoints));
         const y = Math.round(point1.y + i * (dy / numPoints));
         return { x, y };
     })
+	return coordinates.slice(1)
 }
 
+function coordinatesToChampInstances(field:Field) {
+	return (c:Coordinate) => field.find(ci => ci.x==c.x && ci.y==c.y)
+}
+
+let calculateDistance = (source:ChampInstance, target:ChampInstance) => {
+	let distance = Math.sqrt(
+		Math.pow(source.x- target.x, 2)+
+		Math.pow(source.y- target.y, 2)
+	)
+	return { target, distance }
+}
 let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 		closest1: (attacker:ChampInstance, target:Field) => {
-			let calculateDistance = (target:ChampInstance) => {
-				let distance = Math.sqrt(
-					Math.pow(attacker.x- (target.x), 2)+
-					Math.pow(attacker.y- (-target.y-1), 2)
-				)
-				return { target, distance }
-			}
 			return target
 				.filter(target => target.hp>0)
-				.map(calculateDistance)
+				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
 		},
 		farthest1: (attacker:ChampInstance, target:Field) => {
-			let calculateDistance = (target:ChampInstance) => {
-				let distance = Math.sqrt(
-					Math.pow(attacker.x- (target.x), 2)+
-					Math.pow(attacker.y- (-target.y-1), 2)
-				)
-				return { target, distance }
-			}
 			return target
 				.filter(target => target.hp>0)
-				.map(calculateDistance)
+				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
+		}, 
+		farthest1_direct: (attacker:ChampInstance, target:Field) => {
+			let [farthest1] = targetting.farthest1(attacker, target)
+			if(!farthest1) return []
+			let blocker = coordinatesBetween(attacker, farthest1)
+				.map(coordinatesToChampInstances(target))
+				.filter(x => x)
+				.shift()
+			if (blocker)
+				return [blocker]
+
+			return [blocker? blocker: farthest1]
 		}
 }
 

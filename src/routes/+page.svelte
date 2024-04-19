@@ -4,36 +4,38 @@ import ViewBattle from './ViewBattle.svelte';
 
 let player1 = { 
 		name: 'Argentina',
+		mirrored: false,
 		field: [
 			{
 				champ: ChampMap.tank,
 				hp: 0,
-				x: 0,
-				y: 0
+				setx: 0,
+				sety: 0
 			},
 			{
 				hp: 0,
 				champ: ChampMap.archer,
-				x: 0,
-				y: 1
+				setx: 0,
+				sety: 1
 			}
 		],
 	}
 
 let player2 = {
 		name: 'Mexico',
+		mirrored: true,
 		field: [
 			{
 				champ: ChampMap.fighter,
 				hp: 0,
-				x: 0,
-				y: 0
+				setx: 0,
+				sety: 0
 			},
 			{
 				hp: 0,
 				champ: ChampMap.mage,
-				x: 0,
-				y: 1
+				setx: 0,
+				sety: 1
 			}
 		]
 	}

@@ -9,7 +9,7 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 		let x = i%3
 		let y = Math.floor(i/3)
 		return field.find(slot => {
-			return (slot.x == x) && (slot.y == y)
+			return (slot.setx == x) && (slot.sety == y)
 		})
 	})
 	if(!mirrored) return newfield
@@ -28,18 +28,20 @@ function add(index:number) {
 			return
 		let select = ev.target as HTMLSelectElement
 		let y = Math.floor(index/3)
-		y = mirrored? 2-y: y
+		let mirroredy = mirrored? 2-y: y
 		let x = index%3
 
-		let existing = player.field.find(ci => ci.x==x && ci.y==y)
+		let existing = player.field.find(ci => ci.setx==x && ci.sety==mirroredy)
 		if(existing && !select.value) {
-			player.field=player.field.filter(ci => !(ci.x==x && ci.y==y))
+			player.field=player.field.filter(ci => !(ci.setx==x && ci.sety==mirroredy))
 		} if(existing) {
 			existing.champ = ChampMap[select.value]
 		} else if(!existing) { 
 			player.field.push({
-				x: x,
-				y: y,
+				setx: x,
+				sety: mirroredy,
+				x,
+				y:mirrored?-(3-y):y,
 				hp: 0,
 				champ: ChampMap[select.value]
 			})

@@ -11,11 +11,15 @@ interface Targetting {
 let targetting:Targetting[] = [
 	{
 		id: 'closest1',
-		name: 'Enemigo mas cercano',
+		name: 'Más cercano',
 	},
 	{
 		id: 'farthest1',
-		name: 'Enemigo mas lejano',
+		name: 'Más lejano',
+	},
+	{
+		id: 'farthest1_direct',
+		name: 'Más lejano directo'
 	}
 ]
 
@@ -56,15 +60,18 @@ let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
 
 export interface ChampInstance {
 	champ:Champ
+	setx:number
+	sety:number
+	hp: number
 	x:number
 	y:number
-	hp: number
 }
 
 export type Field = ChampInstance[]
 export interface Player {
 	name: string,
 	field: Field,
+	mirrored: boolean,
 }
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
@@ -126,7 +133,7 @@ export let Champs:Champ[] = [
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.cloth,
-		targetting: TargettingMap.farthest1,
+		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		armorpen: {
 			cloth: 2,
