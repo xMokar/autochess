@@ -19,7 +19,7 @@
 		ARMOR: <span class="armor {champ.armorType.id}">.</span>
 	</div>
 	<div class="col-12">
-		Ataca a: <br>
+		<b>Objetivos:</b> <br>
 		&nbsp;{champ.targetting.name}<br>
 		Dados de ataque:<br>
 		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}

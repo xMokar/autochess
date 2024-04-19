@@ -188,7 +188,7 @@ let log:string[] = []
 </script>
 
 <div class="container mt-2">
-	<a href="/balancetable">Balance Table</a>
+	<a href="/help">Help!</a>
 	<div class="row">
 		<div class="col-6">
 			<ViewField player={visitor} mirrored={true} />
