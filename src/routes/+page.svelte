@@ -9,7 +9,7 @@
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
-	Tabla de balance de daño, puedes usar esto para saber cuantos dados tirar y de cuantas caras.<br>
+	<h4>Lista de unidades</h4>
 	<div class="row">
 		{#each Champs as source}
 		<div class="col-4 mb-2 g-1">
