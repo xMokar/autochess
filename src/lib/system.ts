@@ -82,8 +82,8 @@ export let Champs:Champ[] = [
 		cost: 1,
 		armorpen: {
 			iron: 1,
-			cloth: 3,
-			leather: 3,
+			cloth: 2,
+			leather: 2,
 		}
 	},
 	{ 
@@ -115,7 +115,7 @@ export let Champs:Champ[] = [
 		armorpen: {
 			cloth: 1,
 			leather: 2,
-			iron:3
+			iron:4
 		}
 	},
 	{
@@ -131,7 +131,7 @@ export let Champs:Champ[] = [
 		armorpen: {
 			cloth: 2,
 			leather: 3,
-			iron: 1,
+			iron: 2,
 		}
 	},
 	{
@@ -147,7 +147,7 @@ export let Champs:Champ[] = [
 		armorpen: {
 			cloth: 3,
 			leather: 2,
-			iron: 1,
+			iron: 2,
 		}
 	},
 		
