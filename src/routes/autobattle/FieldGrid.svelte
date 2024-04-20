@@ -1,6 +1,6 @@
 <script lang="ts">
 import { type Player, type Field, type ChampInstance, Champs, ChampMap } from '$lib/system'
-    import ViewUnit from './viewUnit.svelte';
+    import Unit from './Unit.svelte';
 
 export let player:Player
 export let mirrored = false
@@ -84,7 +84,7 @@ $: status = isAlive? "bg-success": "bg-secondary"
 		<div class="card-body p-1">
 
 		{#if slot}
-			<ViewUnit champ="{slot.champ}" />
+			<Unit champ="{slot.champ}" />
 		{:else}
 		&nbsp;
 		{/if}

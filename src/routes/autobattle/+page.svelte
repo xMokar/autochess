@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ChampMap, type Field, type Player } from '$lib/system'
-import ViewBattle from './ViewBattle.svelte';
+import Battle from './Battle.svelte';
 
 let player1 = { 
 		name: 'Argentina',
@@ -44,4 +44,4 @@ let player2 = {
 <div class="container mt-2">
 	<a class="btn btn-primary" href="/">Guía del juego</a>
 </div>
-<ViewBattle home={player1} visitor={player2} />
+<Battle home={player1} visitor={player2} />

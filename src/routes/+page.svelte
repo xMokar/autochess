@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Champs, calculateDamage } from "$lib/system";
     import ArmorIcon from "./autobattle/ArmorIcon.svelte";
-    import ViewUnit from "./autobattle/viewUnit.svelte";
+    import Unit from "./autobattle/Unit.svelte";
 	let faces = [1,2,3,4,5,6]
 	function table(face:number) {
 		return faces.map(x => Math.ceil(x/(6/face)))
@@ -55,7 +55,7 @@
 				<div class="card">
 					<div class="card-header">{champ.name}</div>
 					<div class="card-body">
-						<ViewUnit {champ} />
+						<Unit {champ} />
 					</div>
 				</div>
 			</div>

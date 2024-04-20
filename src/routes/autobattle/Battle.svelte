@@ -1,6 +1,6 @@
 <script lang="ts">
     import { type Player, type Field, type ChampInstance, type DamageRoll, calculateDamage } from "$lib/system";
-    import ViewField from "./ViewField.svelte";
+    import FieldGrid from "./FieldGrid.svelte";
 
 export let home:Player
 export let visitor:Player
@@ -190,8 +190,8 @@ let log:string[] = []
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-6">
-			<ViewField player={visitor} mirrored={true} />
-			<ViewField player={home} />
+			<FieldGrid player={visitor} mirrored={true} />
+			<FieldGrid player={home} />
 		</div>
 		<div class="col-6">
 			<button on:click={run} class="btn btn-primary">Pelear</button>
