@@ -64,35 +64,33 @@ $: status = isAlive? "bg-success": "bg-secondary"
 		<span class="badge bg-danger position-absolute top-0 end-0">{player.field.reduce((total, v) => total+v.hp, 0)}</span><br>
 	</div>
 
-	<div class="card-body p-1"><div class="row gx-1">
-{#each fieldToArray(player.field, mirrored) as slot, index (index)}
-	<div class="col-4 mb-1" style="min-height: 175px">
-		
-		<div class="card h-100">
-		<div class="card-header">
-		<select on:change={add(index)} value={slot?slot.champ.id:""}>
-			<option value="">-</option>
-			{#each Champs as champ}
-				<option value="{champ.id}">{champ.name}</option>
+	<div class="card-body p-1">
+		<div class="row gx-1">
+			{#each fieldToArray(player.field, mirrored) as slot, index (index)}
+				<div class="col-4 mb-1" style="min-height: 175px">
+					<div class="card h-100">
+						<div class="card-header">
+							<select on:change={add(index)} value={slot?slot.champ.id:""}>
+								<option value="">-</option>
+								{#each Champs as champ}
+									<option value="{champ.id}">{champ.name}</option>
+								{/each}
+							</select>
+							{#if slot}
+							<span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
+							{/if}
+						</div>
+						<div class="card-body p-1">
+							{#if slot}
+								<Unit champ="{slot.champ}" />
+							{:else}
+							&nbsp;
+							{/if}
+						</div>
+					</div>
+				</div>
 			{/each}
-		</select>
-		{#if slot}
-		<span class="badge bg-danger position-absolute top-0 end-0">{slot.hp}</span><br>
-		{/if}
-		
-		</div>
-		<div class="card-body p-1">
-
-		{#if slot}
-			<Unit champ="{slot.champ}" />
-		{:else}
-		&nbsp;
-		{/if}
-		</div>
 		</div>
 	</div>
-{/each}
-</div>
-</div>
 </div>
 
