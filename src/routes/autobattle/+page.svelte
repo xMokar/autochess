@@ -50,6 +50,14 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		]
 	}
 
+function updateStats(player:Player) {
+	for(let ci of player.field) {
+		ci.champ = ChampMap[ci.champ.id]
+	}
+}
+updateStats(player1)
+updateStats(player2)
+
 </script>
 <div class="container mt-2">
 	<a class="btn btn-primary" href="/">Guía del juego</a>
