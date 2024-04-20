@@ -108,7 +108,7 @@ export let Champs:Champ[] = [
 		id: 'tank',
 		name: 'Tanque',
 		hp: 10,
-		attack: 4,
+		attack: 5,
 		defense:2,
 		movespeed: 5,
 		armorType: ArmorTypeMap.iron,
@@ -181,7 +181,7 @@ export let Champs:Champ[] = [
 		armorpen: {
 			cloth: 2,
 			leather: 3,
-			iron: 4,
+			iron: 3,
 		}
 	},
 	{
@@ -192,7 +192,7 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.closest1,
 		hp: 15,
 		attack: 5,
-		defense:2,
+		defense:1,
 		cost: 1,
 		armorpen: {
 			cloth: 3,
