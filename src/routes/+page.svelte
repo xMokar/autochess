@@ -12,7 +12,7 @@
 	<h4>Lista de unidades</h4>
 	<div class="row">
 		{#each Champs as source}
-		<div class="col-3 mb-2 g-1">
+		<div class="col-6 mb-2 g-1">
 			<div class="card">
 				<div class="card-header"><ArmorIcon armor={source.armorType.id} /> {source.name}</div>
 				<div class="card-body p-0" >
@@ -22,6 +22,8 @@
 						<th title="Dados">Dds</th>
 						<th title="Rango de daño">Rng</th>
 						<th title="Promedio de daño">Prm</th>
+						<th title="HP de esta unidad">HP</th>
+						<th title="Rango de portentage de daño">Rng%</th>
 					</tr></thead>
 				
 					<tbody>
@@ -35,6 +37,8 @@
 							<td class="text-end">{damage.rolls.length}d{damage.sides}</td>
 							<td class="text-end">{damage.rolls.length}-{damage.max}</td>
 							<td class="text-end">{(damage.rolls.length+damage.max)/2}</td>
+							<td class="text-end">{target.hp}</td>
+							<td class="text-end">{Math.floor(damage.rolls.length/target.hp*100)}-{Math.floor(damage.max/target.hp*100)}%</td>
 						</tr>
 					{/each}
 					</tbody>
