@@ -19,11 +19,11 @@
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
 						<th class="w-100">Contra</th>
-						<th title="Dados">Dds</th>
-						<th title="Rango de daño">Rng</th>
+						<th title="Dados">Dados</th>
+						<th title="Rango de daño">Rango</th>
 						<th title="Promedio de daño">Prm</th>
 						<th title="HP de esta unidad">HP</th>
-						<th title="Rango de portentage de daño">Rng%</th>
+						<th title="Rango de portentage de daño">Rango%HP</th>
 					</tr></thead>
 				
 					<tbody>
@@ -34,11 +34,11 @@
 							<td>{target.name} 
 <ArmorIcon armor={target.armorType.id} />x{dice}
 							</td>
-							<td class="text-end">{damage.rolls.length}d{damage.sides}</td>
-							<td class="text-end">{damage.rolls.length}-{damage.max}</td>
-							<td class="text-end">{(damage.rolls.length+damage.max)/2}</td>
+							<td class="text-end text-nowrap">{damage.rolls.length}d{damage.sides}{#if source.attackModifier}+{source.attackModifier}{/if}</td>
+							<td class="text-end">{damage.min}-{damage.max}</td>
+							<td class="text-end">{(damage.min+damage.max)/2}</td>
 							<td class="text-end">{target.hp}</td>
-							<td class="text-end">{Math.floor(damage.rolls.length/target.hp*100)}-{Math.floor(damage.max/target.hp*100)}%</td>
+							<td class="text-end">{Math.floor(damage.min/target.hp*100)}-{Math.floor(damage.max/target.hp*100)}%</td>
 						</tr>
 					{/each}
 					</tbody>
@@ -69,7 +69,8 @@
 		<div>
 			<h5>Cálculos matemáticos de dados.</h5>
 			<p>
-				Para calcular el daño tienes que tirar dados según la indicación, por ejemplo <b>2d6</b> significa 2 dados con 6 caras
+				Para calcular el daño tienes que tirar dados según la indicación, por ejemplo <b>2d6</b> significa 2 dados de 6 caras<br>
+				Mientras que <b>2d6+1</b> significa 2 dados de 6 caras y al resultado se le suma 1.
 			</p>
 
 			<p>

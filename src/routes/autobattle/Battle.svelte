@@ -131,12 +131,14 @@ function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 			rolls:[],
 			total:0,
 			max:0,
+			min:0,
 	}
 	for(let targetChampInstance of targets) {
 		let damage = calculateDamage(champinstance.champ, targetChampInstance.champ)
 		total_damage.rolls.push(...damage.rolls)
 		total_damage.total += damage.total
 		total_damage.max += damage.max
+		total_damage.min += damage.min
 		
 		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
 		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.total, 0)
