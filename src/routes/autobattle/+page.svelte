@@ -10,13 +10,17 @@ let player1 = {
 				champ: ChampMap.tank,
 				hp: 0,
 				setx: 0,
-				sety: 0
+				sety: 0,
+				x: 0,
+				y: 0,
 			},
 			{
 				hp: 0,
 				champ: ChampMap.archer,
 				setx: 0,
-				sety: 1
+				sety: 1,
+				x: 0,
+				y: 0,
 			}
 		],
 	}
@@ -29,13 +33,17 @@ let player2 = {
 				champ: ChampMap.fighter,
 				hp: 0,
 				setx: 0,
-				sety: 0
+				sety: 0,
+				x: 0,
+				y: 0,
 			},
 			{
 				hp: 0,
 				champ: ChampMap.mage,
 				setx: 0,
-				sety: 1
+				sety: 1,
+				x: 0,
+				y: 0,
 			}
 		]
 	}
