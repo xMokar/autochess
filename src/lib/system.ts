@@ -79,6 +79,7 @@ export interface ChampInstance {
 
 export type Field = ChampInstance[]
 export interface Player {
+	id: string,
 	name: string,
 	field: Field,
 	mirrored: boolean,
@@ -108,7 +109,7 @@ export let Champs:Champ[] = [
 		name: 'Tanque',
 		hp: 10,
 		attack: 4,
-		defense:3,
+		defense:2,
 		movespeed: 5,
 		armorType: ArmorTypeMap.iron,
 		targetting: TargettingMap.closest1,
@@ -139,7 +140,7 @@ export let Champs:Champ[] = [
 		id: 'archer',
 		name: 'Arquero',
 		hp: 10,
-		attack: 6,
+		attack: 5,
 		defense: 1,
 		movespeed: 6,
 		armorType: ArmorTypeMap.leather,

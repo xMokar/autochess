@@ -2,7 +2,8 @@
 import { ChampMap, type Field, type Player } from '$lib/system'
 import Battle from './Battle.svelte';
 
-let player1 = { 
+let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 
+		id: 'player1',
 		name: 'Argentina',
 		mirrored: false,
 		field: [
@@ -25,7 +26,8 @@ let player1 = {
 		],
 	}
 
-let player2 = {
+let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
+		id: 'player2',
 		name: 'Mexico',
 		mirrored: true,
 		field: [

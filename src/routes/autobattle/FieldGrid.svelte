@@ -48,6 +48,7 @@ function add(index:number) {
 			})
 		}
 		player.field = player.field
+		localStorage.setItem(player.id, JSON.stringify(player))
 	}
 }
 
