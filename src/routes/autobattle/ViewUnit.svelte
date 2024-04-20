@@ -3,7 +3,6 @@
     import ArmorIcon from "./ArmorIcon.svelte";
 
 	export let champ:Champ
-	console.log('xxx',champ)
 </script>
 
 <div class="row">
