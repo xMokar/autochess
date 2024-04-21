@@ -1,9 +1,9 @@
 <script lang="ts">
 import type { Champ } from "$lib/system";
-import ArmorIcon from "./ArmorIcon.svelte";
+import ElementIcon from "./ElementIcon.svelte";
 
 export let champ:Champ
 </script>
 
-<ArmorIcon armor={champ.element.id} />
+<ElementIcon armor={champ.element.id} />
 {champ.name}
