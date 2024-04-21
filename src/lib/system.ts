@@ -100,7 +100,7 @@ export let Champs:Champ[] = [
 		attack: 5,
 		attackModifier: 1,
 		defense:1,
-		movespeed: 7,
+		movespeed: 5,
 		element: ElementMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
@@ -172,7 +172,7 @@ export let Champs:Champ[] = [
 	{
 		id: 'goblin',
 		name: 'Goblin de Tierra',
-		movespeed: 6,
+		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
 		hp: 15,
