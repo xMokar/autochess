@@ -4,27 +4,36 @@
 
 	export let champ:Champ
 </script>
-
-<div class="row">
-	<div class="col-6">
-		<b>Fuerza:</b> {champ.attack}
-	</div>
-	<div class="col-6">
-		<b>Def:</b> {champ.defense}
-	</div>
-	<div class="col-6">
-		<b>Vel:</b> {champ.movespeed}
-	</div>
-	<div class="col-12">
-		<b>Elemento:</b> <ElementIcon armor={champ.element.id} /> 
-	</div>
-	<div class="col-12">
+<table class="table mb-0">
+	<tr>
+		<td>
+		<b>Fuerza:</b>
+		</td>
+		<td>
+			{champ.attack}
+		</td>
+		<td>
+		<b>Def:</b>
+		</td>
+		<td>{champ.defense} </td>
+	</tr>
+	<tr>
+		<td>
+		<b>Vel:</b> 
+		</td>
+		<td>{champ.movespeed} </td>
+		<td>
+		<b>Elemento:</b>
+		</td>
+		<td>
+			<ElementIcon armor={champ.element.id} /> 
+		</td>
+	</tr>
+</table>
 		<b>Objetivos:</b> <br>
 		&nbsp;{champ.targetting.name}<br>
 		<b>Dados de ataque:</b><br>
 		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
 				<ElementIcon {armor} />x{dice}&nbsp;
 		{/each}
-	</div>
-</div>
 
