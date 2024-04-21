@@ -1,4 +1,4 @@
-interface ArmorType {
+interface Element {
 	id: string;
 	name: string;
 }
@@ -42,14 +42,14 @@ export interface Champ {
 	attackModifier: number;
 	defense: number;
 	movespeed: number;
-	armorType: ArmorType;
+	element: Element;
 	targetting: Targetting;
 	cost: number;
 	armorpen: {[key:string]:number};
 }
 
 
-let ArmorTypes:ArmorType[] = [
+let Elements:Element[] = [
 	{
 		id: 'fire',
 		name: 'Fuego',
@@ -71,7 +71,7 @@ let ArmorTypes:ArmorType[] = [
 		name: 'Wood'
 	},
 ]
-let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
+let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
 
 export interface ChampInstance {
 	champ:Champ
@@ -101,7 +101,7 @@ export let Champs:Champ[] = [
 		attackModifier: 1,
 		defense:1,
 		movespeed: 7,
-		armorType: ArmorTypeMap.water,
+		element: ElementMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 		armorpen: {
@@ -120,7 +120,7 @@ export let Champs:Champ[] = [
 		attackModifier: 0,
 		defense:2,
 		movespeed: 5,
-		armorType: ArmorTypeMap.metal,
+		element: ElementMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
@@ -139,7 +139,7 @@ export let Champs:Champ[] = [
 		attackModifier: 1,
 		defense: 1,
 		movespeed: 5,
-		armorType: ArmorTypeMap.fire,
+		element: ElementMap.fire,
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
@@ -158,7 +158,7 @@ export let Champs:Champ[] = [
 		attackModifier: 0,
 		defense: 1,
 		movespeed: 6,
-		armorType: ArmorTypeMap.wood,
+		element: ElementMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		armorpen: {
@@ -173,7 +173,7 @@ export let Champs:Champ[] = [
 		id: 'goblin',
 		name: 'Goblin de Tierra',
 		movespeed: 6,
-		armorType: ArmorTypeMap.earth,
+		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
 		hp: 15,
 		attack: 5,
@@ -200,7 +200,7 @@ function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
 		return [0]
 	let roll = () => Math.max(Math.floor(Math.random()*sides)+1+attacker.attackModifier, 0)
 	return Object.entries(attacker.armorpen)
-		.filter(([target, _]) => defender.armorType.id == target)
+		.filter(([target, _]) => defender.element.id == target)
 		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
 }
 

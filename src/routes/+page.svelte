@@ -14,7 +14,7 @@
 		{#each Champs as source}
 		<div class="col-6 mb-2 g-1">
 			<div class="card">
-				<div class="card-header"><ArmorIcon armor={source.armorType.id} /> {source.name}</div>
+				<div class="card-header"><ArmorIcon armor={source.element.id} /> {source.name}</div>
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
@@ -32,7 +32,7 @@
 						{@const dice = damage.rolls.length }
 						<tr>
 							<td>{target.name} 
-<ArmorIcon armor={target.armorType.id} />x{dice}
+<ArmorIcon armor={target.element.id} />x{dice}
 							</td>
 							<td class="text-end text-nowrap">{damage.rolls.length}d{damage.sides}{#if source.attackModifier}+{source.attackModifier}{/if}</td>
 							<td class="text-end">{damage.min}-{damage.max}</td>

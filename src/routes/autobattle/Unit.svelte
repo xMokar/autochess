@@ -16,7 +16,7 @@
 		<b>Vel:</b> {champ.movespeed}
 	</div>
 	<div class="col-12">
-		<b>Elemento:</b> <ArmorIcon armor={champ.armorType.id} /> 
+		<b>Elemento:</b> <ArmorIcon armor={champ.element.id} /> 
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>
