@@ -4,7 +4,7 @@
 
 	export let champ:Champ
 </script>
-<table class="table mb-0">
+<table class="table table-sm mb-0">
 	<tr>
 		<td>
 		<b>Fuerza:</b>
