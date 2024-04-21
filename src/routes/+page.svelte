@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Champs, calculateDamage } from "$lib/system";
-    import ElementIcon from "./autobattle/ElementIcon.svelte";
-    import Unit from "./autobattle/Unit.svelte";
+    import ElementIcon from "$lib/ElementIcon.svelte";
+    import Unit from "$lib/Unit.svelte";
 	let faces = [1,2,3,4,5,6]
 	function table(face:number) {
 		return faces.map(x => Math.ceil(x/(6/face)))

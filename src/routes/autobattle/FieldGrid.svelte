@@ -1,6 +1,6 @@
 <script lang="ts">
 import { type Player, type Field, type ChampInstance, Champs, ChampMap } from '$lib/system'
-    import Unit from './Unit.svelte';
+    import Unit from '$lib/Unit.svelte';
 
 export let player:Player
 export let mirrored = false
