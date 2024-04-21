@@ -55,7 +55,7 @@
 
 	<div class="row">
 		{#each Champs as champ}
-			<div class="col-2 mb-2 g-1">
+			<div class="col-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">{champ.name}</div>
 					<div class="card-body">

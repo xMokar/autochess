@@ -32,7 +32,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		mirrored: true,
 		field: [
 			{
-				champ: ChampMap.fighter,
+				champ: ChampMap.goblin,
 				hp: 0,
 				setx: 0,
 				sety: 0,
@@ -41,7 +41,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 			},
 			{
 				hp: 0,
-				champ: ChampMap.mage,
+				champ: ChampMap.firemage,
 				setx: 0,
 				sety: 1,
 				x: 0,
@@ -52,11 +52,14 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 
 function updateStats(player:Player) {
 	for(let ci of player.field) {
+		if(!ci.champ)
+			return
 		ci.champ = ChampMap[ci.champ.id]
 	}
 }
 updateStats(player1)
 updateStats(player2)
+console.log('xxx', player1)
 
 </script>
 <div class="container mt-2">

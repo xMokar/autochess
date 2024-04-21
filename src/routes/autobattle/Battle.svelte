@@ -191,11 +191,11 @@ let log:string[] = []
 
 <div class="container mt-2">
 	<div class="row">
-		<div class="col-6">
+		<div class="col-8">
 			<FieldGrid player={visitor} mirrored={true} />
 			<FieldGrid player={home} />
 		</div>
-		<div class="col-6">
+		<div class="col-4">
 			<button on:click={run} class="btn btn-primary">Pelear</button>
 			<button on:click={resetAll} class="btn btn-secondary">Reiniciar</button>
 			<br>

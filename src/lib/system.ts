@@ -51,20 +51,24 @@ export interface Champ {
 
 let ArmorTypes:ArmorType[] = [
 	{
-		id: 'iron',
-		name: 'Iron',
+		id: 'fire',
+		name: 'Fuego',
 	},
 	{
-		id: 'leather',
-		name: 'Leather',
+		id: 'earth',
+		name: 'Tierra',
 	},
 	{
-		id: 'cloth',
-		name: 'cloth',
+		id: 'metal',
+		name: 'Metal',
 	},
 	{
-		id: 'greencloth',
-		name: 'Green cloth'
+		id: 'water',
+		name: 'Water'
+	},
+	{
+		id: 'wood',
+		name: 'Wood'
 	},
 ]
 let ArmorTypeMap = Object.fromEntries(ArmorTypes.map(c => [ c.id, c ]))
@@ -90,112 +94,86 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 export let Champs:Champ[] = [ 
 	{ 
-		id: 'assassin',
-		name: 'Asesino',
+		id: 'watermage',
+		name: 'Mago de Agua',
 		hp: 10,
-		attack: 6,
+		attack: 5,
 		attackModifier: 1,
 		defense:1,
 		movespeed: 7,
-		armorType: ArmorTypeMap.cloth,
+		armorType: ArmorTypeMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 		armorpen: {
-			iron: 1,
-			cloth: 2,
-			leather: 2,
+			fire: 2,
+			earth: 1,
+			metal: 1,
+			water: 1,
+			wood: 1,
 		}
 	},
 	{ 
 		id: 'tank',
-		name: 'Tanque',
+		name: 'Tanque de Metal',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
 		defense:2,
 		movespeed: 5,
-		armorType: ArmorTypeMap.iron,
+		armorType: ArmorTypeMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
-			iron: 2,
-			cloth: 2,
-			leather: 2,
+			fire: 1,
+			earth: 1,
+			metal: 1,
+			water: 1,
+			wood: 2,
 		}
 	},
 	{
-		id: 'mage',
-		name: 'Mago',
+		id: 'firemage',
+		name: 'Mago de Fuego',
 		hp: 10,
-		attack: 6,
+		attack: 5,
 		attackModifier: 1,
-		defense: 0,
+		defense: 1,
 		movespeed: 5,
-		armorType: ArmorTypeMap.cloth,
+		armorType: ArmorTypeMap.fire,
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		armorpen: {
-			cloth: 1,
-			leather: 2,
-			iron:4
+			fire: 1,
+			earth: 1,
+			metal: 2,
+			water: 1,
+			wood: 1,
 		}
 	},
 	{
 		id: 'archer',
-		name: 'Arquero',
+		name: 'Arquero de Madera',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
 		defense: 1,
 		movespeed: 6,
-		armorType: ArmorTypeMap.leather,
+		armorType: ArmorTypeMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		armorpen: {
-			cloth: 2,
-			leather: 1,
-			iron: 1,
+			fire: 1,
+			earth: 2,
+			metal: 1,
+			water: 1,
+			wood: 1,
 		}
 	},
 	{
-		id: 'troll',
-		name: 'Troll',
-		hp: 30,
-		attack: 4,
-		attackModifier: 2,
-		defense: 0,
+		id: 'goblin',
+		name: 'Goblin de Tierra',
 		movespeed: 6,
-		armorType: ArmorTypeMap.leather,
-		targetting: TargettingMap.closest1,
-		cost: 1,
-		armorpen: {
-			cloth: 3,
-			leather: 3,
-			iron: 3,
-		}
-	},
-	{
-		id: 'gunner',
-		name: 'Pistolero',
-		hp: 10,
-		attack: 5,
-		attackModifier: 1,
-		defense: 1,
-		movespeed: 6,
-		armorType: ArmorTypeMap.cloth,
-		targetting: TargettingMap.farthest1_direct,
-		cost: 1,
-		armorpen: {
-			cloth: 2,
-			leather: 3,
-			iron: 3,
-		}
-	},
-	{
-		id: 'fighter',
-		name: 'Peleador',
-		movespeed: 6,
-		armorType: ArmorTypeMap.leather,
+		armorType: ArmorTypeMap.earth,
 		targetting: TargettingMap.closest1,
 		hp: 15,
 		attack: 5,
@@ -203,9 +181,11 @@ export let Champs:Champ[] = [
 		defense:1,
 		cost: 1,
 		armorpen: {
-			cloth: 3,
-			leather: 2,
-			iron: 2,
+			fire: 1,
+			earth: 1,
+			metal: 1,
+			water: 2,
+			wood: 1,
 		}
 	},
 		

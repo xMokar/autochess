@@ -7,16 +7,16 @@
 
 <div class="row">
 	<div class="col-6">
-		<b>ATK:</b> {champ.attack}
+		<b>Fuerza:</b> {champ.attack}
 	</div>
 	<div class="col-6">
-		<b>DEF:</b> {champ.defense}
+		<b>Def:</b> {champ.defense}
 	</div>
 	<div class="col-6">
-		<b>SPD:</b> {champ.movespeed}
+		<b>Vel:</b> {champ.movespeed}
 	</div>
 	<div class="col-12">
-		<b>ARMOR:</b> <ArmorIcon armor={champ.armorType.id} /> 
+		<b>Elemento:</b> <ArmorIcon armor={champ.armorType.id} /> 
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>

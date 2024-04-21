@@ -7,23 +7,27 @@
   background:url(/armor.jpg) no-repeat!important;
 }
 
+.water {
+  background-position:-300px -80px!important;
+}
+
 /* x: 4, x:y 27px */
-.iron {
-  background-position:-110px -2px!important;
+.metal {
+  background-position:-87px -2px!important;
 }
 
 /* x: 13(26.7), x: 3(26) */
-.leather {
-  background-position: -350px -79px!important;
+.wood {
+  background-position: -3px -163px!important;
 }
 
 
 /* x: 2(), y:5() */ 
-.cloth {
-	background-position: -56px -134px !important;
+.fire {
+	background-position: -7px -84px !important;
 }
 
-.greencloth {
-	background-position: -297px -134px !important;
+.earth {
+	background-position: -30px -190px !important;
 }
 
