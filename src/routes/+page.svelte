@@ -14,7 +14,7 @@
 		{#each Champs as source}
 		<div class="col-6 mb-2 g-1">
 			<div class="card">
-				<div class="card-header"><ElementIcon armor={source.element.id} /> {source.name}</div>
+				<div class="card-header"><ElementIcon element={source.element} /> {source.name}</div>
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
@@ -32,7 +32,7 @@
 						{@const dice = damage.rolls.length }
 						<tr>
 							<td>{target.name} 
-<ElementIcon armor={target.element.id} />x{dice}
+<ElementIcon element={target.element} />x{dice}
 							</td>
 							<td class="text-end text-nowrap">{damage.rolls.length}d{damage.sides}{#if source.attackModifier}+{source.attackModifier}{/if}</td>
 							<td class="text-end">{damage.min}-{damage.max}</td>
@@ -136,7 +136,7 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<p>La unidad mas rapida atacara contra los objetivos apropiados segun lo que dice la unidad en "Objetivos", se tira la cantidad de dados apropiados segun la tabla de unidades.</p>
 
 			<p>En una hoja de papel, cada persona tendra por escrito el nombre de sus unidades con su vida (HP), aqui le haran reduciendo el numero segun los dados que vayan cayendo.</p>
-
+			
 			<p>Se continua el proceso con las siguientes unidades, empezando por las unidades mas rapidas y terminando con las mas lentas.</p>
 
 			<p>Una vez que todos hayan atacado, termina la ronda, el jugador con mayor HP gana!</p>

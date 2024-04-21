@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Champ } from "$lib/system";
+    import { ElementMap, type Champ } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
 
 	export let champ:Champ
@@ -26,14 +26,14 @@
 		<b>Elemento:</b>
 		</td>
 		<td>
-			<ElementIcon armor={champ.element.id} /> 
+			<ElementIcon element={champ.element} /> 
 		</td>
 	</tr>
 </table>
 		<b>Objetivos:</b> <br>
 		&nbsp;{champ.targetting.name}<br>
 		<b>Dados de ataque:</b><br>
-		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [armor, dice]}
-				<ElementIcon {armor} />x{dice}&nbsp;
+		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [e, dice]}
+				<ElementIcon element={ElementMap[e]} />x{dice}&nbsp;
 		{/each}
 

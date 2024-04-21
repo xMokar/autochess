@@ -1,4 +1,4 @@
-interface Element {
+export interface Element {
 	id: string;
 	name: string;
 }
@@ -64,14 +64,14 @@ let Elements:Element[] = [
 	},
 	{
 		id: 'water',
-		name: 'Water'
+		name: 'Agua'
 	},
 	{
 		id: 'wood',
-		name: 'Wood'
+		name: 'Madera'
 	},
 ]
-let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
+export let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
 
 export interface ChampInstance {
 	champ:Champ

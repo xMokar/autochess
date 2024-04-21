@@ -5,5 +5,5 @@ import ElementIcon from "$lib/ElementIcon.svelte";
 export let champ:Champ
 </script>
 
-<ElementIcon armor={champ.element.id} />
+<ElementIcon element={champ.element} />
 {champ.name}

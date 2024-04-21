@@ -1,4 +1,5 @@
 <script lang="ts">
-export let armor:string
+import { type Element } from '$lib/system'
+export let element:Element
 </script>
-<span class="armor {armor}"></span>
+<span class="armor {element.id}" title="{element.name}"></span>
