@@ -100,7 +100,7 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 export let Champs:Champ[] = [ 
 	{ 
 		id: 'watermage',
-		name: 'Hidromancer',
+		name: 'Ninja de agua',
 		hp: 10,
 		defense:0,
 		movespeed: 5,
@@ -108,11 +108,11 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 		elementStrength: [
-			{ element: ElementMap.fire, dice: 2, sides: 6, modifier: 1 },
-			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
+			{ element: ElementMap.fire, dice: 3, sides: 4, modifier: 1 },
+			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 0 },
+			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 0 },
+			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
+			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 0 },
 		]
 	},
 	{ 
