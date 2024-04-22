@@ -101,7 +101,7 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 export let Champs:Champ[] = [ 
 	{ 
 		id: 'watermage',
-		name: 'Mago de Agua',
+		name: 'Hidromancer',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
@@ -120,7 +120,7 @@ export let Champs:Champ[] = [
 	},
 	{ 
 		id: 'tank',
-		name: 'Tanque de Metal',
+		name: 'Tanque',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
@@ -139,7 +139,7 @@ export let Champs:Champ[] = [
 	},
 	{
 		id: 'firemage',
-		name: 'Mago de Fuego',
+		name: 'Mago',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
@@ -158,7 +158,7 @@ export let Champs:Champ[] = [
 	},
 	{
 		id: 'archer',
-		name: 'Arquero de Madera',
+		name: 'Arquero',
 		hp: 10,
 		attack: 5,
 		attackModifier: 0,
@@ -177,7 +177,7 @@ export let Champs:Champ[] = [
 	},
 	{
 		id: 'dryad',
-		name: 'Driada de Tierra',
+		name: 'Driada',
 		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
