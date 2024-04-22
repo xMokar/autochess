@@ -4,7 +4,12 @@
     import Unit from "$lib/Unit.svelte";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
-		return sides.map(x => Math.ceil(x/(6/face)))
+		// No me gusta la distribución matematica del cuatro
+		// esta distribuida parejo, prefiero que este distribuida
+		// prefiriendo numeros altos
+		if (face==4) 
+			return [1,2,3,3,4,4]
+		return sides.map(x => Math.ceil(x/(6/(face))))
 	}
 </script>
 <div class="container mt-2">
