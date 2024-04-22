@@ -8,17 +8,15 @@
 
 	<div class="col-12 position-relative">
 		<b>Elemento:</b> 
-		<span class="position-absolute end-0 me-4">
 			<ElementIcon element={champ.element} /> 
-		</span>
 	</div>
 	<div class="col-12 col-md-6 position-relative">
 		<b>Def:</b> 
-		<span class="position-absolute end-0 me-4">{champ.defense}</span>
+		<span>{champ.defense}</span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Vel:</b>
-		<span class="position-absolute end-0 me-4">{champ.movespeed}</span>
+		<span>{champ.movespeed}</span>
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>
