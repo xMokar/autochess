@@ -86,7 +86,7 @@ let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 
 function run() {
 	log = []
-	resetAll()
+	resetCombat()
 	for(let i=0; i<5; i++) {
 		let homeFirst = Math.random()*100>50
 		if (homeFirst)
@@ -96,12 +96,16 @@ function run() {
 	}
 	let homeAlive = home.field.filter(champinstance => champinstance.hp>0).length>0
 	let visitorAlive = visitor.field.filter(champinstance => champinstance.hp>0).length>0
+	stats.combats++
 	if (homeAlive && visitorAlive)
 		log.push("Empate!")
-	else if (homeAlive) 
+	else if (homeAlive) {
+		stats.victories.home++
 		log.push(`${home.name} es el ganador`)
-	else if (visitorAlive)
+	} else if (visitorAlive) {
+		stats.victories.visitor++
 		log.push(`${visitor.name} es el ganador`)
+	}
 	log = log
 	home = home
 	visitor = visitor
@@ -111,12 +115,22 @@ function reset(field:Field) {
 		champinstance.hp = champinstance.champ.hp
 	}
 }
-function resetAll() {
+function resetCombat() {
 	reset(home.field)
 	reset(visitor.field)
 	home = home
 	visitor = visitor
 	log = []
+}
+
+function resetAll() {
+	resetCombat()
+	resetStats()
+}
+function resetStats() {
+	stats.combats = 0 
+	stats.victories.home = 0 
+	stats.victories.visitor = 0 
 }
 
 
@@ -184,6 +198,13 @@ function combatRound(source:Player, target:Player)  {
 	log.push('')
 }
 let log:string[] = []
+let stats = {
+	combats: 0,
+	victories: {
+		home: 0,
+		visitor: 0,
+	}
+}
 
 </script>
 
@@ -195,6 +216,12 @@ let log:string[] = []
 	</div>
 
 	<div>
+		<b>Estadisticas: </b>
+		Combates: {stats.combats} 
+		Victorias de <span class="text-{home.color}">{home.name}</span>:{stats.victories.home} 
+			({Math.round(stats.victories.home/stats.combats*100)}%)
+		Victorias de <span class="text-{visitor.color}">{visitor.name}</span>:{stats.victories.visitor} 
+			({Math.round(stats.victories.visitor/stats.combats*100)}%)<br>
 		{#each log as msg}
 			{@html msg}<br>
 		{/each}
