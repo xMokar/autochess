@@ -9,7 +9,7 @@
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
-	<h4>Lista de unidades</h4>
+	<h4>Tablas de balance</h4>
 	<div class="row">
 		{#each Champs as source}
 		<div class="col-6 mb-2 g-1">
@@ -48,7 +48,7 @@
 	</div><!--row-->
 
 		<div class="col-12">
-		<h4>Unidades disponibles</h4>
+		<h4>Lista de Unidades</h4>
 		</div>
 
 	<div class="row">
