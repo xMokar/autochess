@@ -71,7 +71,7 @@ $: status = isAlive? "bg-success": "bg-secondary"
 				<div class="col-4 mb-1" style="min-height: 175px">
 					<div class="card h-100">
 						<div class="card-header">
-							<select on:change={add(index)} value={slot?slot.champ.id:""}>
+							<select on:change={add(index)} value={slot?slot.champ.id:""} class="mw-100">
 								<option value="">-</option>
 								{#each Champs as champ}
 									<option value="{champ.id}">{champ.name}</option>

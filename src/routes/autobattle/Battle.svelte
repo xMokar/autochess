@@ -196,10 +196,6 @@ let log:string[] = []
 			{@html msg}<br>
 		{/each}
 	</div>
-	<div class="row">
-		<div class="col-8">
 			<FieldGrid player={visitor} mirrored={true} />
 			<FieldGrid player={home} />
-		</div>
-	</div>
 </div>
