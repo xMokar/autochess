@@ -12,7 +12,7 @@
 	<h4>Tablas de balance</h4>
 	<div class="row">
 		{#each Champs as source}
-		<div class="col-6 mb-2 g-1">
+		<div class="col-12 col-lg-6 mb-2 g-1">
 			<div class="card">
 				<div class="card-header"><ElementIcon element={source.element} /> {source.name}</div>
 				<div class="card-body p-0" >
@@ -53,7 +53,7 @@
 
 	<div class="row">
 		{#each Champs as champ}
-			<div class="col-3 mb-2 g-1">
+			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">{champ.name}</div>
 					<div class="card-body">
