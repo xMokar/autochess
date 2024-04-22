@@ -32,7 +32,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		mirrored: true,
 		field: [
 			{
-				champ: ChampMap.goblin,
+				champ: ChampMap.dryad,
 				hp: 0,
 				setx: 0,
 				sety: 0,
@@ -59,7 +59,6 @@ function updateStats(player:Player) {
 }
 updateStats(player1)
 updateStats(player2)
-console.log('xxx', player1)
 
 </script>
 <div class="container mt-2">
