@@ -4,30 +4,30 @@
   width:20px!important;
   vertical-align:text-top!important;
   line-height:24px!important;
-  background:url(/armor.jpg) no-repeat!important;
+  background:url(/elements.png) no-repeat!important;
 }
 
 .water {
-  background-position:-300px -80px!important;
+  background-position:-0px -22px!important;
 }
 
 /* x: 4, x:y 27px */
 .metal {
-  background-position:-87px -2px!important;
+  background-position:-43px -22px!important;
 }
 
 /* x: 13(26.7), x: 3(26) */
 .wood {
-  background-position: -3px -163px!important;
+  background-position: -43px -0px!important;
 }
 
 
 /* x: 2(), y:5() */ 
 .fire {
-	background-position: -7px -84px !important;
+	background-position: -0px -0px !important;
 }
 
 .earth {
-	background-position: -30px -190px !important;
+	background-position: -22px -0px !important;
 }
 
