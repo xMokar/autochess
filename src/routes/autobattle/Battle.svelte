@@ -66,7 +66,7 @@ let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
-				.slice(0,3)
+				.slice(0,2)
 		}, 
 		farthest1_direct: (attacker:ChampInstance, target:Field) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
