@@ -55,7 +55,10 @@
 		{#each Champs as champ}
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
-					<div class="card-header">{champ.name}</div>
+					<div class="card-header">
+						<ElementIcon element={champ.element} />
+						{champ.name}
+					</div>
 					<div class="card-body">
 						<Unit {champ} />
 					</div>
