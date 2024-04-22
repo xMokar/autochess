@@ -108,7 +108,7 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 		elementStrength: [
-			{ element: ElementMap.fire, dice: 2, sides: 6, modifier: 0 },
+			{ element: ElementMap.fire, dice: 2, sides: 6, modifier: 1 },
 			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
@@ -129,7 +129,7 @@ export let Champs:Champ[] = [
 			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.wood, dice: 2, sides: 6, modifier: 0 },
+			{ element: ElementMap.wood, dice: 2, sides: 6, modifier: 2 },
 		]
 	},
 	{
@@ -144,7 +144,7 @@ export let Champs:Champ[] = [
 		elementStrength: [
 			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.metal, dice: 2, sides: 6, modifier: 1 },
+			{ element: ElementMap.metal, dice: 2, sides: 6, modifier: 2 },
 			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
 		]
@@ -159,11 +159,11 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 2, modifier: 1 },
-			{ element: ElementMap.earth, dice: 2, sides: 2, modifier: 1 },
-			{ element: ElementMap.metal, dice: 1, sides: 2, modifier: 1 },
-			{ element: ElementMap.water, dice: 1, sides: 2, modifier: 1 },
-			{ element: ElementMap.wood, dice: 1, sides: 2, modifier: 1 },
+			{ element: ElementMap.fire, dice: 1, sides: 2, modifier: 0 },
+			{ element: ElementMap.earth, dice: 2, sides: 2, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 2, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 2, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides: 2, modifier: 0 },
 		]
 	},
 	{
@@ -179,7 +179,7 @@ export let Champs:Champ[] = [
 			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.water, dice: 2, sides: 6, modifier: 0 },
+			{ element: ElementMap.water, dice: 2, sides: 6, modifier: 1 },
 			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
 		]
 	},
