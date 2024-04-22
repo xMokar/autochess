@@ -188,8 +188,11 @@ let log:string[] = []
 </script>
 
 <div class="container mt-2">
-	<button on:click={run} class="btn btn-success">Pelear</button>
-	<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
+	<div class="mb-2">
+		<a class="btn btn-primary" href="/">Guía del juego</a>
+		<button on:click={run} class="btn btn-success">Pelear</button>
+		<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
+	</div>
 
 	<div>
 		{#each log as msg}

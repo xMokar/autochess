@@ -63,7 +63,4 @@ updateStats(player1)
 updateStats(player2)
 
 </script>
-<div class="container mt-2">
-	<a class="btn btn-primary" href="/">Guía del juego</a>
-</div>
 <Battle home={player1} visitor={player2} />
