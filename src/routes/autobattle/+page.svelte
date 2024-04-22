@@ -34,7 +34,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		color: 'danger',
 		field: [
 			{
-				champ: ChampMap.dryad,
+				champ: ChampMap.druid,
 				hp: 0,
 				setx: 0,
 				sety: 0,

@@ -167,8 +167,8 @@ export let Champs:Champ[] = [
 		]
 	},
 	{
-		id: 'dryad',
-		name: 'Driada',
+		id: 'druid',
+		name: 'Druida',
 		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
