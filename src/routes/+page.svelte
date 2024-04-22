@@ -105,6 +105,12 @@
 				</tbody>
 				</table>
 
+			<p>
+				Alternativamente puedes crear una baraja con cartas de numeros del 1
+				al numero máximo que sea alcanzable por las unidades que estas usando.
+				Cuando necesites un numero, dejas solo las cartas con los números 
+				validos, las revuelves y agarras una.
+			</p>
 			<h5>¿Comó puedo armar una partida?</h5>
 			<p>
 				Para armar un partida, necesitas un deck de cartas de unidades,
