@@ -133,17 +133,17 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 			<p>Una vez que esten listos, pueden voltear sus cartas.</p>
 
-			<p>Se tira una moneda para decidir quien tiene preferenica.</p>
+			<p>Se tira una moneda para decidir quien tiene preferencia.</p>
 
 			<p>Se determina el orden de ataque, las cartas que tengan mas velocidad (SPD) atacan primero, en caso de empate el que tenga preferencia ataca primero.</p>
 
-			<p>La unidad mas rapida atacara contra los objetivos apropiados segun lo que dice la unidad en "Objetivos", se tira la cantidad de dados apropiados segun la tabla de unidades.</p>
+			<p>La unidad mas rapida atacara contra los objetivos apropiados segun lo que dice la unidad en "Objetivos", se tira la cantidad de dados apropiados segun se indique</p>
 
-			<p>En una hoja de papel, cada persona tendra por escrito el nombre de sus unidades con su vida (HP), aqui le haran reduciendo el numero segun los dados que vayan cayendo.</p>
+			<p>En una hoja de papel, cada persona tendra por escrito el nombre de sus unidades con su vida (HP), aqui le irán reduciendo el numero segun los dados que vayan tirando.</p>
 			
 			<p>Se continua el proceso con las siguientes unidades, empezando por las unidades mas rapidas y terminando con las mas lentas.</p>
 
-			<p>Una vez que todos hayan atacado, termina la ronda, el jugador con mayor HP gana!</p>
+			<p>Una vez que todos hayan atacado, termina la ronda, el jugador con mayor HP gana! Pueden jugar varias rondas hasta que algún jugador se quede sin unidades.</p>
 
 
 		</div>
