@@ -7,21 +7,15 @@
 <table class="table table-sm mb-0">
 	<tr>
 		<td>
-		<b>Fuerza:</b>
-		</td>
-		<td>
-			{champ.attack}
-		</td>
-		<td>
 		<b>Def:</b>
 		</td>
 		<td>{champ.defense} </td>
-	</tr>
-	<tr>
 		<td>
 		<b>Vel:</b> 
 		</td>
 		<td>{champ.movespeed} </td>
+	</tr>
+	<tr>
 		<td>
 		<b>Elemento:</b>
 		</td>
@@ -33,7 +27,11 @@
 		<b>Objetivos:</b> <br>
 		&nbsp;{champ.targetting.name}<br>
 		<b>Dados de ataque:</b><br>
-		{#each Object.entries(champ.armorpen).sort(([_a,a],[_b,b]) => b-a) as [e, dice]}
-				<ElementIcon element={ElementMap[e]} />x{dice}&nbsp;
-		{/each}
+<div class="row">
+	{#each champ.elementStrength.sort((a,b) => b.dice-a.dice) as es}
+	<div class="col-6">
+		<ElementIcon element={es.element} /> {es.dice}d{es.sides}+{es.modifier}<br>
+	</div>
+	{/each}
+</div>
 

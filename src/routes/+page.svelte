@@ -2,9 +2,9 @@
     import { Champs, calculateDamage } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import Unit from "$lib/Unit.svelte";
-	let faces = [1,2,3,4,5,6]
+	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
-		return faces.map(x => Math.ceil(x/(6/face)))
+		return sides.map(x => Math.ceil(x/(6/face)))
 	}
 </script>
 <div class="container mt-2">
@@ -19,7 +19,6 @@
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
 						<th class="w-100">Contra</th>
-						<th title="Dados">Dados</th>
 						<th title="Rango de daño">Rango</th>
 						<th title="Promedio de daño">Prm</th>
 						<th title="HP de esta unidad">HP</th>
@@ -29,12 +28,10 @@
 					<tbody>
 					{#each Champs as target}
 						{@const damage = calculateDamage(source, target)}
-						{@const dice = damage.rolls.length }
 						<tr>
 							<td>{target.name} 
-<ElementIcon element={target.element} />x{dice}
+<ElementIcon element={target.element} />
 							</td>
-							<td class="text-end text-nowrap">{damage.rolls.length}d{damage.sides}{#if source.attackModifier}+{source.attackModifier}{/if}</td>
 							<td class="text-end">{damage.min}-{damage.max}</td>
 							<td class="text-end">{(damage.min+damage.max)/2}</td>
 							<td class="text-end">{target.hp}</td>
@@ -95,12 +92,12 @@
 				</tr>
 				</thead>
 				<tbody>
-				{#each faces.slice(1, faces.length-1) as face}
+				{#each sides.slice(1, sides.length-1) as n1}
 					<tr>
-						<td>{face}</td>
-					{#each table(face) as num}
-						<td>{num}</td>
-					{/each}
+						<td>{n1}</td>
+						{#each table(n1) as n2}
+							<td>{n2}</td>
+						{/each}
 					</tr>
 				{/each}
 						

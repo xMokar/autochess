@@ -128,20 +128,18 @@ function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 	let targets = targetting[champinstance.champ.targetting.id](champinstance, target.field)
 	let total_damage:DamageRoll = {
 			sides:0,
-			rolls:[],
-			total:0,
+			damage:0,
 			max:0,
 			min:0,
 	}
 	for(let targetChampInstance of targets) {
 		let damage = calculateDamage(champinstance.champ, targetChampInstance.champ)
-		total_damage.rolls.push(...damage.rolls)
-		total_damage.total += damage.total
+		total_damage.damage += damage.damage
 		total_damage.max += damage.max
 		total_damage.min += damage.min
 		
-		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): (${damage.rolls.length}d${damage.sides}) ${damage.rolls.join('+')}=<b>${damage.total}</b>`)
-		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.total, 0)
+		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): <b>${damage.damage}</b>`)
+		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.damage, 0)
 		if (targetChampInstance.hp==0) {
 			log.push(`* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido`)
 		}
@@ -181,7 +179,7 @@ function combatRound(source:Player, target:Player)  {
 		if (!damage)
 			continue
 		total[turn.source.name].dmgmax += damage.max
-		total[turn.source.name].dmg += damage.total
+		total[turn.source.name].dmg += damage.damage
 	}
 	log.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 }

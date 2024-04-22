@@ -34,6 +34,12 @@ let targetting:Targetting[] = [
 ]
 
 let TargettingMap = Object.fromEntries(targetting.map(t => [ t.id, t ]))
+interface ElementStrength {
+	element: Element,
+	dice: number,
+	sides: number,
+	modifier: number,
+}
 export interface Champ {
 	id: string;
 	name: string;
@@ -45,7 +51,7 @@ export interface Champ {
 	element: Element;
 	targetting: Targetting;
 	cost: number;
-	armorpen: {[key:string]:number};
+	elementStrength: ElementStrength[];
 }
 
 
@@ -104,13 +110,13 @@ export let Champs:Champ[] = [
 		element: ElementMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
-		armorpen: {
-			fire: 2,
-			earth: 1,
-			metal: 1,
-			water: 1,
-			wood: 1,
-		}
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 2, sides: 5, modifier: 0 },
+			{ element: ElementMap.earth, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides: 5, modifier: 0 },
+		]
 	},
 	{ 
 		id: 'tank',
@@ -123,13 +129,13 @@ export let Champs:Champ[] = [
 		element: ElementMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
-		armorpen: {
-			fire: 1,
-			earth: 1,
-			metal: 1,
-			water: 1,
-			wood: 2,
-		}
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.earth, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.wood, dice: 2, sides: 5, modifier: 0 },
+		]
 	},
 	{
 		id: 'firemage',
@@ -142,13 +148,13 @@ export let Champs:Champ[] = [
 		element: ElementMap.fire,
 		targetting: TargettingMap.closest1,
 		cost: 1,
-		armorpen: {
-			fire: 1,
-			earth: 1,
-			metal: 2,
-			water: 1,
-			wood: 1,
-		}
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.earth, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.metal, dice: 2, sides: 5, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides: 5, modifier: 0 },
+		]
 	},
 	{
 		id: 'archer',
@@ -161,17 +167,17 @@ export let Champs:Champ[] = [
 		element: ElementMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
-		armorpen: {
-			fire: 1,
-			earth: 2,
-			metal: 1,
-			water: 1,
-			wood: 1,
-		}
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.earth, dice: 2, sides: 5, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 5, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides: 5, modifier: 0 },
+		]
 	},
 	{
-		id: 'goblin',
-		name: 'Goblin de Tierra',
+		id: 'dryad',
+		name: 'Driada de Tierra',
 		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
@@ -180,13 +186,13 @@ export let Champs:Champ[] = [
 		attackModifier: 0,
 		defense:1,
 		cost: 1,
-		armorpen: {
-			fire: 1,
-			earth: 1,
-			metal: 1,
-			water: 2,
-			wood: 1,
-		}
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides:5, modifier: 0 },
+			{ element: ElementMap.earth, dice: 1, sides:5, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides:5, modifier: 0 },
+			{ element: ElementMap.water, dice: 2, sides:5, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides:5, modifier: 0 },
+		]
 	},
 		
 ]
@@ -195,35 +201,32 @@ export let ChampMap = Object.fromEntries(Champs.map(card => [ card.id, card ]))
 
 export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))
 
-function AttackRolls(attacker:Champ, defender:Champ, sides:number) {
-	if(!sides)
-		return [0]
-	let roll = () => Math.max(Math.floor(Math.random()*sides)+1+attacker.attackModifier, 0)
-	return Object.entries(attacker.armorpen)
-		.filter(([target, _]) => defender.element.id == target)
-		.flatMap(([_, dice]) => Array(dice).fill(0).map(roll))
+export function calculateDamage(attacker:Champ, defender:Champ) {
+	let roll = (es:ElementStrength) => ({
+			damage: Math.max(Math.floor(Math.random()*es.sides)+1+es.modifier-defender.defense, 0),
+			sides: es.sides,
+			max: Math.max((es.dice*es.sides)+es.modifier-defender.defense, 0),
+			min: Math.max(es.dice+es.modifier-defender.defense, 0),
+		} as DamageRoll)
+	return attacker.elementStrength
+		.filter((es) => defender.element.id == es.element.id)
+		.map(roll)
+		.reduce((total, d) => ({
+			damage: total.damage+d.damage,
+			sides: total.sides+d.sides,
+			max: total.max+d.max,
+			min: total.min+d.min
+		}), {
+			damage: 0,
+			sides: 0,
+			max: 0,
+			min: 0,
+		})
 }
 
 export interface DamageRoll {
-	rolls:number[],
-	total:number,
+	damage:number,
 	sides:number,
 	max:number,
 	min:number
-}
-export function calculateDamage(source:Champ, target:Champ) {
-	let sides = Math.max(source.attack-target.defense,0)
-	let rolls = AttackRolls(source, target, sides)
-	let total = rolls.reduce((total, v) => total+v)
-	let num_dice = rolls.length
-	let min = num_dice+source.attackModifier
-	let max = num_dice*sides+num_dice*source.attackModifier
-
-	return {
-		rolls,
-		total,
-		sides,
-		min,
-		max
-	} as DamageRoll
 }
