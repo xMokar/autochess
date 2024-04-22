@@ -44,8 +44,6 @@ export interface Champ {
 	id: string;
 	name: string;
 	hp: number,
-	attack: number;
-	attackModifier: number;
 	defense: number;
 	movespeed: number;
 	element: Element;
@@ -103,8 +101,6 @@ export let Champs:Champ[] = [
 		id: 'watermage',
 		name: 'Hidromancer',
 		hp: 10,
-		attack: 5,
-		attackModifier: 0,
 		defense:1,
 		movespeed: 5,
 		element: ElementMap.water,
@@ -122,8 +118,6 @@ export let Champs:Champ[] = [
 		id: 'tank',
 		name: 'Tanque',
 		hp: 10,
-		attack: 5,
-		attackModifier: 0,
 		defense:2,
 		movespeed: 5,
 		element: ElementMap.metal,
@@ -141,8 +135,6 @@ export let Champs:Champ[] = [
 		id: 'firemage',
 		name: 'Mago',
 		hp: 10,
-		attack: 5,
-		attackModifier: 0,
 		defense: 1,
 		movespeed: 5,
 		element: ElementMap.fire,
@@ -160,8 +152,6 @@ export let Champs:Champ[] = [
 		id: 'archer',
 		name: 'Arquero',
 		hp: 10,
-		attack: 5,
-		attackModifier: 0,
 		defense: 1,
 		movespeed: 6,
 		element: ElementMap.wood,
@@ -182,8 +172,6 @@ export let Champs:Champ[] = [
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
 		hp: 15,
-		attack: 5,
-		attackModifier: 0,
 		defense:1,
 		cost: 1,
 		elementStrength: [
