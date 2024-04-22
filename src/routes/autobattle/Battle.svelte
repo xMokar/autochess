@@ -141,7 +141,7 @@ function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): <b>${damage.damage}</b>`)
 		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.damage, 0)
 		if (targetChampInstance.hp==0) {
-			log.push(`* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido`)
+			log.push(`<span class="text-danger">* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido</span>`)
 		}
 	}
 	return total_damage
@@ -154,8 +154,7 @@ interface Turn {
 }
 
 function combatRound(source:Player, target:Player)  {
-	log.push('')
-	log.push(`Ronda de combate,  se tiró un moneda... <b>${source.name}</b> empieza.`)
+	log.push(`<b>${source.name}</b> empieza.`)
 	let turns:Turn[] = [...source.field.map(champinstance => ({
 		champinstance, source, target
 	})), ...target.field.map(champinstance => ({
@@ -182,24 +181,25 @@ function combatRound(source:Player, target:Player)  {
 		total[turn.source.name].dmg += damage.damage
 	}
 	log.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
+	log.push('')
 }
 let log:string[] = []
 
 </script>
 
 <div class="container mt-2">
+	<button on:click={run} class="btn btn-success">Pelear</button>
+	<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
+
+	<div>
+		{#each log as msg}
+			{@html msg}<br>
+		{/each}
+	</div>
 	<div class="row">
 		<div class="col-8">
 			<FieldGrid player={visitor} mirrored={true} />
 			<FieldGrid player={home} />
-		</div>
-		<div class="col-4">
-			<button on:click={run} class="btn btn-primary">Pelear</button>
-			<button on:click={resetAll} class="btn btn-secondary">Reiniciar</button>
-			<br>
-			{#each log as msg}
-				{@html msg}<br>
-			{/each}
 		</div>
 	</div>
 </div>
