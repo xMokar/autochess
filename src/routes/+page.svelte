@@ -29,8 +29,9 @@
 					{#each Champs as target}
 						{@const damage = calculateDamage(source, target)}
 						<tr>
-							<td>{target.name} 
-<ElementIcon element={target.element} />
+							<td>
+								<ElementIcon element={target.element} />
+								{target.name} 
 							</td>
 							<td class="text-end">{damage.min}-{damage.max}</td>
 							<td class="text-end">{(damage.min+damage.max)/2}</td>
