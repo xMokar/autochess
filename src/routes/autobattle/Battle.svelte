@@ -138,10 +138,10 @@ function Attack(source:Player, champinstance:ChampInstance, target:Player) {
 		total_damage.max += damage.max
 		total_damage.min += damage.min
 		
-		log.push(`<b>${source.name}</b>: ${champinstance.champ.name} ataca a ${targetChampInstance.champ.name}(HP: ${targetChampInstance.hp}): <b>${damage.damage}</b>`)
+		log.push(`<span class="text-${source.color}">${champinstance.champ.name}</span> ataca a <span class="text-${target.color}">${targetChampInstance.champ.name}</span>(HP: ${targetChampInstance.hp}): <b>${damage.damage}</b>`)
 		targetChampInstance.hp = Math.max(targetChampInstance.hp-damage.damage, 0)
 		if (targetChampInstance.hp==0) {
-			log.push(`<span class="text-danger">* ${targetChampInstance.champ.name} de <b>${target.name}</b> ha caido</span>`)
+			log.push(`* <span class="text-${target.color}">${targetChampInstance.champ.name}</b></span> <span class="text-warning">ha caido</span>`)
 		}
 	}
 	return total_damage
@@ -154,7 +154,7 @@ interface Turn {
 }
 
 function combatRound(source:Player, target:Player)  {
-	log.push(`<b>${source.name}</b> empieza.`)
+	log.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
 	let turns:Turn[] = [...source.field.map(champinstance => ({
 		champinstance, source, target
 	})), ...target.field.map(champinstance => ({

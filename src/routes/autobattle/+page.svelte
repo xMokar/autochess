@@ -4,8 +4,9 @@ import Battle from './Battle.svelte';
 
 let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 
 		id: 'player1',
-		name: 'Argentina',
+		name: 'Azul',
 		mirrored: false,
+		color: 'primary',
 		field: [
 			{
 				champ: ChampMap.tank,
@@ -24,12 +25,13 @@ let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{
 				y: 0,
 			}
 		],
-	}
+	} as Player
 
 let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		id: 'player2',
-		name: 'Mexico',
+		name: 'Rojo',
 		mirrored: true,
+		color: 'danger',
 		field: [
 			{
 				champ: ChampMap.dryad,
@@ -48,7 +50,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 				y: 0,
 			}
 		]
-	}
+	} as Player
 
 function updateStats(player:Player) {
 	for(let ci of player.field) {

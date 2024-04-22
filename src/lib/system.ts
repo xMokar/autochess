@@ -92,6 +92,7 @@ export interface Player {
 	name: string,
 	field: Field,
 	mirrored: boolean,
+	color: string,
 }
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
