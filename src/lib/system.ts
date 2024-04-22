@@ -171,7 +171,7 @@ export let Champs:Champ[] = [
 		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.closest1,
-		hp: 15,
+		hp: 10,
 		defense:1,
 		cost: 1,
 		elementStrength: [
