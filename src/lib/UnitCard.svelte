@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ElementMap, type Unit } from "$lib/system";
+    import { type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
 
 	export let unit:Unit
@@ -9,9 +9,13 @@
 	<div class="col-12 position-relative">
 		<div style="font-size: 70%; height: 3rem;" class="fw-light">{unit.info}</div>
 	</div>
-	<div class="col-12 position-relative">
+	<div class="col-12 col-md-6">
 		<b>Elemento:</b> 
 			<ElementIcon element={unit.element} /> 
+	</div>
+	<div class="col-12 col-md-6">
+		<b>HP:</b> 
+		{unit.hp}
 	</div>
 	<div class="col-12 col-md-6 position-relative">
 		<b>Def:</b> 
