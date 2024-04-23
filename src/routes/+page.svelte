@@ -89,7 +89,7 @@
 			</p>
 
 			<p>
-				Estatisticamente eso significa que si tiras dos 1s, el valor minimo es un 2. Y si tiras dos 6s, el valor maximo es 12.
+				Estatisticamente eso significa que si tiras dos 1s, el valor minimo es un 2+2. Y si tiras dos 6s, el valor maximo es 12+2 (+1 por cada dado que tires).
 			</p>
 
 			<h5>¿Qué hago si solo tengo dados de 6?</h5>
@@ -148,33 +148,39 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			
 			<h5>¿Cómo se juega?</h5>
 
-			<p>Se revuelven las cartas, a un jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</p>
+			<ol>
+			<li>Se revuelven las cartas, a un jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
 
-			<p>Tiene la opcion de hacer un reroll pedir un cambio de cartas.</p>
+			<li>Tiene la opcion de hacer un reroll pedir un cambio de cartas.</li>
 
-			<p>Se repite el proceso con el otro jugador.</p>
+			<li>Se repite el proceso con el otro jugador.</li>
 
-			<p>Una vez que esten listos, pueden voltear sus cartas.</p>
+			<li>Ambos unidades voltean sus unidades y colocan indicadores de HP sobre cada una de ellas.</li>
 
-			<p>Se tira una moneda para decidir quien tiene preferencia.</p>
+			<li>En este momento <b>empieza la ronda</b></li>
 
-			<p>El jugador que tiene preferencia puede reorganizar sus cartas una vez, cuando termine de rerganizarlas entonces el otro jugador puede reorganizar sus cartas una vez.</p>
+			<li>Se tira una moneda para decidir quien tiene preferencia.</li>
 
-			<p>Se determina el orden de ataque, las cartas que tengan mas velocidad (SPD) atacan primero, en caso de empate el que tenga preferencia ataca primero.</p>
+			<li>Primero, el jugador que tiene preferencia puede reorganizar sus cartas una vez (reorganizar significa acomodarlas en el tablero de cualquier manera), cuando termine de rerganizarlas entonces el otro jugador puede reorganizar sus cartas una vez.</li>
 
-			<p>La unidad mas rapida atacara contra los objetivos apropiados segun lo que dice la unidad en "Objetivos", se tira la cantidad de dados apropiados segun se indique</p>
+			<li>Se determina el orden de ataque, las cartas que tengan mas velocidad (SPD) atacan primero, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
 
-			<p>En una hoja de papel, cada persona tendra por escrito el nombre de sus unidades con su vida (HP), aqui le irán reduciendo el numero segun los dados que vayan tirando.</p>
+			<li>Se determinan los objetivos apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos", se tira la cantidad de dados apropiados segun se indique dependiendo del elemento del objetivo.</li>
+
+			<li>Una vez que una unidad ataque, se gira esa carta para indicar que ya fue usada en esta ronda.</li>
 			
-			<p>Se continua el proceso con las siguientes unidades, empezando por las unidades mas rapidas y terminando con las mas lentas.</p>
+			<li>Se continua el proceso con las unidades que no hayan actuado alternando entre un jugador y otro.</li>
 
-			<p>Una vez que todos hayan atacado, termina la ronda, el jugador con mayor HP gana! Pueden jugar varias rondas hasta que algún jugador se quede sin unidades.</p>
+			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (regresando al paso 6) hasta que algún jugador se quede sin unidades.</li>
+			</ol>
 
 
 		</div>
 
-	Si por algún motivo al entrar al AutoBattle solo sale una página en blanco, puedes resetear la memoria:
-	<button class="btn btn-secondary" on:click={reset}>Reset</button>
+	<div class="text-lighter d-print-none" style="font-size: 70%">
+		Si por algún motivo al entrar al AutoBattle solo sale una página en blanco, puedes resetear la memoria:
+		<button class="btn btn-sm btn-secondary" on:click={reset} style="font-size: 70%">Reset</button>
+	</div>
 
 	</div><!--row-->
 
