@@ -88,6 +88,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 
 
 
+let winner = "Nadie"
 function run() {
 	log = []
 	resetCombat()
@@ -101,14 +102,17 @@ function run() {
 	let homeAlive = home.field.filter(activeUnit => activeUnit.hp>0).length>0
 	let visitorAlive = visitor.field.filter(activeUnit => activeUnit.hp>0).length>0
 	stats.combats++
-	if (homeAlive && visitorAlive)
+	if (homeAlive && visitorAlive) {
 		log.push("Empate!")
-	else if (homeAlive) {
+		winner = 'Nadie'
+	} else if (homeAlive) {
 		stats.victories.home++
 		log.push(`${home.name} es el ganador`)
+		winner = `<b class="text-${home.color}">${home.name}</b>`
 	} else if (visitorAlive) {
 		stats.victories.visitor++
 		log.push(`${visitor.name} es el ganador`)
+		winner = `<b class="text-${visitor.color}">${visitor.name}</b>`
 	}
 	log = log
 	home = home
@@ -252,17 +256,19 @@ let stats = {
 <div class="container mt-2">
 	<div class="mb-2">
 		<a class="btn btn-primary" href="/">Guía del juego</a>
-		<button on:click={run} class="btn btn-success">Pelear</button>
 		<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
+		<button on:click={run} class="btn btn-success">Pelear</button>
+		{@html winner} ganó!
 	</div>
 
 	<div>
 		<b>Estadisticas: </b>
-		Combates: {stats.combats} 
-		Victorias de <span class="text-{home.color}">{home.name}</span>:{stats.victories.home} 
-			({Math.round(stats.victories.home/stats.combats*100)}%)
-		Victorias de <span class="text-{visitor.color}">{visitor.name}</span>:{stats.victories.visitor} 
+		Combates: {stats.combats}<br>
+		Victorias de <span class="text-{home.color}">{home.name}</span>: {stats.victories.home} 
+			({Math.round(stats.victories.home/stats.combats*100)}%)<br>
+		Victorias de <span class="text-{visitor.color}">{visitor.name}</span>: {stats.victories.visitor} 
 			({Math.round(stats.victories.visitor/stats.combats*100)}%)<br>
+		<br>
 		{#each log as msg}
 			{@html msg}<br>
 		{/each}
