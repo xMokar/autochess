@@ -131,7 +131,7 @@ export let Units:Unit[] = [
 		hp: 10,
 		attackName: 'Disparar con la pistola',
 		defense:0,
-		movespeed: 5,
+		movespeed: 6,
 		element: ElementMap.metal,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
