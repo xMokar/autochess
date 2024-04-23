@@ -52,7 +52,6 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		},
 		closest1: (attacker:ActiveUnit, target:Field) => {
 			return target
-				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
@@ -60,7 +59,6 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		},
 		farthest1: (attacker:ActiveUnit, target:Field) => {
 			return target
-				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
@@ -68,7 +66,6 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		}, 
 		farthest2: (attacker:ActiveUnit, target:Field) => {
 			return target
-				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
@@ -81,10 +78,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 				.map(coordinatesToActiveUnits(target))
 				.filter(x => x)
 				.shift()
-			if (blocker)
-				return [blocker]
-
-			return [blocker? blocker: farthest1]
+			return [blocker??farthest1]
 		}
 }
 
@@ -169,21 +163,20 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		return null
 	}
 	let total_damage:DamageRoll = {
-			sides:0,
 			damage:0,
 			max:0,
 			min:0,
 	}
-	for(let targetActiveUnit of targets) {
-		let damage = calculateDamage(activeUnit.unit, targetActiveUnit.unit)
+	for(let targetUnit of targets) {
+		let damage = calculateDamage(activeUnit.unit, targetUnit.unit)
 		total_damage.damage += damage.damage
 		total_damage.max += damage.max
 		total_damage.min += damage.min
 		
-		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetActiveUnit.unit.name}</span>(${targetActiveUnit.hp}): <b>${damage.damage}</b>`)
-		targetActiveUnit.hp = Math.max(targetActiveUnit.hp-damage.damage, 0)
-		if (targetActiveUnit.hp==0) {
-			log.push(`* <span class="text-${target.color}">${targetActiveUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
+		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b>`)
+		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
+		if (targetUnit.hp==0) {
+			log.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
 		}
 	}
 	return total_damage

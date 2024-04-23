@@ -270,11 +270,7 @@ export function calculateDamage(attacker:Unit, defender:Unit) {
 			damage: total.damage+d.damage,
 			max: total.max+d.max,
 			min: total.min+d.min
-		}), {
-			damage: 0,
-			max: 0,
-			min: 0,
-		})
+		}))
 }
 
 export interface DamageRoll {
