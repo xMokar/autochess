@@ -91,6 +91,20 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 
 
 let winner = "Nadie"
+function run100() {
+	resetStats()
+	for(let i=0; i<100; i++) {
+		run()
+	}
+	if (stats.victories.home>stats.victories.visitor) {
+		winner = `<b class="text-${home.color}">${home.name}</b>`
+	} else if (stats.victories.home<stats.victories.visitor) {
+		winner = `<b class="text-${visitor.color}">${visitor.name}</b>`
+	} else {
+		winner = "Nadie"
+	}
+}
+
 function run() {
 	log = []
 	resetCombat()
@@ -263,6 +277,7 @@ let stats = {
 		<a class="btn btn-primary" href="/">Guía del juego</a>
 		<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
 		<button on:click={run} class="btn btn-success">Pelear</button>
+		<button on:click={run100} class="btn btn-warning">Pelear x100</button>
 		{@html winner} ganó!
 	</div>
 
