@@ -44,6 +44,10 @@ let calculateDistance = (source:ChampInstance, target:ChampInstance) => {
 	return { target, distance }
 }
 let targetting:{[key:string]: (c:ChampInstance, f:Field) => ChampInstance[]} = {
+		random: (_:ChampInstance, target:Field) => {
+			let n = Math.floor(Math.random()*target.length)
+			return [target[n]]
+		},
 		closest1: (attacker:ChampInstance, target:Field) => {
 			return target
 				.filter(target => target.hp>0)
