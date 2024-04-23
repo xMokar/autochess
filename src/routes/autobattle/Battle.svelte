@@ -171,14 +171,46 @@ interface Turn {
 	target:Player,
 }
 
+type TurnBySpeed = {[key:string]:Turn[]}
+function *createTurnOrder(source:Player, target:Player) {
+	let turns1:Turn[] = source.field.map(activeUnit => ({
+		activeUnit, source, target
+	}))
+	let turns2:Turn[] = target.field.map(activeUnit => ({
+		activeUnit, source:target, target: source
+	}))
+	let splitUnitsBySpeed = (player:Turn[]) => player 
+		.reduce((total, u) => {
+			if(!total[String(u.activeUnit.unit.movespeed)])
+				total[String(u.activeUnit.unit.movespeed)] = []
+			total[String(u.activeUnit.unit.movespeed)].push(u)
+			return total
+		}, {} as TurnBySpeed)
+	let player1bs = splitUnitsBySpeed(turns1)
+	let player2bs = splitUnitsBySpeed(turns2)
+	let allbs = splitUnitsBySpeed([...turns1, ...turns2])
+	let speeds = [...Object.keys(allbs)]
+		.map(Number)
+		.sort((a,b)=>b-a)
+		.map(String)
+	for(let speed of speeds) {
+		let pop = (playerbs:TurnBySpeed) => {
+			if(!playerbs[speed]) return undefined
+			return playerbs[speed].pop()
+		}
+		while(true) {
+			let p1t = pop(player1bs)
+			if(p1t) yield(p1t)
+			let p2t = pop(player2bs)
+			if(p2t) yield(p2t)
+			if(!p1t && !p2t) break;
+		}
+	}
+}
+
 function combatRound(source:Player, target:Player)  {
 	log.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
-	let turns:Turn[] = [...source.field.map(activeUnit => ({
-		activeUnit, source, target
-	})), ...target.field.map(activeUnit => ({
-		activeUnit, source:target, target: source
-	}))]
-		.sort((a, b) => b.activeUnit.unit.movespeed-a.activeUnit.unit.movespeed)
+	let turns = createTurnOrder(source, target)
 
 	let total = {
 		[source.name]: {
