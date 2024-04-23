@@ -145,6 +145,9 @@ function resetStats() {
 
 
 function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
+	if(!activeUnit.hp) {
+		return null;
+	}
 	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
 		target.field.filter(activeUnit => activeUnit.hp>0))
 	if(!targets) {
