@@ -11,6 +11,7 @@
 			return [1,2,3,3,4,4]
 		return sides.map(x => Math.ceil(x/(6/(face))))
 	}
+	let units = [...Units].sort((a,b) => b.movespeed-a.movespeed)
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
@@ -20,7 +21,7 @@
 		</div>
 
 
-		{#each Units as unit}
+		{#each units as unit}
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">
@@ -36,7 +37,7 @@
 	</div>
 	<h4>Tablas de balance</h4>
 	<div class="row">
-		{#each Units as source}
+		{#each units as source}
 		<div class="col-12 col-lg-6 mb-2 g-1">
 			<div class="card">
 				<div class="card-header"><ElementIcon element={source.element} /> {source.name}</div>
