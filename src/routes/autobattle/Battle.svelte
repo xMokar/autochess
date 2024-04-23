@@ -143,7 +143,8 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
 		return null
 	}
-	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, target.field)
+	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
+		target.field.filter(activeUnit => activeUnit.hp>0))
 	let total_damage:DamageRoll = {
 			sides:0,
 			damage:0,
@@ -173,12 +174,16 @@ interface Turn {
 
 type TurnBySpeed = {[key:string]:Turn[]}
 function *createTurnOrder(source:Player, target:Player) {
-	let turns1:Turn[] = source.field.map(activeUnit => ({
-		activeUnit, source, target
-	}))
-	let turns2:Turn[] = target.field.map(activeUnit => ({
-		activeUnit, source:target, target: source
-	}))
+	let turns1:Turn[] = source.field
+		.filter(activeUnit => activeUnit.hp>0)
+		.map(activeUnit => ({
+			activeUnit, source, target
+		}))
+	let turns2:Turn[] = target.field
+		.filter(activeUnit => activeUnit.hp>0)
+		.map(activeUnit => ({
+			activeUnit, source:target, target: source
+		}))
 	let splitUnitsBySpeed = (player:Turn[]) => player 
 		.reduce((total, u) => {
 			if(!total[String(u.activeUnit.unit.movespeed)])
