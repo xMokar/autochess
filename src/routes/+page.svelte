@@ -14,6 +14,26 @@
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
+	<div class="row">
+		<div class="col-12">
+		<h4>Lista de Unidades</h4>
+		</div>
+
+
+		{#each Units as unit}
+			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
+				<div class="card">
+					<div class="card-header">
+						<ElementIcon element={unit.element} />
+						{unit.name}
+					</div>
+					<div class="card-body">
+						<UnitCard {unit} />
+					</div>
+				</div>
+			</div>
+		{/each}
+	</div>
 	<h4>Tablas de balance</h4>
 	<div class="row">
 		{#each Units as source}
@@ -52,25 +72,6 @@
 		{/each}
 	</div><!--row-->
 
-		<div class="col-12">
-		<h4>Lista de Unidades</h4>
-		</div>
-
-	<div class="row">
-		{#each Units as unit}
-			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
-				<div class="card">
-					<div class="card-header">
-						<ElementIcon element={unit.element} />
-						{unit.name}
-					</div>
-					<div class="card-body">
-						<UnitCard {unit} />
-					</div>
-				</div>
-			</div>
-		{/each}
-		
 		
 		<div>
 			<h5>Cálculos matemáticos de dados.</h5>
@@ -156,4 +157,3 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 		</div>
 	</div><!--row-->
-</div>
