@@ -140,7 +140,7 @@ export let Units:Unit[] = [
 			{ element: ElementMap.earth, dice: 1, sides: 3, modifier: 3 },
 			{ element: ElementMap.metal, dice: 1, sides: 3, modifier: 3 },
 			{ element: ElementMap.water, dice: 1, sides: 3, modifier: 3 },
-			{ element: ElementMap.wood, dice: 2, sides: 3, modifier: 4 },
+			{ element: ElementMap.wood, dice: 2, sides: 3, modifier: 3 },
 		]
 	},
 	{ 
