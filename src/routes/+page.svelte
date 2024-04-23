@@ -150,6 +150,8 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 			<p>Se tira una moneda para decidir quien tiene preferencia.</p>
 
+			<p>El jugador que tiene preferencia puede reorganizar sus cartas una vez, cuando termine de rerganizarlas entonces el otro jugador puede reorganizar sus cartas una vez.</p>
+
 			<p>Se determina el orden de ataque, las cartas que tengan mas velocidad (SPD) atacan primero, en caso de empate el que tenga preferencia ataca primero.</p>
 
 			<p>La unidad mas rapida atacara contra los objetivos apropiados segun lo que dice la unidad en "Objetivos", se tira la cantidad de dados apropiados segun se indique</p>
