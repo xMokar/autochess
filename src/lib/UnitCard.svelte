@@ -27,7 +27,7 @@
 	</div>
 	<div class="col-12">
 		<b>Nombre del ataque:</b><br>
-		<span class="ms-4">{unit.attackName}</span><br>
+		<div class="ms-4" style="height: 2rem">{unit.attackName}</div><br>
 		<b>Objetivos:</b> <br>
 		<span class="ms-4">
 		{unit.targetting.name}<br>
