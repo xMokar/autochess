@@ -45,7 +45,7 @@ interface ElementStrength {
 	sides: number,
 	modifier: number,
 }
-export interface Champ {
+export interface Unit {
 	id: string;
 	name: string;
 	info: string;
@@ -84,8 +84,8 @@ let Elements:Element[] = [
 ]
 export let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
 
-export interface ChampInstance {
-	champ:Champ
+export interface UnitInstance {
+	unit:Unit
 	setx:number
 	sety:number
 	hp: number
@@ -93,7 +93,7 @@ export interface ChampInstance {
 	y:number
 }
 
-export type Field = ChampInstance[]
+export type Field = UnitInstance[]
 export interface Player {
 	id: string,
 	name: string,
@@ -104,7 +104,7 @@ export interface Player {
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
-export let Champs:Champ[] = [ 
+export let Units:Unit[] = [ 
 	{ 
 		id: 'watermage',
 		name: 'Ninja',
@@ -203,11 +203,11 @@ export let Champs:Champ[] = [
 		
 ]
 
-export let ChampMap = Object.fromEntries(Champs.map(card => [ card.id, card ]))
+export let UnitMap = Object.fromEntries(Units.map(card => [ card.id, card ]))
 
-export let Pool = Champs.flatMap(card => Array(costFrequency[card.cost]).fill(card))
+export let Pool = Units.flatMap(card => Array(costFrequency[card.cost]).fill(card))
 
-export function calculateDamage(attacker:Champ, defender:Champ) {
+export function calculateDamage(attacker:Unit, defender:Unit) {
 	let roll = (es:ElementStrength) => ({
 			damage: Math.max(Math.floor(Math.random()*es.sides)+1+es.modifier-defender.defense, 0),
 			sides: es.sides,

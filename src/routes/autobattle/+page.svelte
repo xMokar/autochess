@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ChampMap, type Field, type Player } from '$lib/system'
+import { UnitMap, type Field, type Player } from '$lib/system'
 import Battle from './Battle.svelte';
 
 let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 
@@ -9,7 +9,7 @@ let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{
 		color: 'primary',
 		field: [
 			{
-				champ: ChampMap.tank,
+				unit: UnitMap.tank,
 				hp: 0,
 				setx: 0,
 				sety: 0,
@@ -18,7 +18,7 @@ let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{
 			},
 			{
 				hp: 0,
-				champ: ChampMap.archer,
+				unit: UnitMap.archer,
 				setx: 0,
 				sety: 1,
 				x: 0,
@@ -34,7 +34,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 		color: 'danger',
 		field: [
 			{
-				champ: ChampMap.druid,
+				unit: UnitMap.druid,
 				hp: 0,
 				setx: 0,
 				sety: 0,
@@ -43,7 +43,7 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 			},
 			{
 				hp: 0,
-				champ: ChampMap.firemage,
+				unit: UnitMap.firemage,
 				setx: 0,
 				sety: 1,
 				x: 0,
@@ -53,10 +53,10 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 	} as Player
 
 function updateStats(player:Player) {
-	for(let ci of player.field) {
-		if(!ci.champ)
+	for(let unitinstance of player.field) {
+		if(!unitinstance.unit)
 			return
-		ci.champ = ChampMap[ci.champ.id]
+		unitinstance.unit = UnitMap[unitinstance.unit.id]
 	}
 }
 updateStats(player1)

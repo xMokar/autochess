@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Champs, calculateDamage } from "$lib/system";
+    import { Units, calculateDamage } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
-    import Unit from "$lib/Unit.svelte";
+    import UnitCard from "$lib/UnitCard.svelte";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
 		// No me gusta la distribución matematica del cuatro
@@ -16,7 +16,7 @@
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
 	<h4>Tablas de balance</h4>
 	<div class="row">
-		{#each Champs as source}
+		{#each Units as source}
 		<div class="col-12 col-lg-6 mb-2 g-1">
 			<div class="card">
 				<div class="card-header"><ElementIcon element={source.element} /> {source.name}</div>
@@ -31,7 +31,7 @@
 					</tr></thead>
 				
 					<tbody>
-					{#each Champs as target}
+					{#each Units as target}
 						{@const damage = calculateDamage(source, target)}
 						<tr>
 							<td>
@@ -57,15 +57,15 @@
 		</div>
 
 	<div class="row">
-		{#each Champs as champ}
+		{#each Units as unit}
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">
-						<ElementIcon element={champ.element} />
-						{champ.name}
+						<ElementIcon element={unit.element} />
+						{unit.name}
 					</div>
 					<div class="card-body">
-						<Unit {champ} />
+						<UnitCard {unit} />
 					</div>
 				</div>
 			</div>

@@ -1,9 +1,9 @@
 <script lang="ts">
-import type { Champ } from "$lib/system";
+import type { Unit } from "$lib/system";
 import ElementIcon from "$lib/ElementIcon.svelte";
 
-export let champ:Champ
+export let unit:Unit
 </script>
 
-<ElementIcon element={champ.element} />
-{champ.name}
+<ElementIcon element={unit.element} />
+{unit.name}
