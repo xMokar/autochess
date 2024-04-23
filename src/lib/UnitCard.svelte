@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { ElementMap, type unit } from "$lib/system";
+    import { ElementMap, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
 
-	export let unit:unit
+	export let unit:Unit
 </script>
 <div class="row">
 	
 	<div class="col-12 position-relative">
-		<div style="font-size: 70%" class="fw-light">{unit.info}</div>
+		<div style="font-size: 70%; height: 3rem;" class="fw-light">{unit.info}</div>
 	</div>
 	<div class="col-12 position-relative">
 		<b>Elemento:</b> 
