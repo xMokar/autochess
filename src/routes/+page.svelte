@@ -2,6 +2,7 @@
     import { Units, calculateDamage } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import UnitCard from "$lib/UnitCard.svelte";
+    import { goto } from "$app/navigation";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
 		// No me gusta la distribución matematica del cuatro
@@ -12,6 +13,12 @@
 		return sides.map(x => Math.ceil(x/(6/(face))))
 	}
 	let units = [...Units].sort((a,b) => b.movespeed-a.movespeed)
+
+	function reset() {
+		localStorage.removeItem("player1")
+		localStorage.removeItem("player2")
+		goto("/autobattle")
+	}
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
@@ -165,4 +172,9 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 
 		</div>
+
+	Si por algún motivo al entrar al AutoBattle solo sale una página en blanco, puedes resetear la memoria:
+	<button class="btn btn-secondary" on:click={reset}>Reset</button>
+
 	</div><!--row-->
+
