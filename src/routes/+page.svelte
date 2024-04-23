@@ -86,8 +86,14 @@
 
 			<h5>¿Qué hago si solo tengo dados de 6?</h5>
 			<p>
-				Si solo tienes dados de seis caras, puedes tirarlo y usar la siguiente relación:
+				Si solo tienes dados de seis caras, puedes tirarlo y usar la siguiente relación, una manera facil de recordarlo es:
 			</p>
+			<ul>
+				<li>d2: de 1-3 es 1, de 4-6 es 2</li>
+				<li>d3: lo divides entre 2, si da exacto usas el numero, si no, le sumas 1 y lo divides entre 2.</li>
+				<li>d4: de 3-4 es 3, de 5-6 es 4</li>
+				<li>d5: el 6 es 5</li>
+			</ul>
 
 				<table class="table table-striped table-bordered" style="width: 150px">
 				<thead>
