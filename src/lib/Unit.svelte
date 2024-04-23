@@ -5,7 +5,10 @@
 	export let champ:Champ
 </script>
 <div class="row">
-
+	
+	<div class="col-12 position-relative">
+		<div style="font-size: 70%" class="fw-light">{champ.info}</div>
+	</div>
 	<div class="col-12 position-relative">
 		<b>Elemento:</b> 
 			<ElementIcon element={champ.element} /> 

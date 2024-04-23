@@ -48,6 +48,7 @@ interface ElementStrength {
 export interface Champ {
 	id: string;
 	name: string;
+	info: string;
 	hp: number,
 	attackName: string,
 	defense: number;
@@ -106,7 +107,8 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 export let Champs:Champ[] = [ 
 	{ 
 		id: 'watermage',
-		name: 'Ninja de agua',
+		name: 'Ninja',
+		info: 'Ninja de la aldea de agua',
 		hp: 10,
 		attackName: 'Shuriken de agua',
 		defense:0,
@@ -125,6 +127,7 @@ export let Champs:Champ[] = [
 	{ 
 		id: 'tank',
 		name: 'Tanque',
+		info: 'Soldado con armadura de oro',
 		hp: 15,
 		defense:1,
 		movespeed: 5,
@@ -143,6 +146,7 @@ export let Champs:Champ[] = [
 	{
 		id: 'firemage',
 		name: 'Mago',
+		info: 'Mago elemental de fuego',
 		hp: 10,
 		defense: 0,
 		movespeed: 5,
@@ -161,6 +165,7 @@ export let Champs:Champ[] = [
 	{
 		id: 'archer',
 		name: 'Arquero',
+		info: 'Soldado con arco y flecha.',
 		hp: 10,
 		defense: 0,
 		movespeed: 6,
@@ -179,6 +184,7 @@ export let Champs:Champ[] = [
 	{
 		id: 'druid',
 		name: 'Druida',
+		info: 'Hechicero que controla las fuerzas de la naturaleza',
 		movespeed: 5,
 		element: ElementMap.earth,
 		targetting: TargettingMap.random,
