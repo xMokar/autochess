@@ -49,6 +49,7 @@ export interface Champ {
 	id: string;
 	name: string;
 	hp: number,
+	attackName: string,
 	defense: number;
 	movespeed: number;
 	element: Element;
@@ -107,6 +108,7 @@ export let Champs:Champ[] = [
 		id: 'watermage',
 		name: 'Ninja de agua',
 		hp: 10,
+		attackName: 'Shuriken de agua',
 		defense:0,
 		movespeed: 5,
 		element: ElementMap.water,
@@ -126,6 +128,7 @@ export let Champs:Champ[] = [
 		hp: 15,
 		defense:1,
 		movespeed: 5,
+		attackName: 'Escudazo',
 		element: ElementMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
@@ -143,6 +146,7 @@ export let Champs:Champ[] = [
 		hp: 10,
 		defense: 0,
 		movespeed: 5,
+		attackName: 'Bola de fuego',
 		element: ElementMap.fire,
 		targetting: TargettingMap.closest1,
 		cost: 1,
@@ -160,6 +164,7 @@ export let Champs:Champ[] = [
 		hp: 10,
 		defense: 0,
 		movespeed: 6,
+		attackName: 'Lluvia de flechas',
 		element: ElementMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
@@ -180,6 +185,7 @@ export let Champs:Champ[] = [
 		hp: 10,
 		defense:0,
 		cost: 1,
+		attackName: 'Mini meteorito',
 		elementStrength: [
 			{ element: ElementMap.fire, dice: 1, sides: 10, modifier: 0 },
 			{ element: ElementMap.earth, dice: 1, sides: 10, modifier: 0 },

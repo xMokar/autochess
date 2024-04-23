@@ -19,6 +19,8 @@
 		<span>{champ.movespeed}</span>
 	</div>
 	<div class="col-12">
+		<b>Nombre del ataque:</b><br>
+		<span class="ms-4">{champ.attackName}</span><br>
 		<b>Objetivos:</b> <br>
 		<span class="ms-4">
 		{champ.targetting.name}<br>
