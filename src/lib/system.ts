@@ -246,23 +246,32 @@ export let UnitMap = Object.fromEntries(Units.map(card => [ card.id, card ]))
 export let Pool = Units.flatMap(card => Array(costFrequency[card.cost]).fill(card))
 
 export function calculateDamage(attacker:Unit, defender:Unit) {
-	let roll = (es:ElementStrength) => ({
-			damage: Math.max(Math.floor(Math.random()*es.sides)+1+es.modifier-defender.defense, 0),
-			sides: es.sides,
-			max: Math.max((es.dice*es.sides)+es.modifier-defender.defense, 0),
-			min: Math.max(es.dice+es.modifier-defender.defense, 0),
+	let roll = (es:ElementStrength) => Math.max(
+		Math.floor(Math.random()*es.sides)+1+es.modifier-defender.defense
+		, 0)
+
+	let multiRoll = (es:ElementStrength) => Array(es.dice)
+		.fill(es)
+		.map(roll)
+		.reduce((total, v) => {
+			total.damage += v
+			total.min += Math.max(es.modifier-defender.defense, 0)
+			total.max += Math.max(es.sides+es.modifier-defender.defense, 0)
+			return total
+		}, {
+			damage: 0,
+			min: 0,
+			max: 0
 		} as DamageRoll)
 	return attacker.elementStrength
 		.filter((es) => defender.element.id == es.element.id)
-		.map(roll)
+		.map(multiRoll)
 		.reduce((total, d) => ({
 			damage: total.damage+d.damage,
-			sides: total.sides+d.sides,
 			max: total.max+d.max,
 			min: total.min+d.min
 		}), {
 			damage: 0,
-			sides: 0,
 			max: 0,
 			min: 0,
 		})
@@ -270,7 +279,6 @@ export function calculateDamage(attacker:Unit, defender:Unit) {
 
 export interface DamageRoll {
 	damage:number,
-	sides:number,
 	max:number,
 	min:number
 }
