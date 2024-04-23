@@ -84,7 +84,7 @@ let Elements:Element[] = [
 ]
 export let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
 
-export interface UnitInstance {
+export interface ActiveUnit {
 	unit:Unit
 	setx:number
 	sety:number
@@ -93,7 +93,7 @@ export interface UnitInstance {
 	y:number
 }
 
-export type Field = UnitInstance[]
+export type Field = ActiveUnit[]
 export interface Player {
 	id: string,
 	name: string,

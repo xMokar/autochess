@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { type Player, type Field, type UnitInstance, type DamageRoll, calculateDamage } from "$lib/system";
+    import { type Player, type Field, type ActiveUnit, type DamageRoll, calculateDamage } from "$lib/system";
     import FieldGrid from "./FieldGrid.svelte";
 
 export let home:Player
 export let visitor:Player
 
 function setBattleCoordinates(player:Player) {
-	for(let unitinstance of player.field) {
-		unitinstance.x = unitinstance.setx
-		unitinstance.y = player.mirrored? -unitinstance.sety-1: unitinstance.sety
+	for(let activeUnit of player.field) {
+		activeUnit.x = activeUnit.setx
+		activeUnit.y = player.mirrored? -activeUnit.sety-1: activeUnit.sety
 	}
 }
 setBattleCoordinates(visitor)
@@ -32,23 +32,23 @@ function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
 	return coordinates.slice(1)
 }
 
-function coordinatesToUnitInstances(field:Field) {
-	return (c:Coordinate) => field.find(unitinstance => unitinstance.x==c.x && unitinstance.y==c.y)
+function coordinatesToActiveUnits(field:Field) {
+	return (c:Coordinate) => field.find(activeUnit => activeUnit.x==c.x && activeUnit.y==c.y)
 }
 
-let calculateDistance = (source:UnitInstance, target:UnitInstance) => {
+let calculateDistance = (source:ActiveUnit, target:ActiveUnit) => {
 	let distance = Math.sqrt(
 		Math.pow(source.x- target.x, 2)+
 		Math.pow(source.y- target.y, 2)
 	)
 	return { target, distance }
 }
-let targetting:{[key:string]: (c:UnitInstance, f:Field) => UnitInstance[]} = {
-		random: (_:UnitInstance, target:Field) => {
+let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
+		random: (_:ActiveUnit, target:Field) => {
 			let n = Math.floor(Math.random()*target.length)
 			return [target[n]]
 		},
-		closest1: (attacker:UnitInstance, target:Field) => {
+		closest1: (attacker:ActiveUnit, target:Field) => {
 			return target
 				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
@@ -56,7 +56,7 @@ let targetting:{[key:string]: (c:UnitInstance, f:Field) => UnitInstance[]} = {
 				.map(({target}) => target) 
 				.slice(0,1)
 		},
-		farthest1: (attacker:UnitInstance, target:Field) => {
+		farthest1: (attacker:ActiveUnit, target:Field) => {
 			return target
 				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
@@ -64,7 +64,7 @@ let targetting:{[key:string]: (c:UnitInstance, f:Field) => UnitInstance[]} = {
 				.map(({target}) => target) 
 				.slice(0,1)
 		}, 
-		farthest2: (attacker:UnitInstance, target:Field) => {
+		farthest2: (attacker:ActiveUnit, target:Field) => {
 			return target
 				.filter(target => target.hp>0)
 				.map((target) => calculateDistance(attacker, target))
@@ -72,11 +72,11 @@ let targetting:{[key:string]: (c:UnitInstance, f:Field) => UnitInstance[]} = {
 				.map(({target}) => target) 
 				.slice(0,2)
 		}, 
-		farthest1_direct: (attacker:UnitInstance, target:Field) => {
+		farthest1_direct: (attacker:ActiveUnit, target:Field) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
 			if(!farthest1) return []
 			let blocker = coordinatesBetween(attacker, farthest1)
-				.map(coordinatesToUnitInstances(target))
+				.map(coordinatesToActiveUnits(target))
 				.filter(x => x)
 				.shift()
 			if (blocker)
@@ -98,8 +98,8 @@ function run() {
 		else
 			combatRound(visitor, home)
 	}
-	let homeAlive = home.field.filter(unitinstance => unitinstance.hp>0).length>0
-	let visitorAlive = visitor.field.filter(unitinstance => unitinstance.hp>0).length>0
+	let homeAlive = home.field.filter(activeUnit => activeUnit.hp>0).length>0
+	let visitorAlive = visitor.field.filter(activeUnit => activeUnit.hp>0).length>0
 	stats.combats++
 	if (homeAlive && visitorAlive)
 		log.push("Empate!")
@@ -115,8 +115,8 @@ function run() {
 	visitor = visitor
 }
 function reset(field:Field) {
-	for(let unitinstance of field) {
-		unitinstance.hp = unitinstance.unit.hp
+	for(let activeUnit of field) {
+		activeUnit.hp = activeUnit.unit.hp
 	}
 }
 function resetCombat() {
@@ -138,47 +138,47 @@ function resetStats() {
 }
 
 
-function Attack(source:Player, unitinstance:UnitInstance, target:Player) {
-	if(unitinstance.hp<=0) {
-		//log.push(`<b>${turn.player.name}</b>: ${turn.unitinstance.unit.name} esta fuera de combate.`)
+function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
+	if(activeUnit.hp<=0) {
+		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
 		return null
 	}
-	let targets = targetting[unitinstance.unit.targetting.id](unitinstance, target.field)
+	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, target.field)
 	let total_damage:DamageRoll = {
 			sides:0,
 			damage:0,
 			max:0,
 			min:0,
 	}
-	for(let targetUnitInstance of targets) {
-		let damage = calculateDamage(unitinstance.unit, targetUnitInstance.unit)
+	for(let targetActiveUnit of targets) {
+		let damage = calculateDamage(activeUnit.unit, targetActiveUnit.unit)
 		total_damage.damage += damage.damage
 		total_damage.max += damage.max
 		total_damage.min += damage.min
 		
-		log.push(`<span class="text-${source.color}">${unitinstance.unit.name}</span> ataca a <span class="text-${target.color}">${targetUnitInstance.unit.name}</span>(HP: ${targetUnitInstance.hp}): <b>${damage.damage}</b>`)
-		targetUnitInstance.hp = Math.max(targetUnitInstance.hp-damage.damage, 0)
-		if (targetUnitInstance.hp==0) {
-			log.push(`* <span class="text-${target.color}">${targetUnitInstance.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
+		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span> ataca a <span class="text-${target.color}">${targetActiveUnit.unit.name}</span>(HP: ${targetActiveUnit.hp}): <b>${damage.damage}</b>`)
+		targetActiveUnit.hp = Math.max(targetActiveUnit.hp-damage.damage, 0)
+		if (targetActiveUnit.hp==0) {
+			log.push(`* <span class="text-${target.color}">${targetActiveUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
 		}
 	}
 	return total_damage
 }
 
 interface Turn {
-	unitinstance:UnitInstance,
+	activeUnit:ActiveUnit,
 	source:Player,
 	target:Player,
 }
 
 function combatRound(source:Player, target:Player)  {
 	log.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
-	let turns:Turn[] = [...source.field.map(unitinstance => ({
-		unitinstance, source, target
-	})), ...target.field.map(unitinstance => ({
-		unitinstance, source:target, target: source
+	let turns:Turn[] = [...source.field.map(activeUnit => ({
+		activeUnit, source, target
+	})), ...target.field.map(activeUnit => ({
+		activeUnit, source:target, target: source
 	}))]
-		.sort((a, b) => b.unitinstance.unit.movespeed-a.unitinstance.unit.movespeed)
+		.sort((a, b) => b.activeUnit.unit.movespeed-a.activeUnit.unit.movespeed)
 
 	let total = {
 		[source.name]: {
@@ -192,7 +192,7 @@ function combatRound(source:Player, target:Player)  {
 	}
 	
 	for(let turn of turns) {
-		let damage = Attack(turn.source, turn.unitinstance, turn.target)
+		let damage = Attack(turn.source, turn.activeUnit, turn.target)
 		if (!damage)
 			continue
 		total[turn.source.name].dmgmax += damage.max

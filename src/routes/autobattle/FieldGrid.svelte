@@ -1,5 +1,5 @@
 <script lang="ts">
-import { type Player, type Field, type UnitInstance, Units, UnitMap } from '$lib/system'
+import { type Player, type Field, type activeUnit, Units, UnitMap } from '$lib/system'
     import UnitCard from '$lib/UnitCard.svelte';
 
 export let player:Player
@@ -9,17 +9,17 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 	let newfield = Array(9).fill(undefined).map((_, i) => {
 		let x = i%3
 		let y = Math.floor(i/3)
-		return field.find(unitinstance => {
-			return (unitinstance.setx == x) && (unitinstance.sety == y)
+		return field.find(activeUnit => {
+			return (activeUnit.setx == x) && (activeUnit.sety == y)
 		})
 	})
 	if(!mirrored) return newfield
 	return [ ...newfield.slice(6), ...newfield.slice(3,6), ...newfield.slice(0,3)]
 }
 
-function remove(unitinstance:UnitInstance) {
+function remove(activeUnit:activeUnit) {
 	return () => {
-		player.field=player.field.filter(i => !(i.x==unitinstance.x && i.y==unitinstance.y))
+		player.field=player.field.filter(i => !(i.x==activeUnit.x && i.y==activeUnit.y))
 	}
 }
 
@@ -53,7 +53,7 @@ function add(index:number) {
 }
 
 console.log('xxx', player.field)
-$: isAlive = player.field.filter(unitinstance => unitinstance.hp>0).length>0
+$: isAlive = player.field.filter(activeUnit => activeUnit.hp>0).length>0
 $: status = isAlive? "bg-"+player.color: "bg-secondary"
 </script>
 <div class="card mb-1 border-{player.color}" >
@@ -68,23 +68,23 @@ $: status = isAlive? "bg-"+player.color: "bg-secondary"
 
 	<div class="card-body p-1">
 		<div class="row gx-1">
-			{#each fieldToArray(player.field, mirrored) as unitinstance, index (index)}
+			{#each fieldToArray(player.field, mirrored) as activeUnit, index (index)}
 				<div class="col-4 mb-1" style="min-height: 175px">
 					<div class="card h-100 border-{player.color}">
 						<div class="card-header">
-							<select on:change={add(index)} value={unitinstance?unitinstance.unit.id:""} class="mw-100">
+							<select on:change={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100">
 								<option value="">-</option>
 								{#each Units as unit}
 									<option value="{unit.id}">{unit.name}</option>
 								{/each}
 							</select>
-							{#if unitinstance}
-							<span class="badge bg-danger position-absolute top-0 end-0">{unitinstance.hp}</span><br>
+							{#if activeUnit}
+							<span class="badge bg-danger position-absolute top-0 end-0">{activeUnit.hp}</span><br>
 							{/if}
 						</div>
 						<div class="card-body p-1">
-							{#if unitinstance}
-								<UnitCard unit="{unitinstance.unit}" />
+							{#if activeUnit}
+								<UnitCard unit="{activeUnit.unit}" />
 							{:else}
 							&nbsp;
 							{/if}

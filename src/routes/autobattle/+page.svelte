@@ -53,10 +53,10 @@ let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 	} as Player
 
 function updateStats(player:Player) {
-	for(let unitinstance of player.field) {
-		if(!unitinstance.unit)
+	for(let activeUnit of player.field) {
+		if(!activeUnit.unit)
 			return
-		unitinstance.unit = UnitMap[unitinstance.unit.id]
+		activeUnit.unit = UnitMap[activeUnit.unit.id]
 	}
 }
 updateStats(player1)
