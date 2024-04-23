@@ -201,6 +201,25 @@ export let Units:Unit[] = [
 		]
 	},
 	{
+		id: 'treant',
+		name: 'Arbol humanoide',
+		info: 'Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".',
+		hp: 18,
+		defense: 0,
+		movespeed: 5,
+		attackName: 'Atacar con un latigo de raices.',
+		element: ElementMap.wood,
+		targetting: TargettingMap.closest1,
+		cost: 1,
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 1 },
+			{ element: ElementMap.earth, dice: 2, sides: 6, modifier: 1 },
+			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 1 },
+			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 1 },
+			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 1 },
+		]
+	},
+	{
 		id: 'druid',
 		name: 'Druida',
 		info: 'Es un hechicero que controla las fuerzas de la naturaleza',
