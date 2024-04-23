@@ -166,7 +166,7 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		total_damage.max += damage.max
 		total_damage.min += damage.min
 		
-		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span> ataca a <span class="text-${target.color}">${targetActiveUnit.unit.name}</span>(HP: ${targetActiveUnit.hp}): <b>${damage.damage}</b>`)
+		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetActiveUnit.unit.name}</span>(${targetActiveUnit.hp}): <b>${damage.damage}</b>`)
 		targetActiveUnit.hp = Math.max(targetActiveUnit.hp-damage.damage, 0)
 		if (targetActiveUnit.hp==0) {
 			log.push(`* <span class="text-${target.color}">${targetActiveUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
