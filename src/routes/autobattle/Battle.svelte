@@ -45,6 +45,8 @@ let calculateDistance = (source:ActiveUnit, target:ActiveUnit) => {
 }
 let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		random: (_:ActiveUnit, target:Field) => {
+			if(!target.length)
+				return []
 			let n = Math.floor(Math.random()*target.length)
 			return [target[n]]
 		},
@@ -143,12 +145,13 @@ function resetStats() {
 
 
 function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
-	if(activeUnit.hp<=0) {
+	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
+		target.field.filter(activeUnit => activeUnit.hp>0))
+	if(!targets) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
 		return null
 	}
-	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
-		target.field.filter(activeUnit => activeUnit.hp>0))
+	console.log('targets', targets, source.name, activeUnit.unit.name)
 	let total_damage:DamageRoll = {
 			sides:0,
 			damage:0,
