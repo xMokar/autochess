@@ -151,7 +151,6 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
 		return null
 	}
-	console.log('targets', targets, source.name, activeUnit.unit.name)
 	let total_damage:DamageRoll = {
 			sides:0,
 			damage:0,
