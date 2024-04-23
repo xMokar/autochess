@@ -1,5 +1,5 @@
 <script lang="ts">
-import { UnitMap, type Field, type Player } from '$lib/system'
+import { UnitMap, type Player } from '$lib/system'
 import Battle from './Battle.svelte';
 
 let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 

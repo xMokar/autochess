@@ -1,6 +1,6 @@
 <script lang="ts">
-import { type Player, type Field, type activeUnit, Units, UnitMap } from '$lib/system'
-    import UnitCard from '$lib/UnitCard.svelte';
+import { type Player, type Field, Units, UnitMap } from '$lib/system'
+import UnitCard from '$lib/UnitCard.svelte';
 
 export let player:Player
 export let mirrored = false
@@ -15,12 +15,6 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 	})
 	if(!mirrored) return newfield
 	return [ ...newfield.slice(6), ...newfield.slice(3,6), ...newfield.slice(0,3)]
-}
-
-function remove(activeUnit:activeUnit) {
-	return () => {
-		player.field=player.field.filter(i => !(i.x==activeUnit.x && i.y==activeUnit.y))
-	}
 }
 
 function add(index:number) {
@@ -52,7 +46,6 @@ function add(index:number) {
 	}
 }
 
-console.log('xxx', player.field)
 $: isAlive = player.field.filter(activeUnit => activeUnit.hp>0).length>0
 $: status = isAlive? "bg-"+player.color: "bg-secondary"
 </script>

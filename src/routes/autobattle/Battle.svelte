@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { type Player, type Field, type ActiveUnit, type DamageRoll, calculateDamage } from "$lib/system";
-    import FieldGrid from "./FieldGrid.svelte";
+import { type Player, type Field, type ActiveUnit, type DamageRoll, calculateDamage } from "$lib/system";
+import FieldGrid from "./FieldGrid.svelte";
 
 export let home:Player
 export let visitor:Player
