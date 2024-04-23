@@ -108,17 +108,17 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 		elementStrength: [
-			{ element: ElementMap.fire, dice: 3, sides: 4, modifier: 1 },
-			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 0 },
+			{ element: ElementMap.fire, dice: 3, sides: 3, modifier: 1 },
+			{ element: ElementMap.earth, dice: 2, sides: 3, modifier: 0 },
+			{ element: ElementMap.metal, dice: 2, sides: 3, modifier: 0 },
+			{ element: ElementMap.water, dice: 2, sides: 3, modifier: 0 },
+			{ element: ElementMap.wood, dice: 2, sides: 3, modifier: 0 },
 		]
 	},
 	{ 
 		id: 'tank',
 		name: 'Tanque',
-		hp: 10,
+		hp: 15,
 		defense:1,
 		movespeed: 5,
 		element: ElementMap.metal,
@@ -159,11 +159,11 @@ export let Champs:Champ[] = [
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 2, modifier: 0 },
-			{ element: ElementMap.earth, dice: 2, sides: 2, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 2, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 2, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 2, modifier: 0 },
+			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 1 },
+			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 1 },
+			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 1 },
+			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 1 },
+			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 1 },
 		]
 	},
 	{
