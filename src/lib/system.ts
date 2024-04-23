@@ -255,7 +255,7 @@ export function calculateDamage(attacker:Unit, defender:Unit) {
 		.map(roll)
 		.reduce((total, v) => {
 			total.damage += v
-			total.min += Math.max(es.modifier-defender.defense, 0)
+			total.min += Math.max(1+es.modifier-defender.defense, 0)
 			total.max += Math.max(es.sides+es.modifier-defender.defense, 0)
 			return total
 		}, {
