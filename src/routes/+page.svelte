@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Units, calculateDamage } from "$lib/system";
+    import { Units, calculateDamage, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import UnitCard from "$lib/UnitCard.svelte";
     import { goto } from "$app/navigation";
@@ -13,6 +13,13 @@
 		return sides.map(x => Math.ceil(x/(6/(face))))
 	}
 	let units = [...Units].sort((a,b) => b.movespeed-a.movespeed)
+	let targetTable = (source:Unit) => {
+		return units.map((target) => ({
+			target,
+			damage: calculateDamage(source, target)
+			}))
+			.sort((a, b) => b.damage.max-a.damage.max)
+	}
 
 	function reset() {
 		localStorage.removeItem("player1")
@@ -59,17 +66,17 @@
 					</tr></thead>
 				
 					<tbody>
-					{#each Units as target}
-						{@const damage = calculateDamage(source, target)}
+					{#each targetTable(source) as dmg}
+						
 						<tr>
 							<td>
-								<ElementIcon element={target.element} />
-								{target.name} 
+								<ElementIcon element={dmg.target.element} />
+								{dmg.target.name} 
 							</td>
-							<td class="text-end">{damage.min}-{damage.max}</td>
-							<td class="text-end">{(damage.min+damage.max)/2}</td>
-							<td class="text-end">{target.hp}</td>
-							<td class="text-end">{Math.floor(damage.min/target.hp*100)}-{Math.floor(damage.max/target.hp*100)}%</td>
+							<td class="text-end">{dmg.damage.min}-{dmg.damage.max}</td>
+							<td class="text-end">{(dmg.damage.min+dmg.damage.max)/2}</td>
+							<td class="text-end">{dmg.target.hp}</td>
+							<td class="text-end">{Math.floor(dmg.damage.min/dmg.target.hp*100)}-{Math.floor(dmg.damage.max/dmg.target.hp*100)}%</td>
 						</tr>
 					{/each}
 					</tbody>
@@ -164,7 +171,7 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 			<li>Primero, el jugador que tiene preferencia puede reorganizar sus cartas una vez (reorganizar significa acomodarlas en el tablero de cualquier manera), cuando termine de rerganizarlas entonces el otro jugador puede reorganizar sus cartas una vez.</li>
 
-			<li>Se determina el orden de ataque, las cartas que tengan mas velocidad (SPD) atacan primero, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
+			<li>Se determina el orden de ataque, las cartas que tengan mas velocidad atacan primero, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
 
 			<li>Se determinan los objetivos apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos", se tira la cantidad de dados apropiados segun se indique dependiendo del elemento del objetivo.</li>
 
