@@ -11,19 +11,19 @@
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Elemento:</b> 
-			<ElementIcon element={unit.element} /> 
+		<span class="float-end"><ElementIcon element={unit.element} /> </span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>HP:</b> 
-		{unit.hp}
+		<span class="float-end">{unit.hp}</span>
 	</div>
 	<div class="col-12 col-md-6 position-relative">
 		<b>Def:</b> 
-		<span>{unit.defense}</span>
+		<span class="float-end">{unit.defense}</span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Vel:</b>
-		<span>{unit.movespeed}</span>
+		<span class="float-end">{unit.movespeed}</span>
 	</div>
 	<div class="col-12">
 		<b>Nombre del ataque:</b><br>
@@ -34,7 +34,7 @@
 		</span>
 		<b>Dados de ataque:</b><br>
 	</div>
-	{#each unit.elementStrength.sort((a,b) => b.dice-a.dice) as es}
+	{#each [...unit.elementStrength].sort((a,b) => (b.dice*b.sides+b.modifier)-(a.dice*a.sides+a.modifier)) as es}
 	<div class="col-12 col-md-6">
 		<span class="ms-4 text-nowrap">
 			<ElementIcon element={es.element} /> {es.dice}d{es.sides}+{es.modifier}
