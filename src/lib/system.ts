@@ -204,7 +204,7 @@ export let Units:Unit[] = [
 		id: 'treant',
 		name: 'Arbol humanoide',
 		info: 'Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".',
-		hp: 18,
+		hp: 20,
 		defense: 0,
 		movespeed: 1,
 		attackName: 'Atacar con un latigo de raices.',
