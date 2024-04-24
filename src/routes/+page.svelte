@@ -155,33 +155,32 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<h5>¿Cómo se juega?</h5>
 
 			<ol>
-			<li>Se revuelven las cartas</li>
+			<li>Se revuelven las cartas de unidades.</li>
 
-			<li>A un jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
+			<li>A cada jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
 
-			<li>Tiene la opcion de hacer un reroll pedir un cambio de cartas.</li>
+			<li>Tienen la opcion de hacer un <b>reroll</b>, quedandose con una o dos cartas y pidiendo un nuevo set de 5 cartas.</li>
 
-			<li>Se repite el proceso con el otro jugador.</li>
-
-			<li>Ambos unidades voltean sus unidades y colocan indicadores de HP sobre cada una de ellas.</li>
+			<li>Ambos jugadores voltean sus unidades, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
 			<li>En este momento <b>empieza la ronda</b></li>
 
 			<li>Se tira una moneda para decidir quien tiene preferencia.</li>
 
-			<li>Primero, el jugador que tiene preferencia puede reorganizar sus cartas una vez (reorganizar significa acomodarlas en el tablero de cualquier manera), cuando termine de rerganizarlas entonces el otro jugador puede reorganizar sus cartas una vez.</li>
+			<li>Se determina el orden de ataque, <b>las cartas que tengan mas velocidad atacan primero</b>, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
 
-			<li>Se determina el orden de ataque, las cartas que tengan mas velocidad atacan primero, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
+			<li>Se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
+			<li>Se <b>tiran los dados</b> apropiados segun el elemento del objetivo</li>
 
-			<li>Se determinan los objetivos apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos", se tira la cantidad de dados apropiados segun se indique dependiendo del elemento del objetivo.</li>
+			<li>Antes o despues de atacar (pero solo una vez), <b>la unidad atacando puede ser movida</b> una unidad de movimiento (la cual es un espacio horizontal o vertical de la rejilla personal)</li>
 
-			<li>Una vez que una unidad ataque, se gira esa carta para indicar que ya fue usada en esta ronda.</li>
+			<li>Una vez que una unidad ataque, se <b>gira esa carta</b> para indicar que ya fue usada en esta ronda.</li>
 			
 			<li>Se continua el proceso con las unidades que no hayan actuado alternando entre un jugador y otro.</li>
 
-			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (regresando al paso 7) hasta que algún jugador se quede sin unidades.</li>
+			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (<i>regresando al paso 6</i>) hasta que algún jugador se quede sin unidades.</li>
 
-			<li>Al terminar la partida, puede ofrecerse una revancha u otro jugador puede retar al vencedor. El vencedor tiene que usar las mismas cartas mientras que el oponente empieza el proceso desde el paso 4.</li>
+			<li>Al terminar la partida, <b>puede ofrecerse una revancha u otro jugador puede retar al vencedor</b>. El vencedor tiene que usar las mismas cartas mientras que el oponente empieza el proceso desde el <i>paso 2</i>.</li>
 			</ol>
 
 
