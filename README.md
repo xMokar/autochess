@@ -16,7 +16,3 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Mecanicas del juego
-
-Aún tengo que escribir esto...
-
