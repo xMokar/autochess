@@ -80,7 +80,6 @@
 		{/each}
 	</div><!--row-->
 
-		
 		<div>
 			<h5>Cálculos matemáticos de dados.</h5>
 			<p>
@@ -149,7 +148,9 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<h5>¿Cómo se juega?</h5>
 
 			<ol>
-			<li>Se revuelven las cartas, a un jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
+			<li>Se revuelven las cartas</li>
+
+			<li>A un jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
 
 			<li>Tiene la opcion de hacer un reroll pedir un cambio de cartas.</li>
 
@@ -171,7 +172,9 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			
 			<li>Se continua el proceso con las unidades que no hayan actuado alternando entre un jugador y otro.</li>
 
-			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (regresando al paso 6) hasta que algún jugador se quede sin unidades.</li>
+			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (regresando al paso 7) hasta que algún jugador se quede sin unidades.</li>
+
+			<li>Al terminar la partida, puede ofrecerse una revancha u otro jugador puede retar al vencedor. El vencedor tiene que usar las mismas cartas mientras que el oponente empieza el proceso desde el paso 4.</li>
 			</ol>
 
 
