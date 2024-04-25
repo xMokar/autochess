@@ -68,6 +68,10 @@ export interface Unit {
 	cost: number;
 	elementStrength: ElementStrength[];
 }
+export interface DeckUnit extends Unit {
+	index:number
+}
+
 
 
 let Elements:Element[] = [

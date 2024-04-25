@@ -1,23 +1,9 @@
 <script lang="ts">
-    import ElementIcon from "$lib/ElementIcon.svelte";
-import UnitInfo from "$lib/UnitInfo.svelte";
-import { Units, type Unit } from "$lib/system";
+import UnitCard from "$lib/UnitCard.svelte";
+import { Units, type DeckUnit } from "$lib/system";
+    import OfferCards from "./OfferCards.svelte";
 
-interface Player {
-	name: string,
-	color: string,
-	picked: boolean,
-	finished: boolean,
-	gold: number,
-	rolls: number,
-	units: DeckUnit[]
-}
-
-interface DeckUnit extends Unit {
-	index:number
-}
-
-let players:Player[] = [ 
+let players:ShopPlayer[] = [ 
 		{ 
 			name: 'Jugador1',
 			color: 'primary',
@@ -59,7 +45,7 @@ let endTurn = () => {
 		
 }
 let mode="buy"
-let currentPlayer:Player|undefined = undefined
+let currentPlayer:ShopPlayer|undefined = undefined
 
 let offered:DeckUnit[] = []
 let discard:DeckUnit[] = []
@@ -82,7 +68,7 @@ let fold = () => {
 	if(!currentPlayer) return
 	currentPlayer.finished = false
 	currentPlayer.rolls = 2
-	currentPlayer.gold = 6
+	currentPlayer.gold = 5
 	deck.push(...currentPlayer.units)
 	currentPlayer.units = []
 	currentPlayer = undefined
@@ -94,35 +80,13 @@ let fold = () => {
 	<a href="/shop" data-sveltekit-reload="true" class="btn btn-secondary">Reiniciar la tienda</a>
 	{#if mode=="buy"}
 		{#if currentPlayer}
-			<h5>Comprar cartas</h5>
-			<h5>Quien puede ver esta página: <span class="text-{currentPlayer.color}">{currentPlayer.name}</span></h5>
-
-			{#if currentPlayer.rolls>0}
-				<button on:click={roll} class="btn btn-primary">{currentPlayer.name} pide nuevas cartas</button>
-			{:else}
-				<button on:click={endTurn} class="btn btn-danger">{currentPlayer.name} Termina su turno de compra.</button>
-			{/if}
-			Oro: {currentPlayer.gold} Cartas en la mano: {currentPlayer.units.length}<br>
-			<div class="row mt-2">
-				{#each offered as unit, i (unit.index)}
-					<div class="col-3">
-						<div class="card">
-							<div class="card-header">
-								<ElementIcon element={unit.element} />
-								{unit.name}
-								{#if currentPlayer.gold>0}
-								<span class="float-end">
-									<button class="btn btn-sm btn-danger" title="Comprar" on:click={() => buy(i)}>$</button>
-								</span>
-								{/if}
-							</div>
-							<div class="card-body">
-								<UnitInfo {unit} />
-							</div>
-						</div>
-					</div>
-				{/each}
-			</div>
+			<OfferCards player={currentPlayer} offered={offered} on:buy={(ev) => buy(ev.detail)}>
+				{#if currentPlayer.rolls>0}
+					<button on:click={roll} class="btn btn-primary">{currentPlayer.name} pide nuevas cartas</button>
+				{:else}
+					<button on:click={endTurn} class="btn btn-danger">{currentPlayer.name} Termina su turno de compra.</button>
+				{/if}
+			</OfferCards>
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
@@ -155,15 +119,7 @@ let fold = () => {
 			<div class="row mt-2">
 				{#each currentPlayer.units as unit, i (unit.index)}
 					<div class="col-3">
-						<div class="card">
-							<div class="card-header">
-								<ElementIcon element={unit.element} />
-								{unit.name}
-							</div>
-							<div class="card-body">
-								<UnitInfo {unit} />
-							</div>
-						</div>
+						<UnitCard {unit} />
 					</div>
 				{/each}
 			</div>
