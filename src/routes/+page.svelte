@@ -157,9 +157,9 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<ol>
 			<li>Se revuelven las cartas de unidades.</li>
 
-			<li>A cada jugador se le dan 5 cartas en privado, puede escoger 3 de ellas y colocarlas boca abajo.</li>
+			<li>A cada jugador se le dan 5 cartas en privado, puede escoger 4 de ellas y colocarlas boca abajo.</li>
 
-			<li>Tienen la opcion de hacer un <b>reroll</b>, quedandose con una o dos cartas y pidiendo un nuevo set de 5 cartas.</li>
+			<li>Tienen la opcion de hacer un <b>reroll</b>, descartando un máximo de 3 cartas y pidiendo un nuevo set de 5 cartas.</li>
 
 			<li>Ambos jugadores voltean sus unidades, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
