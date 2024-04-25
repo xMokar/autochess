@@ -28,7 +28,9 @@
 	}
 </script>
 <div class="container mt-2">
-	<a class="btn btn-success" href="/autobattle">AutoBattle</a><br>
+	<a class="btn btn-success" href="/autobattle">AutoBattle</a>
+	<a class="btn btn-secondary" href="/shop">Shop</a>
+	<br>
 	<div class="row">
 		<div class="col-12">
 		<h4>Lista de Unidades</h4>
