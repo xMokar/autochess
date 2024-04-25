@@ -150,6 +150,8 @@ let fold = () => {
 			<button class="btn btn-info" on:click={fold}>
 				Retirarse
 			</button>
+			<br>
+			Viendo la mano de <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
 			<div class="row mt-2">
 				{#each currentPlayer.units as unit, i (unit.index)}
 					<div class="col-3">
