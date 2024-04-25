@@ -19,7 +19,7 @@ interface DeckUnit extends Unit {
 
 let players:Player[] = [ 
 		{ 
-			name: 'Azul',
+			name: 'Jugador1',
 			color: 'primary',
 			picked: false,
 			finished: false,
@@ -28,7 +28,7 @@ let players:Player[] = [
 			units: []
 		},
 		{
-			name: 'Rojo',
+			name: 'Jugador2',
 			color: 'danger',
 			picked: false,
 			finished: false,
@@ -98,9 +98,9 @@ let fold = () => {
 			<h5>Quien puede ver esta página: {currentPlayer.name}</h5>
 
 			{#if currentPlayer.rolls>0}
-				<button on:click={roll} class="btn btn-primary">{currentPlayer.name} Roll</button>
+				<button on:click={roll} class="btn btn-primary">{currentPlayer.name} pide nuevas cartas</button>
 			{:else}
-				<button on:click={endTurn} class="btn btn-danger">{currentPlayer.name} Termina</button>
+				<button on:click={endTurn} class="btn btn-danger">{currentPlayer.name} Termina su turno de compra.</button>
 			{/if}
 			Oro: {currentPlayer.gold} Cartas en la mano: {currentPlayer.units.length}<br>
 			<div class="row mt-2">
@@ -130,15 +130,15 @@ let fold = () => {
 				<button on:click={() => {
 					currentPlayer = player
 					roll()
-				}} class="btn btn-{player.color} me-2">
-					{player.name} compra
+				}} class="btn btn-success me-2">
+					{player.name} inicia su turno de compra
 				</button>
 			{/each}
 		{/if}
 	{:else}
 		<h5>Ver la mano de cada jugador</h5>
 		{#each players as player}
-			<button on:click={() => currentPlayer = player} class="btn btn-{player.color} me-2">
+			<button on:click={() => currentPlayer = player} class="btn btn-warning me-2">
 				Ver mano de {player.name}
 			</button>
 		{/each}
