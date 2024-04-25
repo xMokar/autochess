@@ -44,12 +44,9 @@ let calculateDistance = (source:ActiveUnit, target:ActiveUnit) => {
 	return { target, distance }
 }
 let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
-		random: (_:ActiveUnit, target:Field) => {
-			if(!target.length)
-				return []
-			let n = Math.floor(Math.random()*target.length)
-			return [target[n]]
-		},
+		random: (_:ActiveUnit, target:Field) => !target.length? []:
+			[target[Math.floor(Math.random()*target.length)]]
+		,
 		everyone: (_:ActiveUnit, target:Field) => target,
 		closest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
@@ -192,43 +189,47 @@ interface Turn {
 	target:Player,
 }
 
-type TurnBySpeed = {[key:string]:Turn[]}
+type TurnsBySpeed = {[key:string]:Turn[]}
 function *createTurnOrder(source:Player, target:Player) {
-	let turns1:Turn[] = source.field
+	let sourceUnits:Turn[] = source.field
 		.filter(activeUnit => activeUnit.hp>0)
 		.map(activeUnit => ({
 			activeUnit, source, target
 		}))
-	let turns2:Turn[] = target.field
+	let targetUnits:Turn[] = target.field
 		.filter(activeUnit => activeUnit.hp>0)
 		.map(activeUnit => ({
 			activeUnit, source:target, target: source
 		}))
+
 	let splitUnitsBySpeed = (player:Turn[]) => player 
 		.reduce((total, u) => {
 			if(!total[String(u.activeUnit.unit.movespeed)])
 				total[String(u.activeUnit.unit.movespeed)] = []
 			total[String(u.activeUnit.unit.movespeed)].push(u)
 			return total
-		}, {} as TurnBySpeed)
-	let player1bs = splitUnitsBySpeed(turns1)
-	let player2bs = splitUnitsBySpeed(turns2)
-	let allbs = splitUnitsBySpeed([...turns1, ...turns2])
-	let speeds = [...Object.keys(allbs)]
+		}, {} as TurnsBySpeed)
+
+	let sourceUnitsBySpeed = splitUnitsBySpeed(sourceUnits)
+	let targetUnitsBySpeed = splitUnitsBySpeed(targetUnits)
+
+	let allUnitsBySpeed = splitUnitsBySpeed([...sourceUnits, ...targetUnits])
+	let speeds = [...Object.keys(allUnitsBySpeed)]
 		.map(Number)
 		.sort((a,b)=>b-a)
 		.map(String)
+
 	for(let speed of speeds) {
-		let pop = (playerbs:TurnBySpeed) => {
-			if(!playerbs[speed]) return undefined
-			return playerbs[speed].pop()
+		let pop = (turns:TurnsBySpeed) => {
+			if(!turns[speed]) return undefined
+			return turns[speed].pop()
 		}
 		while(true) {
-			let p1t = pop(player1bs)
-			if(p1t) yield(p1t)
-			let p2t = pop(player2bs)
-			if(p2t) yield(p2t)
-			if(!p1t && !p2t) break;
+			let sourceTurn = pop(sourceUnitsBySpeed)
+			if(sourceTurn) yield(sourceTurn)
+			let targetTurn = pop(targetUnitsBySpeed)
+			if(targetTurn) yield(targetTurn)
+			if(!sourceTurn && !targetTurn) break;
 		}
 	}
 }
