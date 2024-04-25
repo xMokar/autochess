@@ -91,6 +91,7 @@ let fold = () => {
 </script>
 <div class="container mt-2">
 	<a href="/" class="btn btn-primary">Guía del juego</a>
+	<a href="/shop" data-sveltekit-reload="true" class="btn btn-secondary">Reiniciar la tienda</a>
 	{#if mode=="buy"}
 		{#if currentPlayer}
 			<h5>Comprar cartas</h5>
