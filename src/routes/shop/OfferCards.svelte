@@ -11,7 +11,7 @@ let dispatch = createEventDispatcher()
 Oro: {player.gold} Cartas en la mano: {player.units.length}<br>
 <div class="row mt-2">
 	{#each offered as unit, i (unit.index)}
-		<div class="col-3">
+		<div class="col-3 mb-1">
 			<UnitCard {unit}>
 				<span class="float-end">
 					<button disabled={player.gold==0} class="btn btn-sm btn-danger" on:click={() => dispatch('buy', i)}>Comprar</button>
