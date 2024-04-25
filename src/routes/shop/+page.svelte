@@ -23,7 +23,7 @@ let players:Player[] = [
 			color: 'primary',
 			picked: false,
 			finished: false,
-			gold: 6,
+			gold: 5,
 			rolls: 2,
 			units: []
 		},
@@ -32,7 +32,7 @@ let players:Player[] = [
 			color: 'danger',
 			picked: false,
 			finished: false,
-			gold: 6,
+			gold: 5,
 			rolls: 2,
 			units: []
 		}
