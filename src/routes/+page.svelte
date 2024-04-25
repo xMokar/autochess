@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Units, calculateDamage, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
-    import UnitCard from "$lib/UnitCard.svelte";
+    import UnitInfo from "$lib/UnitInfo.svelte";
     import { goto } from "$app/navigation";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
@@ -45,7 +45,7 @@
 						{unit.name}
 					</div>
 					<div class="card-body">
-						<UnitCard {unit} />
+						<UnitInfo {unit} />
 					</div>
 				</div>
 			</div>

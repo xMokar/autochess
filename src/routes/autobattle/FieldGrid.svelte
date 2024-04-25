@@ -1,6 +1,6 @@
 <script lang="ts">
 import { type Player, type Field, Units, UnitMap } from '$lib/system'
-import UnitCard from '$lib/UnitCard.svelte';
+import UnitInfo from '$lib/UnitInfo.svelte';
 
 export let player:Player
 export let mirrored = false
@@ -77,7 +77,7 @@ $: status = isAlive? "bg-"+player.color: "bg-secondary"
 						</div>
 						<div class="card-body p-1">
 							{#if activeUnit}
-								<UnitCard unit="{activeUnit.unit}" />
+								<UnitInfo unit="{activeUnit.unit}" />
 							{:else}
 							&nbsp;
 							{/if}

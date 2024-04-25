@@ -1,6 +1,6 @@
 <script lang="ts">
     import ElementIcon from "$lib/ElementIcon.svelte";
-import UnitCard from "$lib/UnitCard.svelte";
+import UnitInfo from "$lib/UnitInfo.svelte";
 import { Units, type Unit } from "$lib/system";
 
 interface Player {
@@ -117,7 +117,7 @@ let fold = () => {
 								{/if}
 							</div>
 							<div class="card-body">
-								<UnitCard {unit} />
+								<UnitInfo {unit} />
 							</div>
 						</div>
 					</div>
@@ -161,7 +161,7 @@ let fold = () => {
 								{unit.name}
 							</div>
 							<div class="card-body">
-								<UnitCard {unit} />
+								<UnitInfo {unit} />
 							</div>
 						</div>
 					</div>
