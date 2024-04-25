@@ -95,7 +95,7 @@ let fold = () => {
 	{#if mode=="buy"}
 		{#if currentPlayer}
 			<h5>Comprar cartas</h5>
-			<h5>Quien puede ver esta página: {currentPlayer.name}</h5>
+			<h5>Quien puede ver esta página: <span class="text-{currentPlayer.color}">{currentPlayer.name}</span></h5>
 
 			{#if currentPlayer.rolls>0}
 				<button on:click={roll} class="btn btn-primary">{currentPlayer.name} pide nuevas cartas</button>
