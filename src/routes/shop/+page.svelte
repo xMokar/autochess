@@ -80,13 +80,34 @@ let fold = () => {
 	<a href="/shop" data-sveltekit-reload="true" class="btn btn-secondary">Reiniciar la tienda</a>
 	{#if mode=="buy"}
 		{#if currentPlayer}
-			<OfferCards player={currentPlayer} offered={offered} on:buy={(ev) => buy(ev.detail)}>
-				{#if currentPlayer.rolls>0}
-					<button on:click={roll} class="btn btn-primary">{currentPlayer.name} pide nuevas cartas</button>
-				{:else}
-					<button on:click={endTurn} class="btn btn-danger">{currentPlayer.name} Termina su turno de compra.</button>
-				{/if}
-			</OfferCards>
+			<div class="card mt-2">
+				<div class="card-header">
+					Tienda para <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
+					<span class="float-end">
+						{#if currentPlayer.rolls>0}
+							<button on:click={roll} class="btn btn-primary">Pedir cartas nuevas</button>
+						{:else}
+							<button on:click={endTurn} class="btn btn-danger">Termina tu turno de compra</button>
+						{/if}
+					</span>
+				</div>
+				<div class="card-body">
+					<OfferCards player={currentPlayer} offered={offered} on:buy={(ev) => buy(ev.detail)} />
+				</div>
+			</div>
+
+			<div class="card mt-2">
+				<div class="card-header">Cartas en mano</div>
+				<div class="card-body">
+					<div class="row">
+					{#each currentPlayer.units as unit}
+						<div class="col-3">
+							<UnitCard {unit} />
+						</div>
+					{/each}
+					</div>
+				</div>
+			</div>
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
@@ -114,14 +135,19 @@ let fold = () => {
 			<button class="btn btn-info" on:click={fold}>
 				Retirarse
 			</button>
-			<br>
-			Viendo la mano de <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
-			<div class="row mt-2">
-				{#each currentPlayer.units as unit, i (unit.index)}
-					<div class="col-3">
-						<UnitCard {unit} />
+			<div class="card mt-2">
+				<div class="card-header">
+					Viendo la mano de <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
+				</div>
+				<div class="card-body">
+					<div class="row mt-2">
+						{#each currentPlayer.units as unit (unit.index)}
+							<div class="col-3">
+								<UnitCard {unit} />
+							</div>
+						{/each}
 					</div>
-				{/each}
+				</div>
 			</div>
 		{/if}
 	{/if}
