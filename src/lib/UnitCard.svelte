@@ -27,16 +27,16 @@
 	</div>
 	<div class="col-12">
 		<b>Nombre del ataque:</b><br>
-		<div class="ms-4" style="height: 2rem">{unit.attackName}</div><br>
+		<div class="ms-2" style="height: 2rem">{unit.attackName}</div><br>
 		<b>Objetivos:</b> <br>
-		<span class="ms-4">
+		<span class="ms-2">
 		{unit.targetting.name}<br>
 		</span>
 		<b>Dados de ataque:</b><br>
 	</div>
 	{#each [...unit.elementStrength].sort((a,b) => (b.dice*b.sides+b.modifier)-(a.dice*a.sides+a.modifier)) as es}
 	<div class="col-12 col-md-6">
-		<span class="ms-4 text-nowrap">
+		<span class="ms-2 text-nowrap">
 			<ElementIcon element={es.element} /> {es.dice}d{es.sides}+{es.modifier}
 		</span>
 	</div>
