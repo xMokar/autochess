@@ -122,10 +122,11 @@ let fold = () => {
 		</button>
 
 		{#if currentPlayer}
-			<button class="btn btn-info" on:click={fold}>
-				Retirarse
-			</button>
-			<PlayerHand player={currentPlayer} />
+			<PlayerHand player={currentPlayer}>
+				<button class="btn btn-info" on:click={fold}>
+					Retirarse
+				</button>
+			</PlayerHand>
 		{/if}
 	{/if}
 </div>
