@@ -2,6 +2,7 @@
 import UnitCard from "$lib/UnitCard.svelte";
 import { Units, type DeckUnit } from "$lib/system";
     import OfferCards from "./OfferCards.svelte";
+    import PlayerHand from "./PlayerHand.svelte";
 
 let players:ShopPlayer[] = [ 
 		{ 
@@ -96,18 +97,7 @@ let fold = () => {
 				</div>
 			</div>
 
-			<div class="card mt-2">
-				<div class="card-header">Cartas en mano</div>
-				<div class="card-body">
-					<div class="row">
-					{#each currentPlayer.units as unit}
-						<div class="col-3">
-							<UnitCard {unit} />
-						</div>
-					{/each}
-					</div>
-				</div>
-			</div>
+			<PlayerHand player={currentPlayer} />
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
@@ -135,20 +125,7 @@ let fold = () => {
 			<button class="btn btn-info" on:click={fold}>
 				Retirarse
 			</button>
-			<div class="card mt-2">
-				<div class="card-header">
-					Viendo la mano de <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
-				</div>
-				<div class="card-body">
-					<div class="row mt-2">
-						{#each currentPlayer.units as unit (unit.index)}
-							<div class="col-3">
-								<UnitCard {unit} />
-							</div>
-						{/each}
-					</div>
-				</div>
-			</div>
+			<PlayerHand player={currentPlayer} />
 		{/if}
 	{/if}
 </div>
