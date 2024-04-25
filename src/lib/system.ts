@@ -37,6 +37,11 @@ let targetting:Targetting[] = [
 		targets: 1,
 	},
 	{
+		id: 'everyone',
+		name: 'Todos los enemigos',
+		targets: 1,
+	},
+	{
 		id: 'random',
 		name: 'Un enemigo al azar',
 		targets: 1,
@@ -241,6 +246,25 @@ export let Units:Unit[] = [
 			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
 			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
+		]
+	},
+	{
+		id: 'earthelemental',
+		name: 'Elemental de tierra',
+		info: 'Creatura magica de tierra viva',
+		movespeed: 0,
+		element: ElementMap.earth,
+		targetting: TargettingMap.everyone,
+		hp: 10,
+		defense:0,
+		cost: 1,
+		attackName: 'Hacer temblar la tierra.',
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 0 },
+			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 1 },
+			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
 		]
 	},
 	{

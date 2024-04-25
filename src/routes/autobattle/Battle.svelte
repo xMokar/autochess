@@ -50,6 +50,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 			let n = Math.floor(Math.random()*target.length)
 			return [target[n]]
 		},
+		everyone: (_:ActiveUnit, target:Field) => target,
 		closest1: (attacker:ActiveUnit, target:Field) => {
 			return target
 				.map((target) => calculateDistance(attacker, target))
