@@ -51,35 +51,30 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 			return [target[n]]
 		},
 		everyone: (_:ActiveUnit, target:Field) => target,
-		closest1: (attacker:ActiveUnit, target:Field) => {
-			return target
+		closest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
-		},
-		weakest1: (attacker:ActiveUnit, target:Field) => {
-			return target
+		,
+		weakest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a,b) => (a.target.hp-b.target.hp))
 				.map(({target}) => target)
 				.slice(0, 1)
-				
-		},
-		farthest1: (attacker:ActiveUnit, target:Field) => {
-			return target
+		,
+		farthest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
-		}, 
-		farthest2: (attacker:ActiveUnit, target:Field) => {
-			return target
+		, 
+		farthest2: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,2)
-		}, 
+		, 
 		farthest1_direct: (attacker:ActiveUnit, target:Field) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
 			if(!farthest1) return []
