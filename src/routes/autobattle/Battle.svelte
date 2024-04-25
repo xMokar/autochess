@@ -57,6 +57,14 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 				.map(({target}) => target) 
 				.slice(0,1)
 		},
+		weakest1: (attacker:ActiveUnit, target:Field) => {
+			return target
+				.map((target) => calculateDistance(attacker, target))
+				.sort((a,b) => (a.target.hp-b.target.hp))
+				.map(({target}) => target)
+				.slice(0, 1)
+				
+		},
 		farthest1: (attacker:ActiveUnit, target:Field) => {
 			return target
 				.map((target) => calculateDistance(attacker, target))

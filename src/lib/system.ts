@@ -12,28 +12,33 @@ interface Targetting {
 let targetting:Targetting[] = [
 	{
 		id: 'closest1',
-		name: 'Más cercano',
+		name: 'El enemigo más cercano',
 		targets: 1,
 	},
 	{
 		id: 'farthest1',
-		name: 'Más lejano',
+		name: 'El enemigo más lejano',
 		targets: 1,
 	},
 	{
 		id: 'farthest2',
-		name: '2 Más lejanos',
+		name: 'Los 2 enemigos más lejanos',
 		targets: 2,
 	},
 	
 	{
 		id: 'farthest1_direct',
-		name: 'Más lejano directo',
+		name: 'Un enemigo no bloqueado',
+		targets: 1,
+	},
+	{
+		id: 'weakest1',
+		name: 'El énemigo con menos HP',
 		targets: 1,
 	},
 	{
 		id: 'random',
-		name: 'Enemigo al azar',
+		name: 'Un enemigo al azar',
 		targets: 1,
 	}
 ]
@@ -107,10 +112,10 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 export let Units:Unit[] = [ 
 	{ 
 		id: 'watermage',
-		name: 'Ninja',
-		info: 'Es un Ninja de la aldea de agua.',
+		name: 'Sirena',
+		info: 'Es una bella chica peliroja con cola de pez',
 		hp: 10,
-		attackName: 'Lanzar varios shurikens de agua.',
+		attackName: 'Invocar una ola magica desde atrás.',
 		defense:0,
 		movespeed: 1,
 		element: ElementMap.water,
@@ -122,6 +127,25 @@ export let Units:Unit[] = [
 			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 0 },
 			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
 			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 0 },
+		]
+	},
+	{ 
+		id: 'waterelemental',
+		name: 'Elemental de agua',
+		info: 'Es una creatura de agua viva, con grandes poderes mágicos.',
+		hp: 10,
+		attackName: 'Invocar un remolino de agua rasgador.',
+		defense:0,
+		movespeed: 1,
+		element: ElementMap.water,
+		targetting: TargettingMap.weakest1,
+		cost: 1,
+		elementStrength: [
+			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 1 },
+			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
+			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
+			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
+			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
 		]
 	},
 	{ 
@@ -171,7 +195,7 @@ export let Units:Unit[] = [
 		movespeed: 1,
 		attackName: 'Lanzar una bola de fuego.',
 		element: ElementMap.fire,
-		targetting: TargettingMap.closest1,
+		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		elementStrength: [
 			{ element: ElementMap.fire, dice: 1, sides: 8, modifier: 0 },
