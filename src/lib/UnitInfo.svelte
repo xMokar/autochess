@@ -2,7 +2,7 @@
     import { type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
 
-	export let unit:Unit
+	let { unit }:{unit:Unit} = $props()
 </script>
 <div class="row">
 	

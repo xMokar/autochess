@@ -2,9 +2,7 @@
 import { type Player, type Field, type ActiveUnit, type DamageRoll, calculateDamage } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
-export let home:Player
-export let visitor:Player
-
+let { home, visitor}: {home:Player, visitor:Player} = $props()
 function setBattleCoordinates(player:Player) {
 	for(let activeUnit of player.field) {
 		activeUnit.x = activeUnit.setx
@@ -85,7 +83,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 
 
 
-let winner = "Nadie"
+let winner = $state("Nadie")
 function run100() {
 	resetStats()
 	for(let i=0; i<100; i++) {
@@ -259,23 +257,23 @@ function combatRound(source:Player, target:Player)  {
 	log.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
 	log.push('')
 }
-let log:string[] = []
-let stats = {
+let log:string[] = $state([])
+let stats = $state({
 	combats: 0,
 	victories: {
 		home: 0,
 		visitor: 0,
 	}
-}
+})
 
 </script>
 
 <div class="container mt-2">
 	<div class="mb-2">
 		<a class="btn btn-primary" href="/">Guía del juego</a>
-		<button on:click={resetAll} class="btn btn-secondary">Limpiar</button>
-		<button on:click={run} class="btn btn-success">Pelear</button>
-		<button on:click={run100} class="btn btn-warning">Pelear x100</button>
+		<button onclick={resetAll} class="btn btn-secondary">Limpiar</button>
+		<button onclick={run} class="btn btn-success">Pelear</button>
+		<button onclick={run100} class="btn btn-warning">Pelear x100</button>
 		{@html winner} ganó!
 	</div>
 
@@ -292,5 +290,5 @@ let stats = {
 		{/each}
 	</div>
 			<FieldGrid player={visitor} mirrored={true} />
-			<FieldGrid player={home} />
+			<FieldGrid player={home} mirrored={false} />
 </div>

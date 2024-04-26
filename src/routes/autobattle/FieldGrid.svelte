@@ -2,8 +2,7 @@
 import { type Player, type Field, Units, UnitMap } from '$lib/system'
 import UnitInfo from '$lib/UnitInfo.svelte';
 
-export let player:Player
-export let mirrored = false
+let { player, mirrored=false }: {player:Player, mirrored:boolean} = $props()
 
 function fieldToArray(field:Field, mirrored:boolean=false) {
 	let newfield = Array(9).fill(undefined).map((_, i) => {
@@ -46,8 +45,8 @@ function add(index:number) {
 	}
 }
 
-$: isAlive = player.field.filter(activeUnit => activeUnit.hp>0).length>0
-$: status = isAlive? "bg-"+player.color: "bg-secondary"
+let isAlive = $derived(player.field.filter(activeUnit => activeUnit.hp>0).length>0)
+let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 </script>
 <div class="card mb-1 border-{player.color}" >
 	<div class="card-header {status} text-white">
@@ -65,7 +64,7 @@ $: status = isAlive? "bg-"+player.color: "bg-secondary"
 				<div class="col-4 mb-1" style="min-height: 175px">
 					<div class="card h-100 border-{player.color}">
 						<div class="card-header">
-							<select on:change={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100">
+							<select onchange={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100">
 								<option value="">-</option>
 								{#each Units as unit}
 									<option value="{unit.id}">{unit.name}</option>

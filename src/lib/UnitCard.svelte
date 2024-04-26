@@ -3,7 +3,7 @@
     import ElementIcon from "$lib/ElementIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
 
-	export let unit:Unit
+	let { unit, actions = undefined }:{unit:Unit, actions:any|undefined} = $props()
 </script>
 
 <div class="card">
@@ -13,7 +13,7 @@
 	</div>
 	<div class="card-body">
 		<UnitInfo {unit} />
-		<slot />
+		{@render actions()}
 	</div>
 </div>
 

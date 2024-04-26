@@ -1,8 +1,7 @@
 <script lang="ts">
-import UnitCard from "$lib/UnitCard.svelte";
-import { Units, type DeckUnit } from "$lib/system";
-    import OfferCards from "./OfferCards.svelte";
-    import PlayerHand from "./PlayerHand.svelte";
+import { Units, type Unit } from "$lib/system";
+import OfferCards from "./OfferCards.svelte";
+import PlayerHand from "./PlayerHand.svelte";
 
 let players:ShopPlayer[] = [ 
 		{ 
@@ -45,11 +44,11 @@ let endTurn = () => {
 		}
 		
 }
-let mode="buy"
-let currentPlayer:ShopPlayer|undefined = undefined
+let mode= $state("buy")
+let currentPlayer:ShopPlayer|undefined = $state(undefined)
 
-let offered:DeckUnit[] = []
-let discard:DeckUnit[] = []
+let offered:Unit[] = $state([])
+let discard:Unit[] = $state([])
 let roll = () => {
 	if(!currentPlayer) return
 	discard.push(...offered)
@@ -62,7 +61,6 @@ let buy = (index:number) => {
 		return;
 	currentPlayer.gold--
 	currentPlayer.units.push(...offered.splice(index, 1))
-	offered = offered
 }
 
 let fold = () => {
@@ -86,23 +84,23 @@ let fold = () => {
 					Tienda para <span class="text-{currentPlayer.color}">{currentPlayer.name}</span>
 					<span class="float-end">
 						{#if currentPlayer.rolls>0}
-							<button on:click={roll} class="btn btn-primary">Pedir cartas nuevas</button>
+							<button onclick={roll} class="btn btn-primary">Pedir cartas nuevas</button>
 						{:else}
-							<button on:click={endTurn} class="btn btn-danger">Termina tu turno de compra</button>
+							<button onclick={endTurn} class="btn btn-danger">Termina tu turno de compra</button>
 						{/if}
 					</span>
 				</div>
 				<div class="card-body">
-					<OfferCards player={currentPlayer} offered={offered} on:buy={(ev) => buy(ev.detail)} />
+					<OfferCards player={currentPlayer} offered={offered} buy={(index) => buy(index)} />
 				</div>
 			</div>
 
-			<PlayerHand player={currentPlayer} />
+			<PlayerHand player={currentPlayer} actions={undefined} />
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
 			{#each activePlayers as player}
-				<button on:click={() => {
+				<button onclick={() => {
 					currentPlayer = player
 					roll()
 				}} class="btn btn-success me-2">
@@ -113,20 +111,21 @@ let fold = () => {
 	{:else}
 		<h5>Ver la mano de cada jugador</h5>
 		{#each players as player}
-			<button on:click={() => currentPlayer = player} class="btn btn-warning me-2">
+			<button onclick={() => currentPlayer = player} class="btn btn-warning me-2">
 				Ver mano de {player.name}
 			</button>
 		{/each}
-		<button on:click={() => currentPlayer = undefined} class="btn btn-secondary">
+		<button onclick={() => currentPlayer = undefined} class="btn btn-secondary">
 			Nadie
 		</button>
 
 		{#if currentPlayer}
-			<PlayerHand player={currentPlayer}>
-				<button class="btn btn-info" on:click={fold}>
+			{#snippet actions()}
+				<button class="btn btn-info" onclick={fold}>
 					Retirarse
 				</button>
-			</PlayerHand>
+			{/snippet}
+			<PlayerHand player={currentPlayer} {actions} />
 		{/if}
 	{/if}
 </div>

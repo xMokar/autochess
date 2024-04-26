@@ -1,5 +1,5 @@
 <script lang="ts">
 import { type Element } from '$lib/system'
-export let element:Element
+let { element }:{element:Element} = $props()
 </script>
 <span class="armor {element.id}" title="{element.name}"></span>

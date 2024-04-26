@@ -1,18 +1,18 @@
 <script lang="ts">
     import UnitCard from "$lib/UnitCard.svelte";
 
-export let player:ShopPlayer
+let { player, actions=undefined }: {player:ShopPlayer, actions:any} = $props()
 </script>
 <div class="card mt-2">
 	<div class="card-header">
 		Viendo la mano de <span class="text-{player.color}">{player.name}</span>
-		<span class="float-end"><slot /></span>
+		<span class="float-end">{@render actions(player)}</span>
 	</div>
 	<div class="card-body">
 		<div class="row">
-			{#each player.units as unit (unit.index)}
+			{#each player.hand as unit}
 				<div class="col-3 mb-2">
-					<UnitCard {unit} />
+					<UnitCard {unit} actions={undefined} />
 				</div>
 			{/each}
 		</div>

@@ -1,22 +1,26 @@
 <script lang="ts">
     import UnitCard from "$lib/UnitCard.svelte";
-    import type { DeckUnit }  from "$lib/system";
-    import { createEventDispatcher } from "svelte";
+    import type { Unit }  from "$lib/system";
 
-export let player:ShopPlayer
-export let offered:DeckUnit[]
-let dispatch = createEventDispatcher()
+interface Props {
+		player:ShopPlayer,
+		offered:Unit[],
+		buy:(i:number) => void,
+	}
+
+let { player, offered, buy }:Props = $props()
 </script>
 
-Oro: {player.gold} Cartas en la mano: {player.units.length}<br>
+Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 <div class="row mt-2">
-	{#each offered as unit, i (unit.index)}
+	{#each offered as unit, i}
 		<div class="col-3 mb-1">
-			<UnitCard {unit}>
+			{#snippet actions()}
 				<span class="float-end">
-					<button disabled={player.gold==0} class="btn btn-sm btn-danger" on:click={() => dispatch('buy', i)}>Comprar</button>
+					<button disabled={player.gold==0} class="btn btn-sm btn-danger" onclick={() => buy(i)}>Comprar</button>
 				</span>
-			</UnitCard>
+			{/snippet}
+			<UnitCard {unit} {actions} />
 		</div>
 	{/each}
 </div>
