@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { getPlayers } from "$lib/state";
+    import { goto } from "$app/navigation";
+    import { getPlayers, updatePlayer } from "$lib/state";
 import { Units, type Unit, type Player } from "$lib/system";
     import ManagePlayer from "./ManagePlayer.svelte";
 import OfferCards from "./OfferCards.svelte";
 import PlayerHand from "./PlayerHand.svelte";
 
-let players = getPlayers()
+let players = $state(getPlayers())
 let newDeck = Units
 	.flatMap(unit => Array(5).fill(unit))
 	.map((unit,index) => ({...unit, index}) as Unit)
@@ -55,11 +56,23 @@ let fold = () => {
 	currentPlayer = undefined
 	mode = "buy"
 }
+let restart = () => {
+	for(let player of players) {
+		player.finished=false;
+		player.gold=5
+		player.rolls=2
+		player.hand=[]
+		player.field=[]
+		updatePlayer(player)
+	}
+	goto("/shop")
+		
+}
 </script>
 
 <div class="container mt-2">
 	<a href="/" class="btn btn-primary">Guía del juego</a>
-	<a href="/shop" data-sveltekit-reload="true" class="btn btn-secondary">Reiniciar la tienda</a>
+	<button onclick={restart} class="btn btn-secondary">Reiniciar</button>
 	{#if mode=="buy"}
 		{#if currentPlayer}
 			<div class="card mt-2">
@@ -78,7 +91,7 @@ let fold = () => {
 				</div>
 			</div>
 
-			<PlayerHand player={currentPlayer} actions={undefined} />
+			<PlayerHand player={currentPlayer} actions={undefined} cardActions={undefined} />
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
