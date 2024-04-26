@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { fight } from "$lib/combat";
     import { getPlayers, updatePlayer } from "$lib/state";
 import { Units, type Unit, type Player } from "$lib/system";
     import ManagePlayer from "./ManagePlayer.svelte";
@@ -69,7 +70,12 @@ let restart = () => {
 	goto("/shop")
 		
 }
-let fight = () => {
+let log:string[] = $state([])
+let doFight = () => {
+	currentPlayer = undefined
+	let result = fight(players[0], players[1])
+	log = result.log
+		
 }
 </script>
 
@@ -117,7 +123,7 @@ let fight = () => {
 		<button onclick={() => currentPlayer = undefined} class="btn btn-secondary">
 			Nadie
 		</button>
-		<button onclick={() => fight()}>
+		<button onclick={() => doFight()} class="btn btn-danger">
 			Pelear
 		</button>
 
@@ -129,5 +135,11 @@ let fight = () => {
 			{/snippet}
 			<ManagePlayer player={currentPlayer} {actions} />
 		{/if}
+
+		<div>
+		{#each log as msg}
+		{@html msg}<br>
+		{/each}
+		</div>
 	{/if}
 </div>
