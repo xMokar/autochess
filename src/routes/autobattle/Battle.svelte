@@ -108,9 +108,9 @@ function run() {
 	for(let i=0; i<5; i++) {
 		let homeFirst = Math.random()*100>50
 		if (homeFirst)
-			combatRound(home, visitor)
+			log.push(...combatRound(home, visitor))
 		else
-			combatRound(visitor, home)
+			log.push(...combatRound(visitor, home))
 	}
 	let homeAlive = home.field.filter(activeUnit => activeUnit.hp>0).length>0
 	let visitorAlive = visitor.field.filter(activeUnit => activeUnit.hp>0).length>0
@@ -156,33 +156,43 @@ function resetStats() {
 
 
 function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
+	let output:string[] = []
+	let damage:DamageRoll = {
+			damage:0,
+			max:0,
+			min:0,
+	}
 	if(!activeUnit.hp) {
-		return null;
+		return {
+			output,
+			damage,
+		}
 	}
 	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
 		target.field.filter(activeUnit => activeUnit.hp>0))
 	if(!targets) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
-		return null
-	}
-	let total_damage:DamageRoll = {
-			damage:0,
-			max:0,
-			min:0,
+		return {
+			output,
+			damage,
+		}
 	}
 	for(let targetUnit of targets) {
 		let damage = calculateDamage(activeUnit.unit, targetUnit.unit)
-		total_damage.damage += damage.damage
-		total_damage.max += damage.max
-		total_damage.min += damage.min
+		damage.damage += damage.damage
+		damage.max += damage.max
+		damage.min += damage.min
 		
-		log.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b>`)
+		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b>`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
-			log.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
+			output.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
 		}
 	}
-	return total_damage
+	return {
+		output,
+		damage
+	}
 }
 
 interface Turn {
@@ -237,7 +247,8 @@ function *createTurnOrder(source:Player, target:Player) {
 }
 
 function combatRound(source:Player, target:Player)  {
-	log.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
+	let output = []
+	output.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
 	let turns = createTurnOrder(source, target)
 
 	let total = {
@@ -252,14 +263,16 @@ function combatRound(source:Player, target:Player)  {
 	}
 	
 	for(let turn of turns) {
-		let damage = Attack(turn.source, turn.activeUnit, turn.target)
-		if (!damage)
+		let attack = Attack(turn.source, turn.activeUnit, turn.target)
+		if (!attack.damage)
 			continue
-		total[turn.source.name].dmgmax += damage.max
-		total[turn.source.name].dmg += damage.damage
+		total[turn.source.name].dmgmax += attack.damage.max
+		total[turn.source.name].dmg += attack.damage.damage
+		output.push(...attack.output)
 	}
-	log.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
-	log.push('')
+	output.push(`Daño realizado: <b>${source.name}</b>: ${total[source.name].dmg}/${total[source.name].dmgmax}, <b>${target.name}</b>: ${total[target.name].dmg}/${total[target.name].dmgmax}`)
+	output.push('')
+	return output
 }
 let log:string[] = $state([])
 let stats = $state({

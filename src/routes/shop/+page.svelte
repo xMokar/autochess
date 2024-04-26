@@ -68,6 +68,8 @@ let restart = () => {
 	goto("/shop")
 		
 }
+let fight = () => {
+}
 </script>
 
 <div class="container mt-2">
@@ -113,6 +115,9 @@ let restart = () => {
 		{/each}
 		<button onclick={() => currentPlayer = undefined} class="btn btn-secondary">
 			Nadie
+		</button>
+		<button onclick={() => fight()}>
+			Pelear
 		</button>
 
 		{#if currentPlayer}

@@ -6,7 +6,7 @@
 let { player, actions=undefined, cardActions }:{
 	player:Player, 
 	actions:any, 
-	cardActions:Snippet<[number]>
+	cardActions:Snippet<[number]>|undefined
 } = $props()
 </script>
 <div class="card mt-2">
