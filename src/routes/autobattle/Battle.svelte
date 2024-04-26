@@ -46,6 +46,14 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 			[target[Math.floor(Math.random()*target.length)]]
 		,
 		everyone: (_:ActiveUnit, target:Field) => target,
+		nearby: (attacker:ActiveUnit, target:Field) => {
+			let closest = target
+				.map((target) => calculateDistance(attacker, target))
+				.sort((a, b) => a.distance-b.distance)
+				.map(({target}) => target) 
+				.slice(0, 2)
+			return [closest[Math.floor(Math.random()*closest.length)]]
+		},
 		closest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)

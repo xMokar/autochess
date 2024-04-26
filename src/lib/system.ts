@@ -16,6 +16,11 @@ let targetting:Targetting[] = [
 		targets: 1,
 	},
 	{
+		id: 'nearby',
+		name: 'Uno de los dos enemigos mas cercanos',
+		targets: 1,
+	},
+	{
 		id: 'farthest1',
 		name: 'El enemigo más lejano',
 		targets: 1,
@@ -242,7 +247,7 @@ export let Units:Unit[] = [
 		movespeed: 1,
 		attackName: 'Atacar con un latigo de raices.',
 		element: ElementMap.wood,
-		targetting: TargettingMap.closest1,
+		targetting: TargettingMap.nearby,
 		cost: 1,
 		elementStrength: [
 			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },

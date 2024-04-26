@@ -29,9 +29,9 @@
 		<b>Nombre del ataque:</b><br>
 		<div class="ms-2" style="height: 2rem">{unit.attackName}</div><br>
 		<b>Objetivos:</b> <br>
-		<span class="ms-2">
-		{unit.targetting.name}<br>
-		</span>
+		<div class="ms-2" style="height: 3rem">
+		{unit.targetting.name}
+		</div>
 		<b>Dados de ataque:</b><br>
 	</div>
 	{#each [...unit.elementStrength].sort((a,b) => (b.dice*b.sides+b.modifier)-(a.dice*a.sides+a.modifier)) as es}
