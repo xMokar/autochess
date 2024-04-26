@@ -108,14 +108,26 @@ let doFight = () => {
 		{:else}
 			{@const activePlayers = players.filter(player => !player.finished)}
 			<h5>Comprar cartas</h5>
-			{#each activePlayers as player}
-				<button onclick={() => {
-					currentPlayer = player
-					roll()
-				}} class="btn btn-success me-2">
-					{player.name} inicia su turno de compra
-				</button>
-			{/each}
+			<div class="row">
+				{#each activePlayers as player}
+					<div class="col-6">
+						<div class="card">
+							<div class="card-header">
+								<input type="text" bind:value={player.name} />
+							</div>
+							<div class="card-body">
+								<button onclick={() => {
+									currentPlayer = player
+									updatePlayer(player)
+									roll()
+								}} class="btn btn-success me-2">
+									Iniciar turno de compra
+								</button>
+							</div>
+						</div>
+					</div>
+				{/each}
+			</div>
 		{/if}
 	{:else}
 		<h5>Ver la mano de cada jugador</h5>
