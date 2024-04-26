@@ -40,6 +40,9 @@ let roll = () => {
 	offered = deck.splice(0,5)
 	currentPlayer.rolls--
 }
+let select = (player:Player) => {
+	currentPlayer = player
+}
 let buy = (index:number) => {
 	if(!currentPlayer) return
 	if(currentPlayer.gold==0)
@@ -77,7 +80,6 @@ let doFight = () => {
 	currentPlayer = undefined
 	let result = fight(players[0], players[1])
 	log = result.log
-		
 }
 </script>
 
@@ -118,7 +120,7 @@ let doFight = () => {
 	{:else}
 		<h5>Ver la mano de cada jugador</h5>
 		{#each players as player}
-			<button onclick={() => currentPlayer = player} class="btn btn-warning me-2">
+			<button onclick={() => select(player)} class="btn btn-warning me-2">
 				Ver mano de {player.name}
 			</button>
 		{/each}
