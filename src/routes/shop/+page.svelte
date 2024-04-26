@@ -67,6 +67,8 @@ let restart = () => {
 		player.field=[]
 		updatePlayer(player)
 	}
+		
+	mode = "buy"	
 	goto("/shop")
 		
 }
