@@ -48,7 +48,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0, 2)
-			return [closest[Math.floor(Math.random()*closest.length)]]
+			return !closest.length? []: [closest[Math.floor(Math.random()*closest.length)]]
 		},
 		closest1: (attacker:ActiveUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
