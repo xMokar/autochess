@@ -21,6 +21,7 @@ let deck = shuffle(newDeck)
 let endTurn = () => {
 		if(!currentPlayer) return
 		currentPlayer.finished = true
+		updatePlayer(currentPlayer)
 		currentPlayer = undefined
 		if(!players.find(player=>!player.finished)) {
 			mode="view"
