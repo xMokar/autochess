@@ -28,7 +28,7 @@ let endTurn = () => {
 		}
 		
 }
-let mode= $state("buy")
+let mode= $state(players.find(p=>!p.finished)?"buy":"view")
 let currentPlayer:Player|undefined = $state(undefined)
 
 let offered:Unit[] = $state([])
