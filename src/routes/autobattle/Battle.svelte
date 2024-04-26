@@ -1,5 +1,5 @@
 <script lang="ts">
-import { type Player, type Field, type ActiveUnit, type DamageRoll, calculateDamage } from "$lib/system";
+import { type Player, type Field, type ActiveUnit, type DamageRoll, type Coordinate, calculateDamage } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
 let { home, visitor}: {home:Player, visitor:Player} = $props()
@@ -12,10 +12,6 @@ function setBattleCoordinates(player:Player) {
 setBattleCoordinates(visitor)
 setBattleCoordinates(home)
 
-interface Coordinate {
-	x: number;
-	y: number;
-}
 function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;
     const dy = point2.y - point1.y;

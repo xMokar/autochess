@@ -1,9 +1,9 @@
 <script lang="ts">
     import UnitCard from "$lib/UnitCard.svelte";
-    import type { Unit }  from "$lib/system";
+    import type { Player, Unit }  from "$lib/system";
 
 interface Props {
-		player:ShopPlayer,
+		player:Player,
 		offered:Unit[],
 		buy:(i:number) => void,
 	}

@@ -73,11 +73,6 @@ export interface Unit {
 	cost: number;
 	elementStrength: ElementStrength[];
 }
-export interface DeckUnit extends Unit {
-	index:number
-}
-
-
 
 let Elements:Element[] = [
 	{
@@ -119,6 +114,11 @@ export interface Player {
 	field: Field,
 	mirrored: boolean,
 	color: string,
+	finished: boolean,
+	maxgold: number,
+	gold: number,
+	rolls: number,
+	hand: Unit[]
 }
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
@@ -334,4 +334,9 @@ export interface DamageRoll {
 	damage:number,
 	max:number,
 	min:number
+}
+
+export interface Coordinate {
+	x: number;
+	y: number;
 }

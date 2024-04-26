@@ -1,34 +1,16 @@
 <script lang="ts">
-import { Units, type Unit } from "$lib/system";
+    import { getPlayers } from "$lib/state";
+import { Units, type Unit, type Player } from "$lib/system";
+    import ManagePlayer from "./ManagePlayer.svelte";
 import OfferCards from "./OfferCards.svelte";
 import PlayerHand from "./PlayerHand.svelte";
 
-let players:ShopPlayer[] = [ 
-		{ 
-			name: 'Jugador1',
-			color: 'primary',
-			picked: false,
-			finished: false,
-			gold: 5,
-			rolls: 2,
-			units: []
-		},
-		{
-			name: 'Jugador2',
-			color: 'danger',
-			picked: false,
-			finished: false,
-			gold: 5,
-			rolls: 2,
-			units: []
-		}
-	]
-
+let players = getPlayers()
 let newDeck = Units
 	.flatMap(unit => Array(5).fill(unit))
-	.map((unit,index) => ({...unit, index}) as DeckUnit)
+	.map((unit,index) => ({...unit, index}) as Unit)
 
-let shuffle = (deck:DeckUnit[]) => deck
+let shuffle = (deck:Unit[]) => deck
 	.map(unit => ({ unit, order: Math.random()*deck.length }))
 	.sort((a, b) => b.order-a.order)
 	.map(({unit}) => unit)
@@ -45,7 +27,7 @@ let endTurn = () => {
 		
 }
 let mode= $state("buy")
-let currentPlayer:ShopPlayer|undefined = $state(undefined)
+let currentPlayer:Player|undefined = $state(undefined)
 
 let offered:Unit[] = $state([])
 let discard:Unit[] = $state([])
@@ -60,7 +42,7 @@ let buy = (index:number) => {
 	if(currentPlayer.gold==0)
 		return;
 	currentPlayer.gold--
-	currentPlayer.units.push(...offered.splice(index, 1))
+	currentPlayer.hand.push(...offered.splice(index, 1))
 }
 
 let fold = () => {
@@ -68,12 +50,13 @@ let fold = () => {
 	currentPlayer.finished = false
 	currentPlayer.rolls = 2
 	currentPlayer.gold = 5
-	deck.push(...currentPlayer.units)
-	currentPlayer.units = []
+	deck.push(...currentPlayer.hand)
+	currentPlayer.hand = []
 	currentPlayer = undefined
 	mode = "buy"
 }
 </script>
+
 <div class="container mt-2">
 	<a href="/" class="btn btn-primary">Guía del juego</a>
 	<a href="/shop" data-sveltekit-reload="true" class="btn btn-secondary">Reiniciar la tienda</a>
@@ -125,7 +108,7 @@ let fold = () => {
 					Retirarse
 				</button>
 			{/snippet}
-			<PlayerHand player={currentPlayer} {actions} />
+			<ManagePlayer player={currentPlayer} {actions} />
 		{/if}
 	{/if}
 </div>

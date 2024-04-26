@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { updatePlayer } from '$lib/state';
 import { type Player, type Field, Units, UnitMap } from '$lib/system'
 import UnitInfo from '$lib/UnitInfo.svelte';
 
@@ -41,7 +42,7 @@ function add(index:number) {
 			})
 		}
 		player.field = player.field
-		localStorage.setItem(player.id, JSON.stringify(player))
+		updatePlayer(player)
 	}
 }
 
