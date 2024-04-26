@@ -46,7 +46,7 @@ function release(c:Coordinate) {
 	<div class="card-body">
 		<div class="row">
 		{#each grid as g, index}
-		{@const unit = player.field.find(u => u.x==g.x && u.y==g.y)}
+		{@const unit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 		{#snippet fieldCardActions()}
 			<button onclick={() => release(g)} class="btn btn-sm btn-info">
 				Regresar
