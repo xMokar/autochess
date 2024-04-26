@@ -212,3 +212,36 @@ export function initBattle(player1:Player, player2: Player) {
 		setBattleCoordinates(player)
 	}
 }
+
+export function fight(player1:Player, player2:Player) {
+	let log = []
+	initBattle(player1, player2)
+	for(let i=0; i<5; i++) {
+		let homeFirst = Math.random()*100>50
+		if (homeFirst)
+			log.push(...combatRound(player1, player2))
+		else
+			log.push(...combatRound(player2, player1))
+	}
+	let player1Alive = player1.field.filter(activeUnit => activeUnit.hp>0).length>0
+	let player2Alive = player2.field.filter(activeUnit => activeUnit.hp>0).length>0
+	if (player1Alive && player2Alive) {
+		log.push("Empate!")
+		return {
+			winner: undefined,
+			log
+		}
+	} else if (player1Alive) {
+		log.push(`${player1.name} es el ganador`)
+		return {
+			winner: player1,
+			log
+		}
+	} else  {
+		log.push(`${player2.name} es el ganador`)
+		return {
+			winner: player2,
+			log
+		}
+	}
+}

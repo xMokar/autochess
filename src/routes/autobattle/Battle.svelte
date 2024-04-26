@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { initBattle, combatRound } from "$lib/combat";
-import { type Player, type Field } from "$lib/system";
+    import { initBattle, fight } from "$lib/combat";
+import { type Player } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
 let { home, visitor}: {home:Player, visitor:Player} = $props()
@@ -24,30 +24,16 @@ function run100() {
 
 function run() {
 	log = []
-	resetCombat()
-	for(let i=0; i<5; i++) {
-		let homeFirst = Math.random()*100>50
-		if (homeFirst)
-			log.push(...combatRound(home, visitor))
-		else
-			log.push(...combatRound(visitor, home))
+	let result = fight(home, visitor)
+	if(!result.winner) 
+		winner = "Nadie"
+	else {
+		winner = `<b class="text-${result.winner.color}">${result.winner.name}</b>`
+		if (result.winner == home) stats.victories.home++
+		else if(result.winner == visitor) stats.victories.visitor++
 	}
-	let homeAlive = home.field.filter(activeUnit => activeUnit.hp>0).length>0
-	let visitorAlive = visitor.field.filter(activeUnit => activeUnit.hp>0).length>0
 	stats.combats++
-	if (homeAlive && visitorAlive) {
-		log.push("Empate!")
-		winner = 'Nadie'
-	} else if (homeAlive) {
-		stats.victories.home++
-		log.push(`${home.name} es el ganador`)
-		winner = `<b class="text-${home.color}">${home.name}</b>`
-	} else if (visitorAlive) {
-		stats.victories.visitor++
-		log.push(`${visitor.name} es el ganador`)
-		winner = `<b class="text-${visitor.color}">${visitor.name}</b>`
-	}
-	log = log
+	log = result.log
 	home = home
 	visitor = visitor
 }
