@@ -52,23 +52,23 @@ let buy = (index:number) => {
 	currentPlayer.hand.push(...offered.splice(index, 1))
 }
 
+let resetPlayer = (player:Player) => {
+	player.finished = false
+	player.rolls = 2
+	player.gold = 5
+	player.hand = []
+	player.field = []
+}
 let fold = () => {
 	if(!currentPlayer) return
-	currentPlayer.finished = false
-	currentPlayer.rolls = 2
-	currentPlayer.gold = 5
 	deck.push(...currentPlayer.hand)
-	currentPlayer.hand = []
+	resetPlayer(currentPlayer)
 	currentPlayer = undefined
 	mode = "buy"
 }
 let restart = () => {
 	for(let player of players) {
-		player.finished=false;
-		player.gold=5
-		player.rolls=2
-		player.hand=[]
-		player.field=[]
+		resetPlayer(player)
 		updatePlayer(player)
 	}
 		
