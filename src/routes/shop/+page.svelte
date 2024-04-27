@@ -77,10 +77,12 @@ let restart = () => {
 		
 }
 let log:string[] = $state([])
+let winner:Player|undefined = $state(undefined)
 let doFight = () => {
 	currentPlayer = undefined
 	let result = fight(players[0], players[1])
 	log = result.log
+	winner = result.winner
 }
 </script>
 
@@ -143,6 +145,9 @@ let doFight = () => {
 		<button onclick={() => doFight()} class="btn btn-danger">
 			Pelear
 		</button>
+		{#if winner}
+			<b class="text-{winner.color}">{winner.name}</b> es el ganador!
+		{/if}
 
 		{#if currentPlayer}
 			{#snippet actions()}
