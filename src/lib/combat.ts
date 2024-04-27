@@ -228,6 +228,14 @@ export function fight(player1:Player, player2:Player) {
 		if(!player1Alive || !player2Alive) 
 			break
 	}
+	let showFieldHP = (player:Player) => {
+		log.push('Unidades vivas:')
+		for(let unit of player.field) {
+			if(unit.hp===0)
+				continue
+			log.push(`${unit.unit.name}: ${unit.hp}/${unit.unit.hp}`)
+		}
+	}
 	if (player1Alive && player2Alive) {
 		log.push("Empate!")
 		return {
@@ -235,12 +243,14 @@ export function fight(player1:Player, player2:Player) {
 			log
 		}
 	} else if (player1Alive) {
+		showFieldHP(player1)
 		log.push(`<b class="text-${player1.color}">${player1.name}</b> es el ganador`)
 		return {
 			winner: player1,
 			log
 		}
 	} else  {
+		showFieldHP(player2)
 		log.push(`<b class="text-${player2.color}">${player2.name}</b> es el ganador`)
 		return {
 			winner: player2,
