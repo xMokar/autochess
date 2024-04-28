@@ -73,6 +73,7 @@ let restart = () => {
 	}
 		
 	mode = "buy"	
+	log = []
 	goto("/shop")
 		
 }
