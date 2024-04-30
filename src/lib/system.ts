@@ -220,7 +220,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'gunner',
 		name: 'Pistolero',
-		info: `Es un rebelde sín causa que resuelve las cosas a balazos.
+		info: `Es un rebelde sín causa que resuelve las problemas a balazos.
 	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
 	[+1 si tienes 1 <span class="armor earth"></span>]`,
 		hp: 10,
