@@ -168,12 +168,12 @@ export let Units:Unit[] = [
 		name: 'Sirena',
 		info: `Es una bella chica peliroja con cola de pez.
 [+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
-[+2 si tienes 2 <span class="armor metal"></span>]`,
+[+1 si tienes 1 <span class="armor metal"></span>]`,
 		hp: 10,
 		attackName: 'Invocar una ola magica desde atrás.',
 		attack: { amount: 2, sides: 4, modifier: 2 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 1, 1),
 			changeDamageAgainstElement(ElementMap.fire, 1),
 			changeDamageAgainstElement(ElementMap.water, -1),
 		],
@@ -195,7 +195,7 @@ export let Units:Unit[] = [
 		name: 'Elemental de agua',
 		info: `Es una creatura de agua viva, con grandes poderes mágicos.
 	[+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
-	[+2 si tienes 2 <span class="armor metal"></span>]`,
+	[+1 si tienes 1 <span class="armor metal"></span>]`,
 		hp: 10,
 		attackName: 'Invocar un remolino de agua rasgador.',
 		defense:0,
@@ -205,7 +205,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 1, 1),
 			changeDamageAgainstElement(ElementMap.fire, 1),
 			changeDamageAgainstElement(ElementMap.water, -1),
 		],
@@ -222,7 +222,7 @@ export let Units:Unit[] = [
 		name: 'Pistolero',
 		info: `Es un rebelde sín causa que resuelve las cosas a balazos.
 	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
-	[+2 si tienes 2 <span class="armor earth"></span>]`,
+	[+1 si tienes 1 <span class="armor earth"></span>]`,
 		hp: 10,
 		attackName: 'Disparar con la pistola.',
 		defense:0,
@@ -232,7 +232,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 1, 1),
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
@@ -249,7 +249,7 @@ export let Units:Unit[] = [
 		name: 'Tanque',
 		info: `Es un soldado con armadura de oro.
 	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
-	[+2 si tienes 2 <span class="armor earth"></span>]`,
+	[+1 si tienes 1 <span class="armor earth"></span>]`,
 		hp: 15,
 		defense:1,
 		movespeed: 1,
@@ -259,7 +259,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 1, 1),
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
@@ -276,7 +276,7 @@ export let Units:Unit[] = [
 		name: 'Mago',
 		info: `Es un mago elemental de fuego.
 			[+1 contra <span class="armor metal"></span>][-1 contra <span class="armor fire"></span>]
-			[+2 si tienes 2 <span class="armor wood"></span>]`,
+			[+1 si tienes 1 <span class="armor wood"></span>]`,
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
@@ -286,7 +286,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.wood, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.wood, 1, 1),
 			changeDamageAgainstElement(ElementMap.metal, 1),
 			changeDamageAgainstElement(ElementMap.fire, -1),
 		],
@@ -303,7 +303,7 @@ export let Units:Unit[] = [
 		name: 'Arquero',
 		info: `Es un soldado con arco y flecha.
 	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
-	[+2 si tienes 2 <span class="armor water"></span>]`,
+	[+1 si tienes 1 <span class="armor water"></span>]`,
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
@@ -313,7 +313,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-//			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 1, 1),
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
@@ -330,7 +330,7 @@ export let Units:Unit[] = [
 		name: 'Arbol humanoide',
 		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".
 	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
-	[+2 si tienes 2 <span class="armor water"></span>]`,
+	[+1 si tienes 1 <span class="armor water"></span>]`,
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
@@ -340,7 +340,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 1, 1),
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
@@ -357,7 +357,7 @@ export let Units:Unit[] = [
 		name: 'Elemental de tierra',
 		info: `Creatura magica de tierra viva.
 	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
-	[+2 si tienes 2 <span class="armor fire"></span>]`,
+	[+1 si tienes 1 <span class="armor fire"></span>]`,
 		movespeed: 0,
 		element: ElementMap.earth,
 		targetting: TargettingMap.everyone,
@@ -367,7 +367,7 @@ export let Units:Unit[] = [
 		attackName: 'Hacer temblar la tierra.',
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 1, 1),
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
@@ -384,7 +384,7 @@ export let Units:Unit[] = [
 		name: 'Druida',
 		info: `Es un hechicero que controla las fuerzas de la naturaleza.
 	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
-	[+2 si tienes 2 <span class="armor fire"></span>]`,
+	[+1 si tienes 1 <span class="armor fire"></span>]`,
 
 		movespeed: 0,
 		element: ElementMap.earth,
@@ -395,7 +395,7 @@ export let Units:Unit[] = [
 		attackName: 'Lanzar un mini meteorito.',
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 2, 2),
+			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 1, 1),
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
