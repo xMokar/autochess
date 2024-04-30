@@ -393,7 +393,7 @@ export let Units:Unit[] = [
 		defense:0,
 		cost: 1,
 		attackName: 'Lanzar un mini meteorito.',
-		attack: { amount: 1, sides: 4, modifier: 1 },
+		attack: { amount: 1, sides: 10, modifier: 1 },
 		effects: [
 			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 1, 1),
 			changeDamageAgainstElement(ElementMap.water, 1),
