@@ -17,7 +17,7 @@
 		<span class="float-end"><ElementIcon element={unit.element} /> </span>
 	</div>
 	<div class="col-12 col-md-6">
-		<b>Attack:</b>
+		<b>Ataque:</b>
 		<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
 	</div>
 	<div class="col-12 col-md-6">
