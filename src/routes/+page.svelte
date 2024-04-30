@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Units, calculateDamage, type Unit } from "$lib/system";
+    import { Units, calculateDamageStats, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
     import { goto } from "$app/navigation";
@@ -16,7 +16,7 @@
 	let targetTable = (source:Unit) => {
 		return units.map((target) => ({
 			target,
-			damage: calculateDamage(source, target)
+			damage: calculateDamageStats(source, target)
 			}))
 			.sort((a, b) => b.damage.max-a.damage.max)
 	}

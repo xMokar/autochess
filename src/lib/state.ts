@@ -1,3 +1,4 @@
+import { untrack } from "svelte";
 import { UnitMap, type Player } from "./system";
 
 export function getPlayers() {
@@ -61,19 +62,30 @@ export function getPlayers() {
 			]
 		} as Player
 
-	let updateStats = (player:Player) => {
-		for(let activeUnit of player.field) {
-			if(!activeUnit.unit)
-				return
-			activeUnit.unit = UnitMap[activeUnit.unit.id]
-		}
-	}
-	updateStats(player1)
-	updateStats(player2)
+	syncUserData(player1)
+	syncUserData(player2)
 
 	return [player1, player2]
 }
 
+export function syncUserData(player:Player) {
+	// updateStats, this reloads the unit data from
+	// the database to overwrite the cached version
+	for(let au of player.field) {
+		if(!au.unit)
+			return
+		au.unit = UnitMap[au.unit.id]
+	}
+	// updatePlayerField runs through the player
+	// field to set each unit its player instance
+	for(let au of player.field) {
+	//	au.player = untrack(() => player)
+	}
+}
+
 export function updatePlayer(player:Player) {
+	for(let au of player.field) {
+		delete(au.player)
+	}
 	localStorage.setItem(player.id, JSON.stringify(player))
 }

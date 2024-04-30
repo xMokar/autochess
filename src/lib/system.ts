@@ -1,3 +1,5 @@
+import { untrack } from "svelte";
+
 export interface Element {
 	id: string;
 	name: string;
@@ -54,12 +56,28 @@ let targetting:Targetting[] = [
 ]
 
 let TargettingMap = Object.fromEntries(targetting.map(t => [ t.id, t ]))
-interface ElementStrength {
-	element: Element,
-	dice: number,
+interface Dice {
+	amount: number,
 	sides: number,
 	modifier: number,
 }
+interface ElementStrength extends Dice{
+	element: Element,
+}
+
+
+interface Effect {
+	name: string,
+	value: number
+}
+
+interface EffectFunctionArgs {
+	attacker: ActiveUnit
+	defender?: ActiveUnit
+	field?: Field
+}
+
+type EffectFunction = (args:EffectFunctionArgs) => Effect
 export interface Unit {
 	id: string;
 	name: string;
@@ -71,7 +89,9 @@ export interface Unit {
 	element: Element;
 	targetting: Targetting;
 	cost: number;
-	elementStrength: ElementStrength[];
+	attack: Dice;
+	effects: EffectFunction[];
+//	elementStrength: ElementStrength[];
 }
 
 let Elements:Element[] = [
@@ -99,6 +119,7 @@ let Elements:Element[] = [
 export let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
 
 export interface ActiveUnit {
+	player?:Player,
 	unit:Unit
 	setx:number
 	sety:number
@@ -123,30 +144,58 @@ export interface Player {
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
+function changeDamageAgainstElement(element:Element, value:number) {
+	return ({defender}:EffectFunctionArgs) => {
+		if(!defender || defender.unit.element.id !== element.id)
+			return { name: `nodamage`, value }
+		return { name: 'damage', value } as Effect
+	}
+} 
+
+function changeDamageWithSupportingElementAtLeastN(element:Element, min:number, value:number) {
+	return ({field}:EffectFunctionArgs) => {
+		let support = field?.filter(u => u.unit.element.id==element.id).length??0
+		if(support < min)
+			return { name: `nodamage:${support}<${min}:${field}`, value }
+		return { name: 'damage', value } as Effect
+	}
+}
+
+
 export let Units:Unit[] = [ 
 	{ 
 		id: 'watermage',
 		name: 'Sirena',
-		info: 'Es una bella chica peliroja con cola de pez',
+		info: `Es una bella chica peliroja con cola de pez.
+[+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
+[+2 si tienes 2 <span class="armor metal"></span>]`,
 		hp: 10,
 		attackName: 'Invocar una ola magica desde atrás.',
+		attack: { amount: 2, sides: 4, modifier: 2 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 2, 2),
+			changeDamageAgainstElement(ElementMap.fire, 1),
+			changeDamageAgainstElement(ElementMap.water, -1),
+		],
 		defense:0,
 		movespeed: 1,
 		element: ElementMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 2, sides: 4, modifier: 1 },
-			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
-			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 0 },
-		]
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 2, sides: 4, modifier: 2 },
+//			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 1 },
+//			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 1 },
+//			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
+//			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 1 },
+//		]
 	},
 	{ 
 		id: 'waterelemental',
 		name: 'Elemental de agua',
-		info: 'Es una creatura de agua viva, con grandes poderes mágicos.',
+		info: `Es una creatura de agua viva, con grandes poderes mágicos.
+	[+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
+	[+2 si tienes 2 <span class="armor metal"></span>]`,
 		hp: 10,
 		attackName: 'Invocar un remolino de agua rasgador.',
 		defense:0,
@@ -154,18 +203,26 @@ export let Units:Unit[] = [
 		element: ElementMap.water,
 		targetting: TargettingMap.weakest1,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 1 },
-			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 6, modifier: 0 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 2, 2),
+			changeDamageAgainstElement(ElementMap.fire, 1),
+			changeDamageAgainstElement(ElementMap.water, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 1 },
+//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 0 },
+//			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
+//		]
 	},
 	{ 
 		id: 'gunner',
 		name: 'Pistolero',
-		info: 'Es un rebelde sín causa que resuelve las cosas a balazos.',
+		info: `Es un rebelde sín causa que resuelve las cosas a balazos.
+	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
+	[+2 si tienes 2 <span class="armor earth"></span>]`,
 		hp: 10,
 		attackName: 'Disparar con la pistola.',
 		defense:0,
@@ -173,18 +230,26 @@ export let Units:Unit[] = [
 		element: ElementMap.metal,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 3 },
-			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 3 },
-			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 3 },
-			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 3 },
-			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 5 },
-		]
+		attack: { amount: 1, sides: 4, modifier: 4 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 2, 2),
+			changeDamageAgainstElement(ElementMap.wood, 1),
+			changeDamageAgainstElement(ElementMap.metal, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 4 },
+//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 4 },
+//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 3 },
+//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 4 },
+//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 5 },
+//		]
 	},
 	{ 
 		id: 'tank',
 		name: 'Tanque',
-		info: 'Es un soldado con armadura de oro.',
+		info: `Es un soldado con armadura de oro.
+	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
+	[+2 si tienes 2 <span class="armor earth"></span>]`,
 		hp: 15,
 		defense:1,
 		movespeed: 1,
@@ -192,18 +257,26 @@ export let Units:Unit[] = [
 		element: ElementMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 1 },
-		]
+		attack: { amount: 1, sides: 6, modifier: 0 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 2, 2),
+			changeDamageAgainstElement(ElementMap.wood, 1),
+			changeDamageAgainstElement(ElementMap.metal, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 0 },
+//			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 1 },
+//		]
 	},
 	{
 		id: 'firemage',
 		name: 'Mago',
-		info: 'Es un mago elemental de fuego.',
+		info: `Es un mago elemental de fuego.
+			[+1 contra <span class="armor metal"></span>][-1 contra <span class="armor fire"></span>]
+			[+2 si tienes 2 <span class="armor wood"></span>]`,
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
@@ -211,18 +284,26 @@ export let Units:Unit[] = [
 		element: ElementMap.fire,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 8, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 8, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 8, modifier: 2 },
-			{ element: ElementMap.water, dice: 1, sides: 8, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 8, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 8, modifier: 0 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.wood, 2, 2),
+			changeDamageAgainstElement(ElementMap.metal, 1),
+			changeDamageAgainstElement(ElementMap.fire, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.earth, dice: 1, sides: 8, modifier: 0 },
+//			{ element: ElementMap.metal, dice: 1, sides: 8, modifier: 2 },
+//			{ element: ElementMap.water, dice: 1, sides: 8, modifier: 0 },
+//			{ element: ElementMap.wood, dice: 1, sides: 8, modifier: 0 },
+//		]
 	},
 	{
 		id: 'archer',
 		name: 'Arquero',
-		info: 'Es un soldado con arco y flecha.',
+		info: `Es un soldado con arco y flecha.
+	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
+	[+2 si tienes 2 <span class="armor water"></span>]`,
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
@@ -230,18 +311,26 @@ export let Units:Unit[] = [
 		element: ElementMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 2 },
-			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 4, modifier: 1 },
+		effects: [
+//			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 2, 2),
+			changeDamageAgainstElement(ElementMap.earth, 1),
+			changeDamageAgainstElement(ElementMap.wood, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 1 },
+//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 2 },
+//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 1 },
+//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 1 },
+//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
+//		]
 	},
 	{
 		id: 'treant',
 		name: 'Arbol humanoide',
-		info: 'Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".',
+		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".
+	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
+	[+2 si tienes 2 <span class="armor water"></span>]`,
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
@@ -249,18 +338,26 @@ export let Units:Unit[] = [
 		element: ElementMap.wood,
 		targetting: TargettingMap.nearby,
 		cost: 1,
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 2 },
-			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 6, modifier: 0 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 2, 2),
+			changeDamageAgainstElement(ElementMap.earth, 1),
+			changeDamageAgainstElement(ElementMap.wood, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 2 },
+//			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
+//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
+//		]
 	},
 	{
 		id: 'earthelemental',
 		name: 'Elemental de tierra',
-		info: 'Creatura magica de tierra viva',
+		info: `Creatura magica de tierra viva.
+	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
+	[+2 si tienes 2 <span class="armor fire"></span>]`,
 		movespeed: 0,
 		element: ElementMap.earth,
 		targetting: TargettingMap.everyone,
@@ -268,18 +365,27 @@ export let Units:Unit[] = [
 		defense:0,
 		cost: 1,
 		attackName: 'Hacer temblar la tierra.',
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 1 },
-			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 4, modifier: 1 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 2, 2),
+			changeDamageAgainstElement(ElementMap.water, 1),
+			changeDamageAgainstElement(ElementMap.earth, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 1 },
+//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 0 },
+//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 1 },
+//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 2 },
+//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 1 },
+//		]
 	},
 	{
 		id: 'druid',
 		name: 'Druida',
-		info: 'Es un hechicero que controla las fuerzas de la naturaleza.',
+		info: `Es un hechicero que controla las fuerzas de la naturaleza.
+	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
+	[+2 si tienes 2 <span class="armor fire"></span>]`,
+
 		movespeed: 0,
 		element: ElementMap.earth,
 		targetting: TargettingMap.random,
@@ -287,13 +393,19 @@ export let Units:Unit[] = [
 		defense:0,
 		cost: 1,
 		attackName: 'Lanzar un mini meteorito.',
-		elementStrength: [
-			{ element: ElementMap.fire, dice: 1, sides: 10, modifier: 0 },
-			{ element: ElementMap.earth, dice: 1, sides: 10, modifier: 0 },
-			{ element: ElementMap.metal, dice: 1, sides: 10, modifier: 0 },
-			{ element: ElementMap.water, dice: 1, sides: 10, modifier: 2 },
-			{ element: ElementMap.wood, dice: 1, sides: 10, modifier: 0 },
-		]
+		attack: { amount: 1, sides: 4, modifier: 1 },
+		effects: [
+			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 2, 2),
+			changeDamageAgainstElement(ElementMap.water, 1),
+			changeDamageAgainstElement(ElementMap.earth, -1),
+		],
+//		elementStrength: [
+//			{ element: ElementMap.fire, dice: 1, sides: 10, modifier: 0 },
+//			{ element: ElementMap.earth, dice: 1, sides: 8, modifier: 0 },
+//			{ element: ElementMap.metal, dice: 1, sides: 10, modifier: 0 },
+//			{ element: ElementMap.water, dice: 1, sides: 10, modifier: 2 },
+//			{ element: ElementMap.wood, dice: 1, sides: 10, modifier: 0 },
+//		]
 	},
 		
 ]
@@ -302,32 +414,49 @@ export let UnitMap = Object.fromEntries(Units.map(card => [ card.id, card ]))
 
 export let Pool = Units.flatMap(card => Array(costFrequency[card.cost]).fill(card))
 
-export function calculateDamage(attacker:Unit, defender:Unit) {
-	let roll = (es:ElementStrength) => Math.max(
-		Math.floor(Math.random()*es.sides)+1+es.modifier-defender.defense
-		, 0)
+export function RollDice(dice:Dice) {
+	return Array(dice.amount)
+		.fill(0)
+		.map(_ => Math.floor(Math.random()*dice.sides)+1+dice.modifier)
+		.reduce((total, num) => total+num)
+}
 
-	let multiRoll = (es:ElementStrength) => Array(es.dice)
-		.fill(es)
-		.map(roll)
-		.reduce((total, v) => {
-			total.damage += v
-			total.min += Math.max(1+es.modifier-defender.defense, 0)
-			total.max += Math.max(es.sides+es.modifier-defender.defense, 0)
-			return total
-		}, {
-			damage: 0,
-			min: 0,
-			max: 0
-		} as DamageRoll)
-	return attacker.elementStrength
-		.filter((es) => defender.element.id == es.element.id)
-		.map(multiRoll)
-		.reduce((total, d) => ({
-			damage: total.damage+d.damage,
-			max: total.max+d.max,
-			min: total.min+d.min
-		}))
+
+export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
+	// ahora el daño se calculara asi:
+	// obtenemos todos los effectos que apliquen de unit
+	let effects = attacker.unit.effects.map(effect => effect({attacker,defender,field}))
+	// obtenemos el dado unit.attack y lo tiramos
+	let damage = RollDice(attacker.unit.attack)
+	let min = damage
+	let max = damage
+	// aplicamos los efectos de dañó
+	for (let effect of effects) {
+		if(effect.name=="damage") damage += effect.value
+		if(effect.name=="nodamage" && effect.value>0) max += effect.value
+	}
+	return {
+		damage,
+		min,
+		max,
+		effects:damage-min
+	} as DamageRoll
+}
+export function calculateDamageStats(attacker:Unit, defender:Unit) {
+	return calculateDamage({
+		attacker: {
+			unit: attacker,
+			hp: 1, 
+			x: 0, y: 0,
+			setx: 0, sety: 0,
+		}, 
+		defender: {
+			unit: defender,
+			hp: 1, 
+			x: 0, y: 0,
+			setx: 0, sety: 0,
+		}
+	})
 }
 
 export interface DamageRoll {

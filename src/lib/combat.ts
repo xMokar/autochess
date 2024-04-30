@@ -96,12 +96,9 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage(activeUnit.unit, targetUnit.unit)
-		damage.damage += damage.damage
-		damage.max += damage.max
-		damage.min += damage.min
-		
-		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b>`)
+		let damage = calculateDamage({attacker:activeUnit, defender:targetUnit, field:source.field})
+		console.log(`${activeUnit.unit.name} vs ${targetUnit.unit.name}: ${damage.damage}`)
+		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (efectos: ${damage.effects})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
 			output.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)

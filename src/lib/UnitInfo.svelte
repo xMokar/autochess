@@ -6,12 +6,19 @@
 </script>
 <div class="row">
 	
-	<div class="col-12 position-relative">
-		<div style="font-size: 70%; height: 3rem;" class="fw-light">{unit.info}</div>
+	<div class="col-12">
+		<div style="font-size: 80%; height: 5rem;" class="fw-light">{#each unit.info.split('\n') as line}
+			{@html line}<br>
+		{/each}
+		</div>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Elemento:</b> 
 		<span class="float-end"><ElementIcon element={unit.element} /> </span>
+	</div>
+	<div class="col-12 col-md-6">
+		<b>Attack:</b>
+		<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>HP:</b> 
@@ -32,14 +39,6 @@
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}
 		</div>
-		<b>Dados de ataque:</b><br>
 	</div>
-	{#each [...unit.elementStrength].sort((a,b) => (b.dice*b.sides+b.modifier)-(a.dice*a.sides+a.modifier)) as es}
-	<div class="col-12 col-md-6">
-		<span class="ms-2 text-nowrap">
-			<ElementIcon element={es.element} /> {es.dice}d{es.sides}+{es.modifier}
-		</span>
-	</div>
-	{/each}
 </div>
 
