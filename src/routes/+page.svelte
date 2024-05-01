@@ -29,7 +29,7 @@
 </script>
 <div class="container mt-2">
 	<a class="btn btn-success" href="/autobattle">AutoBattle</a>
-	<a class="btn btn-secondary" href="/shop">Shop</a>
+	<a class="btn btn-secondary" href="/play">Jugar</a>
 	<br>
 	<div class="row">
 		<div class="col-12">
