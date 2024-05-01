@@ -148,7 +148,8 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 function changeDamageAgainstElement(element:Element, value:number) {
 	return ({defender}:EffectFunctionArgs) => {
-		let message = `[${value} contra <span class="armor ${element.id}"></span>]`
+		let fullvalue = value>=0?`+${value}`:value
+		let message = `[${fullvalue} contra <span class="armor ${element.id}"></span>]`
 		let type = "damage"
 		if(!defender || defender.unit.element.id !== element.id)
 			return { type, value, message, active: false }
@@ -158,7 +159,8 @@ function changeDamageAgainstElement(element:Element, value:number) {
 
 function changeDamageWithSupportingElementAtLeastN(element:Element, min:number, value:number) {
 	return ({field}:EffectFunctionArgs) => {
-		let message = `[${value} si tienes <span class="armor ${element.id}"></span>]`
+		let fullvalue = value>=0?`+${value}`:value
+		let message = `[${fullvalue} si tienes <span class="armor ${element.id}"></span>]`
 		let type = "damage"
 		let support = field?.filter(u => u.unit.element.id==element.id).length??0
 		if(support < min)
