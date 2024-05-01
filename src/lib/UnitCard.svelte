@@ -12,7 +12,7 @@
 		{unit.name}
 	</div>
 	<div class="card-body">
-		<UnitInfo {unit} />
+		<UnitInfo {unit} field={undefined} />
 		{@render actions()}
 	</div>
 </div>

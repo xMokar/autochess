@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { calculateFieldEffects, type Field, type Unit } from "$lib/system";
+    import { type Field, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
+    import { calculateFieldEffects } from "./combat";
 
-	let { unit, field }:{unit:Unit, field:Field|undefined} = $props()
+	let { unit, field=undefined }:{unit:Unit, field:Field|undefined} = $props()
 </script>
 <div class="row">
 	

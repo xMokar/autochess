@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { calculateFieldEffects, type Field, type Unit } from "$lib/system";
+    import { type Field, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import type { Snippet } from "svelte";
+    import { calculateFieldEffects } from "./combat";
 
 	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
@@ -26,6 +27,10 @@
 			<div class="col-12 col-md-6">
 				<b>HP:</b> 
 				<span class="float-end">{unit.hp}</span>
+			</div>
+			<div class="col-12 col-md-6">
+				<b>Ataque:</b>
+				<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
 			</div>
 			<div class="col-12 col-md-6 position-relative">
 				<b>Def:</b> 

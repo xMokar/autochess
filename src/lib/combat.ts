@@ -1,4 +1,4 @@
-import { calculateDamage, type ActiveUnit, type Coordinate, type DamageRoll, type Field, type Player } from "./system";
+import { RollDice, type ActiveUnit, type Coordinate, type DamageRoll, type EffectFunctionArgs, type Field, type Player, type Unit } from "./system";
 
 function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;
@@ -253,4 +253,54 @@ export function fight(player1:Player, player2:Player) {
 			log
 		}
 	}
+}
+
+export function calculateEffects({attacker,defender,field}: EffectFunctionArgs) {
+	return attacker.unit.effects.map(effect => effect({attacker,defender,field}))
+}
+export function calculateFieldEffects(attacker:Unit,field:Field|undefined) {
+	return attacker.effects.map(effect => effect({attacker:{
+		unit:attacker,
+	} as ActiveUnit,field}))
+}
+export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
+	// ahora el daño se calculara asi:
+	// obtenemos todos los effectos que apliquen de unit
+	let effects = calculateEffects({attacker,defender,field})
+	// obtenemos el dado unit.attack y lo tiramos
+	let damage = RollDice(attacker.unit.attack)
+	let min = damage
+	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
+	// aplicamos los efectos de dañó
+	for (let effect of effects) {
+		if(effect.type != "damage") continue;
+		if(effect.active) {
+			damage += effect.value
+			max += effect.value
+		} else if (effect.value>0) {
+			max += effect.value
+		}
+	}
+	return {
+		damage,
+		min,
+		max,
+		effects:damage-min
+	} as DamageRoll
+}
+export function calculateDamageStats(attacker:Unit, defender:Unit) {
+	return calculateDamage({
+		attacker: {
+			unit: attacker,
+			hp: 1, 
+			x: 0, y: 0,
+			setx: 0, sety: 0,
+		}, 
+		defender: {
+			unit: defender,
+			hp: 1, 
+			x: 0, y: 0,
+			setx: 0, sety: 0,
+		}
+	})
 }

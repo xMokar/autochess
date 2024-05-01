@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { Units, calculateDamageStats, type Unit } from "$lib/system";
+    import { Units, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
     import { goto } from "$app/navigation";
+    import { calculateDamageStats } from "$lib/combat";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
 		// No me gusta la distribución matematica del cuatro
@@ -45,7 +46,7 @@
 						{unit.name}
 					</div>
 					<div class="card-body">
-						<UnitInfo {unit} />
+						<UnitInfo {unit} field={undefined}/>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,3 @@
-import { untrack } from "svelte";
-
 export interface Element {
 	id: string;
 	name: string;
@@ -61,10 +59,6 @@ interface Dice {
 	sides: number,
 	modifier: number,
 }
-interface ElementStrength extends Dice{
-	element: Element,
-}
-
 
 interface Effect {
 	type: string,
@@ -73,13 +67,13 @@ interface Effect {
 	value: number
 }
 
-interface EffectFunctionArgs {
+export interface EffectFunctionArgs {
 	attacker: ActiveUnit
 	defender?: ActiveUnit
 	field?: Field
 }
 
-type EffectFunction = (args:EffectFunctionArgs) => Effect
+export type EffectFunction = (args:EffectFunctionArgs) => Effect
 export interface Unit {
 	id: string;
 	name: string;
@@ -93,7 +87,6 @@ export interface Unit {
 	cost: number;
 	attack: Dice;
 	effects: EffectFunction[];
-//	elementStrength: ElementStrength[];
 }
 
 let Elements:Element[] = [
@@ -188,13 +181,6 @@ export let Units:Unit[] = [
 		element: ElementMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 2, sides: 4, modifier: 2 },
-//			{ element: ElementMap.earth, dice: 2, sides: 4, modifier: 1 },
-//			{ element: ElementMap.metal, dice: 2, sides: 4, modifier: 1 },
-//			{ element: ElementMap.water, dice: 2, sides: 4, modifier: 0 },
-//			{ element: ElementMap.wood, dice: 2, sides: 4, modifier: 1 },
-//		]
 	},
 	{ 
 		id: 'waterelemental',
@@ -213,13 +199,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.fire, 1),
 			changeDamageAgainstElement(ElementMap.water, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 1 },
-//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 0 },
-//			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 0 },
-//		]
 	},
 	{ 
 		id: 'gunner',
@@ -238,13 +217,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 4 },
-//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 4 },
-//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 3 },
-//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 4 },
-//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 5 },
-//		]
 	},
 	{ 
 		id: 'tank',
@@ -263,13 +235,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 0 },
-//			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.wood, dice: 1, sides: 6, modifier: 1 },
-//		]
 	},
 	{
 		id: 'firemage',
@@ -288,13 +253,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.metal, 1),
 			changeDamageAgainstElement(ElementMap.fire, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.earth, dice: 1, sides: 8, modifier: 0 },
-//			{ element: ElementMap.metal, dice: 1, sides: 8, modifier: 2 },
-//			{ element: ElementMap.water, dice: 1, sides: 8, modifier: 0 },
-//			{ element: ElementMap.wood, dice: 1, sides: 8, modifier: 0 },
-//		]
 	},
 	{
 		id: 'archer',
@@ -313,13 +271,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 1 },
-//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 2 },
-//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 1 },
-//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 1 },
-//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
-//		]
 	},
 	{
 		id: 'treant',
@@ -338,13 +289,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.earth, dice: 1, sides: 6, modifier: 2 },
-//			{ element: ElementMap.metal, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.water, dice: 1, sides: 6, modifier: 0 },
-//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 0 },
-//		]
 	},
 	{
 		id: 'earthelemental',
@@ -363,13 +307,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 4, modifier: 1 },
-//			{ element: ElementMap.earth, dice: 1, sides: 4, modifier: 0 },
-//			{ element: ElementMap.metal, dice: 1, sides: 4, modifier: 1 },
-//			{ element: ElementMap.water, dice: 1, sides: 4, modifier: 2 },
-//			{ element: ElementMap.wood, dice: 1, sides: 4, modifier: 1 },
-//		]
 	},
 	{
 		id: 'druid',
@@ -389,13 +326,6 @@ export let Units:Unit[] = [
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
-//		elementStrength: [
-//			{ element: ElementMap.fire, dice: 1, sides: 10, modifier: 0 },
-//			{ element: ElementMap.earth, dice: 1, sides: 8, modifier: 0 },
-//			{ element: ElementMap.metal, dice: 1, sides: 10, modifier: 0 },
-//			{ element: ElementMap.water, dice: 1, sides: 10, modifier: 2 },
-//			{ element: ElementMap.wood, dice: 1, sides: 10, modifier: 0 },
-//		]
 	},
 		
 ]
@@ -411,60 +341,12 @@ export function RollDice(dice:Dice) {
 		.reduce((total, num) => total+num)
 }
 
-export function calculateEffects({attacker,defender,field}: EffectFunctionArgs) {
-	return attacker.unit.effects.map(effect => effect({attacker,defender,field}))
-}
-export function calculateFieldEffects(attacker:Unit,field:Field|undefined) {
-	return attacker.effects.map(effect => effect({attacker:{
-		unit:attacker,
-	} as ActiveUnit,field}))
-}
-export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
-	// ahora el daño se calculara asi:
-	// obtenemos todos los effectos que apliquen de unit
-	let effects = calculateEffects({attacker,defender,field})
-	// obtenemos el dado unit.attack y lo tiramos
-	let damage = RollDice(attacker.unit.attack)
-	let min = damage
-	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
-	// aplicamos los efectos de dañó
-	for (let effect of effects) {
-		if(effect.type != "damage") continue;
-		if(effect.active) {
-			damage += effect.value
-			max += effect.value
-		} else if (effect.value>0) {
-			max += effect.value
-		}
-	}
-	return {
-		damage,
-		min,
-		max,
-		effects:damage-min
-	} as DamageRoll
-}
-export function calculateDamageStats(attacker:Unit, defender:Unit) {
-	return calculateDamage({
-		attacker: {
-			unit: attacker,
-			hp: 1, 
-			x: 0, y: 0,
-			setx: 0, sety: 0,
-		}, 
-		defender: {
-			unit: defender,
-			hp: 1, 
-			x: 0, y: 0,
-			setx: 0, sety: 0,
-		}
-	})
-}
 
 export interface DamageRoll {
 	damage:number,
 	max:number,
-	min:number
+	min:number,
+	effects?:number,
 }
 
 export interface Coordinate {
