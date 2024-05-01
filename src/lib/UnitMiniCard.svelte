@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { type Unit } from "$lib/system";
+    import { calculateFieldEffects, type Field, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
     import type { Snippet } from "svelte";
 
-	let { unit, cardActions, index=0 }:{
+	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
+		field:Field,
 		cardActions:Snippet<[number]>,
 		index:number
 	} = $props()
@@ -33,6 +34,11 @@
 			<div class="col-12 col-md-6">
 				<b>Vel:</b>
 				<span class="float-end">{unit.movespeed}</span>
+			</div>
+			<div class="col-12">
+				{#each calculateFieldEffects(unit, field) as effect}
+					<span class:fw-bold={effect.active} class:text-muted={!effect.active} style="white-space: nowrap">{@html effect.message}</span>
+				{/each}
 			</div>
 			<div class="col-12 col-md-6">
 				{@render cardActions(index)}

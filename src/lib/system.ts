@@ -67,7 +67,9 @@ interface ElementStrength extends Dice{
 
 
 interface Effect {
-	name: string,
+	type: string,
+	message: string,
+	active: boolean,
 	value: number
 }
 
@@ -146,18 +148,22 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 function changeDamageAgainstElement(element:Element, value:number) {
 	return ({defender}:EffectFunctionArgs) => {
+		let message = `[${value} contra <span class="armor ${element.id}"></span>]`
+		let type = "damage"
 		if(!defender || defender.unit.element.id !== element.id)
-			return { name: `nodamage`, value }
-		return { name: 'damage', value } as Effect
+			return { type, value, message, active: false }
+		return { type , value, message, active: true } as Effect
 	}
 } 
 
 function changeDamageWithSupportingElementAtLeastN(element:Element, min:number, value:number) {
 	return ({field}:EffectFunctionArgs) => {
+		let message = `[${value} si tienes <span class="armor ${element.id}"></span>]`
+		let type = "damage"
 		let support = field?.filter(u => u.unit.element.id==element.id).length??0
 		if(support < min)
-			return { name: `nodamage:${support}<${min}:${field}`, value }
-		return { name: 'damage', value } as Effect
+			return { type, value, message, active: false }
+		return { type, value, message, active: true } as Effect
 	}
 }
 
@@ -166,9 +172,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'watermage',
 		name: 'Sirena',
-		info: `Es una bella chica peliroja con cola de pez.
-[+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
-[+1 si tienes 1 <span class="armor metal"></span>]`,
+		info: `Es una bella chica peliroja con cola de pez.`,
 		hp: 10,
 		attackName: 'Invocar una ola magica desde atrás.',
 		attack: { amount: 2, sides: 4, modifier: 2 },
@@ -193,9 +197,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'waterelemental',
 		name: 'Elemental de agua',
-		info: `Es una creatura de agua viva, con grandes poderes mágicos.
-	[+1 contra <span class="armor fire"></span>][-1 contra <span class="armor water"></span>]
-	[+1 si tienes 1 <span class="armor metal"></span>]`,
+		info: `Es una creatura de agua viva, con grandes poderes mágicos.`,
 		hp: 10,
 		attackName: 'Invocar un remolino de agua rasgador.',
 		defense:0,
@@ -220,9 +222,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'gunner',
 		name: 'Pistolero',
-		info: `Es un rebelde sín causa que resuelve las problemas a balazos.
-	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
-	[+1 si tienes 1 <span class="armor earth"></span>]`,
+		info: `Es un rebelde sín causa que resuelve las problemas a balazos.`,
 		hp: 10,
 		attackName: 'Disparar con la pistola.',
 		defense:0,
@@ -247,9 +247,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'tank',
 		name: 'Tanque',
-		info: `Es un soldado con armadura de oro.
-	[+1 contra <span class="armor wood"></span>][-1 contra <span class="armor metal"></span>]
-	[+1 si tienes 1 <span class="armor earth"></span>]`,
+		info: `Es un soldado con armadura de oro.`,
 		hp: 15,
 		defense:1,
 		movespeed: 1,
@@ -274,9 +272,7 @@ export let Units:Unit[] = [
 	{
 		id: 'firemage',
 		name: 'Mago',
-		info: `Es un mago elemental de fuego.
-			[+1 contra <span class="armor metal"></span>][-1 contra <span class="armor fire"></span>]
-			[+1 si tienes 1 <span class="armor wood"></span>]`,
+		info: `Es un mago elemental de fuego.`,
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
@@ -301,9 +297,7 @@ export let Units:Unit[] = [
 	{
 		id: 'archer',
 		name: 'Arquero',
-		info: `Es un soldado con arco y flecha.
-	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
-	[+1 si tienes 1 <span class="armor water"></span>]`,
+		info: `Es un soldado con arco y flecha.`,
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
@@ -328,9 +322,7 @@ export let Units:Unit[] = [
 	{
 		id: 'treant',
 		name: 'Arbol humanoide',
-		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".
-	[+1 contra <span class="armor earth"></span>][-1 contra <span class="armor wood"></span>]
-	[+1 si tienes 1 <span class="armor water"></span>]`,
+		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".`,
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
@@ -355,9 +347,7 @@ export let Units:Unit[] = [
 	{
 		id: 'earthelemental',
 		name: 'Elemental de tierra',
-		info: `Creatura magica de tierra viva.
-	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
-	[+1 si tienes 1 <span class="armor fire"></span>]`,
+		info: `Creatura magica de tierra viva.`,
 		movespeed: 0,
 		element: ElementMap.earth,
 		targetting: TargettingMap.everyone,
@@ -382,9 +372,7 @@ export let Units:Unit[] = [
 	{
 		id: 'druid',
 		name: 'Druida',
-		info: `Es un hechicero que controla las fuerzas de la naturaleza.
-	[+1 contra <span class="armor water"></span>][-1 contra <span class="armor earth"></span>]
-	[+1 si tienes 1 <span class="armor fire"></span>]`,
+		info: `Es un hechicero que controla las fuerzas de la naturaleza.`,
 
 		movespeed: 0,
 		element: ElementMap.earth,
@@ -421,22 +409,31 @@ export function RollDice(dice:Dice) {
 		.reduce((total, num) => total+num)
 }
 
-
+export function calculateEffects({attacker,defender,field}: EffectFunctionArgs) {
+	return attacker.unit.effects.map(effect => effect({attacker,defender,field}))
+}
+export function calculateFieldEffects(attacker:Unit,field:Field|undefined) {
+	return attacker.effects.map(effect => effect({attacker:{
+		unit:attacker,
+	} as ActiveUnit,field}))
+}
 export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	// ahora el daño se calculara asi:
 	// obtenemos todos los effectos que apliquen de unit
-	let effects = attacker.unit.effects.map(effect => effect({attacker,defender,field}))
+	let effects = calculateEffects({attacker,defender,field})
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)
 	let min = damage
 	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
-		if(effect.name=="damage") {
+		if(effect.type != "damage") continue;
+		if(effect.active) {
 			damage += effect.value
 			max += effect.value
+		} else if (effect.value>0) {
+			max += effect.value
 		}
-		if(effect.name=="nodamage" && effect.value>0) max += effect.value
 	}
 	return {
 		damage,

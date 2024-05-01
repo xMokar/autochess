@@ -1,9 +1,10 @@
 <script lang="ts">
     import { updatePlayer } from '$lib/state';
-import { type Player, type Field, Units, UnitMap } from '$lib/system'
+import { type Player, type Field, Units, UnitMap, calculateFieldEffects } from '$lib/system'
 import UnitInfo from '$lib/UnitInfo.svelte';
 
 let { player, mirrored=false }: {player:Player, mirrored:boolean} = $props()
+let fieldArray = $derived(fieldToArray(player.field, mirrored))
 
 function fieldToArray(field:Field, mirrored:boolean=false) {
 	let newfield = Array(9).fill(undefined).map((_, i) => {
@@ -26,12 +27,13 @@ function add(index:number) {
 		let mirroredy = mirrored? 2-y: y
 		let x = index%3
 
-		let existing = player.field.find(i => i.setx==x && i.sety==mirroredy)
-		if(existing && !select.value) {
+		let removeUnit = () => {
 			player.field=player.field.filter(i => !(i.setx==x && i.sety==mirroredy))
-		} if(existing) {
-			existing.unit = UnitMap[select.value]
-		} else if(!existing) { 
+		}
+		let addUnit = () => {
+			if(!select.value) {
+				return;
+			}
 			player.field.push({
 				setx: x,
 				sety: mirroredy,
@@ -40,8 +42,12 @@ function add(index:number) {
 				hp: 0,
 				unit: UnitMap[select.value]
 			})
+				player.field= player.field
 		}
-		player.field = player.field
+		
+		removeUnit()
+		addUnit()
+			console.log('test', player.field, fieldArray)
 		updatePlayer(player)
 	}
 }
@@ -61,7 +67,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 
 	<div class="card-body p-1">
 		<div class="row gx-1">
-			{#each fieldToArray(player.field, mirrored) as activeUnit, index (index)}
+			{#each fieldArray as activeUnit, index}
 				<div class="col-4 mb-1" style="min-height: 175px">
 					<div class="card h-100 border-{player.color}">
 						<div class="card-header">
@@ -77,7 +83,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 						</div>
 						<div class="card-body p-1">
 							{#if activeUnit}
-								<UnitInfo unit="{activeUnit.unit}" />
+								<UnitInfo unit="{activeUnit.unit}" field={player.field} />
 							{:else}
 							&nbsp;
 							{/if}

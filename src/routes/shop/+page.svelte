@@ -1,13 +1,37 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { fight } from "$lib/combat";
-    import { getPlayers, updatePlayer } from "$lib/state";
 import { Units, type Unit, type Player } from "$lib/system";
     import ManagePlayer from "./ManagePlayer.svelte";
 import OfferCards from "./OfferCards.svelte";
 import PlayerHand from "./PlayerHand.svelte";
 
-let players = $state(getPlayers())
+let player1 = $state({ 
+			id: 'player1',
+			name: 'Azul',
+			mirrored: false,
+			color: 'primary',
+			finished: false,
+			maxgold: 5,
+			gold: 5,
+			rolls: 2,
+			hand: [],
+			field: [ ],
+		} as Player)
+let player2 = $state({
+			id: 'player2',
+			name: 'Rojo',
+			mirrored: true,
+			color: 'danger',
+			finished: false,
+			maxgold: 5,
+			gold: 5,
+			rolls: 2,
+			hand: [],
+			field: []
+		} as Player
+)
+let players:Player[] = [player1, player2]
 let newDeck = Units
 	.flatMap(unit => Array(5).fill(unit))
 	.map((unit,index) => ({...unit, index}) as Unit)
@@ -22,7 +46,6 @@ let deck = shuffle(newDeck)
 let endTurn = () => {
 		if(!currentPlayer) return
 		currentPlayer.finished = true
-		updatePlayer(currentPlayer)
 		currentPlayer = undefined
 		if(!players.find(player=>!player.finished)) {
 			mode="view"
@@ -69,7 +92,6 @@ let fold = () => {
 let restart = () => {
 	for(let player of players) {
 		resetPlayer(player)
-		updatePlayer(player)
 	}
 		
 	mode = "buy"	
@@ -122,7 +144,6 @@ let doFight = () => {
 							<div class="card-body">
 								<button onclick={() => {
 									currentPlayer = player
-									updatePlayer(player)
 									roll()
 								}} class="btn btn-success me-2">
 									Iniciar turno de compra

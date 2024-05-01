@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { type Unit } from "$lib/system";
+    import { calculateFieldEffects, type Field, type Unit } from "$lib/system";
     import ElementIcon from "$lib/ElementIcon.svelte";
 
-	let { unit }:{unit:Unit} = $props()
+	let { unit, field }:{unit:Unit, field:Field|undefined} = $props()
 </script>
 <div class="row">
 	
@@ -38,6 +38,12 @@
 		<b>Objetivos:</b> <br>
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}
+		</div>
+		<b>Efectos:</b><br>
+		<div class="ms-2" style="height:2rem">
+		{#each calculateFieldEffects(unit, field) as effect}
+			<span class:fw-bold={effect.active} class:text-muted={!effect.active} style="white-space: nowrap">{@html effect.message}</span>
+		{/each}
 		</div>
 	</div>
 </div>

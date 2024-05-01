@@ -59,7 +59,7 @@ function release(c:Coordinate) {
 				</button>
 				{/if}
 				{#if unit}
-					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} {index} />
+					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
 				{/if}
 				
 
