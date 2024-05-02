@@ -1,4 +1,5 @@
 export interface Element {
+	
 	id: string;
 	name: string;
 }
@@ -155,7 +156,7 @@ function changeDamageWithSupportingElementAtLeastN(element:Element, min:number, 
 		let fullvalue = value>=0?`+${value}`:value
 		let message = `[${fullvalue} si tienes <span class="armor ${element.id}"></span>]`
 		let type = "damage"
-		let support = field?.filter(u => u.unit.element.id==element.id).length??0
+		let support = field?.filter(u => u.hp>0 && u.unit.element.id==element.id).length??0
 		if(support < min)
 			return { type, value, message, active: false }
 		return { type, value, message, active: true } as Effect
