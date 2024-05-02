@@ -1,6 +1,5 @@
 <script lang="ts">
     import { type Unit } from "$lib/system";
-    import TraitIcon from "$lib/TraitIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
     import UnitTraits from "./UnitTraits.svelte";
 
@@ -21,15 +20,13 @@
 	<div class="card-body">
 		{#if front}
 			<div class="unit">
-				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}"  />
+				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt={unit.name} />
 			</div>
 			<div class="col-12 col-md-6">
 			</div>
 			<div class="col-12 col-md-6">
 				<b>Rasgos:</b> 
-				{#each unit.traits as trait}
-					<span class="float-end"><TraitIcon {trait} /> </span>
-				{/each}
+				<UnitTraits {unit} />
 			</div>
 			<div class="col-12 col-md-6">
 				<b>Ataque:</b>

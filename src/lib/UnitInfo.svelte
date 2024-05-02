@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type Field, type Unit } from "$lib/system";
-    import TraitIcon from "$lib/TraitIcon.svelte";
     import { calculateFieldEffects } from "./combat";
+    import UnitTraits from "./UnitTraits.svelte";
 
 	let { unit, field=undefined }:{unit:Unit, field:Field|undefined} = $props()
 </script>
@@ -15,9 +15,7 @@
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Rasgos:</b> 
-		{#each unit.traits as trait}
-		<span class="float-end"><TraitIcon {trait} /> </span>
-		{/each}
+		<UnitTraits {unit} />
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Ataque:</b>

@@ -7,8 +7,8 @@
 
 	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
-		field:Field,
-		cardActions:Snippet<[number]>,
+		field:Field|undefined,
+		cardActions:Snippet<[number]>|undefined,
 		index:number
 	} = $props()
 	let front = $state(true)
@@ -26,7 +26,7 @@
 		{#if front}
 		<div class="row">
 			<div class="unit">
-				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}"  />
+				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt="{unit.name}" />
 			</div>
 			<div class="col-12 col-md-6">
 				<b>Ataque:</b>
@@ -38,7 +38,9 @@
 				{/each}
 			</div>
 			<div class="col-12 col-md-6">
-				{@render cardActions(index)}
+				{#if cardActions}
+					{@render cardActions(index)}
+				{/if}
 			</div>
 		</div>
 		{:else}
