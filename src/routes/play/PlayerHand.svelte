@@ -10,8 +10,8 @@ let { player, actions=undefined, cardActions }:{
 } = $props()
 </script>
 <div class="card mt-2">
-	<div class="card-header">
-		Viendo la mano de <span class="text-{player.color}">{player.name}</span>
+	<div class="card-header bg-primary text-light">
+		Viendo la mano de {player.name}
 		<span class="float-end">{@render actions(player)}</span>
 	</div>
 	<div class="card-body">

@@ -42,7 +42,7 @@ function release(c:Coordinate) {
 {/snippet}
 <PlayerHand player={player} {actions} {cardActions} />
 <div class="card mt-2">
-	<div class="card-header">Tablero</div>
+	<div class="card-header bg-success text-light">Tablero</div>
 	<div class="card-body">
 		<div class="row">
 		{#each grid as g, index}
