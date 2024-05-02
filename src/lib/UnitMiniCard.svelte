@@ -3,6 +3,7 @@
     import ElementIcon from "$lib/ElementIcon.svelte";
     import type { Snippet } from "svelte";
     import { calculateFieldEffects } from "./combat";
+    import UnitInfo from "./UnitInfo.svelte";
 
 	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
@@ -10,13 +11,18 @@
 		cardActions:Snippet<[number]>,
 		index:number
 	} = $props()
+	let front = $state(true)
 </script>
 
 <div class="card g-1">
 	<div class="card-header">
 		{unit.name}
+		<div class="float-end">
+			<button onclick={() => front=!front} class="btn btn-sm btn-secondary"><span class="bi bi-sign-turn-left-fill"></span></button>
+		</div>
 	</div>
 	<div class="card-body">
+		{#if front}
 		<div class="row">
 			<div class="unit">
 				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}"  />
@@ -34,6 +40,9 @@
 				{@render cardActions(index)}
 			</div>
 		</div>
+		{:else}
+			<UnitInfo {unit} field={undefined} />
+		{/if}
 	</div>
 </div>
 
