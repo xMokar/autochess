@@ -8,7 +8,7 @@
 <div class="row">
 	
 	<div class="col-12">
-		<div style="font-size: 80%; height: 5rem;" class="fw-light">{#each unit.info.split('\n') as line}
+		<div style="font-size: 80%; height: 4rem;" class="fw-light">{#each unit.info.split('\n') as line}
 			{@html line}<br>
 		{/each}
 		</div>
@@ -34,8 +34,6 @@
 		<span class="float-end">{unit.movespeed}</span>
 	</div>
 	<div class="col-12">
-		<b>Nombre del ataque:</b><br>
-		<div class="ms-2" style="height: 2rem">{unit.attackName}</div><br>
 		<b>Objetivos:</b> <br>
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}

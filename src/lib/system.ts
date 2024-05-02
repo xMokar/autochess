@@ -80,7 +80,6 @@ export interface Unit {
 	name: string;
 	info: string;
 	hp: number,
-	attackName: string,
 	defense: number;
 	movespeed: number;
 	element: Element;
@@ -175,9 +174,8 @@ export let Units:Unit[] = [
 	{ 
 		id: 'watermage',
 		name: 'Sirena',
-		info: `Es una bella chica peliroja con cola de pez.`,
+		info: `Es una bella chica peliroja con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
 		hp: 10,
-		attackName: 'Invocar una ola magica desde atrás.',
 		attack: { amount: 2, sides: 4, modifier: 2 },
 		effects: [
 			traitTeamAttributesBetween(ElementMap.metal, 1, 9, 1),
@@ -193,9 +191,8 @@ export let Units:Unit[] = [
 	{ 
 		id: 'waterelemental',
 		name: 'Elemental de agua',
-		info: `Es una creatura de agua viva, con grandes poderes mágicos.`,
+		info: `Es una creatura de agua viva, con grandes poderes mágicos.\nAtaca invocando un remolino de agua rasgador.`,
 		hp: 10,
-		attackName: 'Invocar un remolino de agua rasgador.',
 		defense:0,
 		movespeed: 1,
 		element: ElementMap.water,
@@ -211,9 +208,8 @@ export let Units:Unit[] = [
 	{ 
 		id: 'gunner',
 		name: 'Pistolero',
-		info: `Es un rebelde sín causa que resuelve las problemas a balazos.`,
+		info: `Es un rebelde sín causa que resuelve las problemas a balazos.\nAtaca disparando su pistola.`,
 		hp: 10,
-		attackName: 'Disparar con la pistola.',
 		defense:0,
 		movespeed: 2,
 		element: ElementMap.metal,
@@ -229,11 +225,10 @@ export let Units:Unit[] = [
 	{ 
 		id: 'tank',
 		name: 'Tanque',
-		info: `Es un soldado con armadura de oro.`,
+		info: `Es un soldado con armadura de oro.\nAtaca dando un espadazo.`,
 		hp: 15,
 		defense:1,
 		movespeed: 1,
-		attackName: 'Dar un espadazo.',
 		element: ElementMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
@@ -247,11 +242,10 @@ export let Units:Unit[] = [
 	{
 		id: 'firemage',
 		name: 'Mago',
-		info: `Es un mago elemental de fuego.`,
+		info: `Es un mago elemental de fuego.\nAtaca lanzando una bola de fuego.`,
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
-		attackName: 'Lanzar una bola de fuego.',
 		element: ElementMap.fire,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
@@ -265,11 +259,10 @@ export let Units:Unit[] = [
 	{
 		id: 'archer',
 		name: 'Arquero',
-		info: `Es un soldado con arco y flecha.`,
+		info: `Es un soldado con arco y flecha.\nAtaca disparando una lluvia de flechas.`,
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
-		attackName: 'Disparar una lluvia de flechas.',
 		element: ElementMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
@@ -283,11 +276,10 @@ export let Units:Unit[] = [
 	{
 		id: 'treant',
 		name: 'Arbol humanoide',
-		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".`,
+		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".\nAtaca con un latigo de raices.`,
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
-		attackName: 'Atacar con un latigo de raices.',
 		element: ElementMap.wood,
 		targetting: TargettingMap.nearby,
 		cost: 1,
@@ -301,14 +293,13 @@ export let Units:Unit[] = [
 	{
 		id: 'earthelemental',
 		name: 'Elemental de tierra',
-		info: `Creatura magica de tierra viva.`,
+		info: `Creatura magica de tierra viva.\nAtaca haciendo temblar la tierra.`,
 		movespeed: 0,
 		element: ElementMap.earth,
 		targetting: TargettingMap.everyone,
 		hp: 10,
 		defense:0,
 		cost: 1,
-		attackName: 'Hacer temblar la tierra.',
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
@@ -319,7 +310,7 @@ export let Units:Unit[] = [
 	{
 		id: 'druid',
 		name: 'Druida',
-		info: `Es un hechicero que controla las fuerzas de la naturaleza.`,
+		info: `Es un hechicero que controla las fuerzas de la naturaleza.\nAtaca lanzando un mini-meteorito.`,
 
 		movespeed: 0,
 		element: ElementMap.earth,
@@ -327,7 +318,6 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense:0,
 		cost: 1,
-		attackName: 'Lanzar un mini meteorito.',
 		attack: { amount: 1, sides: 10, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
