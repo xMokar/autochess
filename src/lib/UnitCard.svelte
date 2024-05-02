@@ -24,8 +24,10 @@
 			<div class="col-12 col-md-6">
 			</div>
 			<div class="col-12 col-md-6">
-				<b>Rasgo:</b> 
-				<span class="float-end"><TraitIcon trait={unit.trait} /> </span>
+				<b>Rasgos:</b> 
+				{#each unit.traits as trait}
+					<span class="float-end"><TraitIcon {trait} /> </span>
+				{/each}
 			</div>
 			<div class="col-12 col-md-6">
 				<b>Ataque:</b>

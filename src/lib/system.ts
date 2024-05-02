@@ -82,7 +82,7 @@ export interface Unit {
 	hp: number,
 	defense: number;
 	movespeed: number;
-	trait: Trait;
+	traits: Trait[];
 	targetting: Targetting;
 	cost: number;
 	attack: Dice;
@@ -144,8 +144,9 @@ function changeDamageAgainstTrait(trait:Trait, value:number) {
 		let fullvalue = value>=0?`+${value}`:value
 		let message = `[${fullvalue} contra <span class="armor ${trait.id}"></span>]`
 		let type = "damage"
-		if(!defender || defender.unit.trait.id !== trait.id)
-			return { type, value, message, active: false }
+		let def_trait= defender?.unit.traits.find(t => t.id===trait.id)
+		if(!defender || !def_trait || def_trait.id !== trait.id)
+			return { type, value, message, active: false } as Effect
 		return { type , value, message, active: true } as Effect
 	}
 } 
@@ -162,7 +163,7 @@ function traitTeamAttributesBetween(trait:Trait, min:number, max:number, value:n
 			rangeMessage = `al menos ${min}`
 		let message = `[${fullvalue} si tienes ${rangeMessage} <span class="armor ${trait.id}"></span>]`
 		let type = "damage"
-		let support = field?.filter(u => u.hp>0 && u.unit.trait.id==trait.id).length??0
+		let support = field?.filter(u => u.hp>0 && u.unit.traits.find(t => t.id==trait.id)).length??0
 		if((support >= min) && (support <= max))
 			return { type, value, message, active: true } as Effect
 		return { type, value, message, active: false }
@@ -184,7 +185,7 @@ export let Units:Unit[] = [
 		],
 		defense:0,
 		movespeed: 1,
-		trait: TraitMap.water,
+		traits: [TraitMap.water],
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 	},
@@ -195,7 +196,7 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense:0,
 		movespeed: 1,
-		trait: TraitMap.water,
+		traits: [TraitMap.water],
 		targetting: TargettingMap.weakest1,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
@@ -212,7 +213,7 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense:0,
 		movespeed: 2,
-		trait: TraitMap.metal,
+		traits: [TraitMap.metal],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
@@ -229,7 +230,7 @@ export let Units:Unit[] = [
 		hp: 15,
 		defense:1,
 		movespeed: 1,
-		trait: TraitMap.metal,
+		traits: [TraitMap.metal],
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
@@ -246,7 +247,7 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
-		trait: TraitMap.fire,
+		traits: [TraitMap.fire],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 0 },
@@ -263,7 +264,7 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
-		trait: TraitMap.wood,
+		traits: [TraitMap.wood],
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
@@ -280,7 +281,7 @@ export let Units:Unit[] = [
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
-		trait: TraitMap.wood,
+		traits: [TraitMap.wood],
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
@@ -295,7 +296,7 @@ export let Units:Unit[] = [
 		name: 'Elemental de tierra',
 		info: `Creatura magica de tierra viva.\nAtaca haciendo temblar la tierra.`,
 		movespeed: 0,
-		trait: TraitMap.earth,
+		traits: [TraitMap.earth],
 		targetting: TargettingMap.everyone,
 		hp: 10,
 		defense:0,
@@ -313,7 +314,7 @@ export let Units:Unit[] = [
 		info: `Es un hechicero que controla las fuerzas de la naturaleza.\nAtaca lanzando un mini-meteorito.`,
 
 		movespeed: 0,
-		trait: TraitMap.earth,
+		traits: [TraitMap.earth],
 		targetting: TargettingMap.random,
 		hp: 10,
 		defense:0,

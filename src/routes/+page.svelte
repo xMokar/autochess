@@ -42,7 +42,6 @@
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">
-						<TraitIcon trait={unit.trait} />
 						{unit.name}
 					</div>
 					<div class="card-body">
@@ -57,7 +56,7 @@
 		{#each units as source}
 		<div class="col-12 col-lg-6 mb-2 g-1">
 			<div class="card">
-				<div class="card-header"><TraitIcon trait={source.trait} /> {source.name}</div>
+				<div class="card-header">{source.name}</div>
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
@@ -73,7 +72,9 @@
 						
 						<tr>
 							<td>
-								<TraitIcon trait={dmg.target.trait} />
+								{#each dmg.target.traits as trait}
+									<TraitIcon {trait} />
+								{/each}
 								{dmg.target.name} 
 							</td>
 							<td class="text-end">{dmg.damage.min}-{dmg.damage.max}</td>
@@ -191,7 +192,7 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 	<div class="text-lighter d-print-none" style="font-size: 70%">
 		Si por algún motivo al entrar al AutoBattle solo sale una página en blanco, puedes resetear la memoria:
-		<button class="btn btn-sm btn-secondary" on:click={reset} style="font-size: 70%">Reset</button>
+		<button class="btn btn-sm btn-secondary" onclick={reset} style="font-size: 70%">Reset</button>
 	</div>
 
 	</div><!--row-->
