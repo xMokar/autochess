@@ -3,6 +3,7 @@
     import type { Snippet } from "svelte";
     import { calculateFieldEffects } from "./combat";
     import UnitInfo from "./UnitInfo.svelte";
+    import UnitTraits from "./UnitTraits.svelte";
 
 	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
@@ -15,6 +16,7 @@
 
 <div class="card g-1">
 	<div class="card-header">
+		<UnitTraits {unit} />
 		{unit.name}
 		<div class="float-end">
 			<button onclick={() => front=!front} class="btn btn-sm btn-secondary"><span class="bi bi-sign-turn-left-fill"></span></button>

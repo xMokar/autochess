@@ -2,6 +2,7 @@
     import { type Unit } from "$lib/system";
     import TraitIcon from "$lib/TraitIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
+    import UnitTraits from "./UnitTraits.svelte";
 
 	let { unit, actions = undefined }:{unit:Unit, actions:any|undefined} = $props()
 	let front = $state(true)
@@ -9,6 +10,7 @@
 
 <div class="card">
 	<div class="card-header">
+		<UnitTraits {unit} />
 		{unit.name}
 		<div class="float-end">
 			{@render actions()}
