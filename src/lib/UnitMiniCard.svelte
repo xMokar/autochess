@@ -1,6 +1,5 @@
 <script lang="ts">
     import { type Field, type Unit } from "$lib/system";
-    import ElementIcon from "$lib/ElementIcon.svelte";
     import type { Snippet } from "svelte";
     import { calculateFieldEffects } from "./combat";
     import UnitInfo from "./UnitInfo.svelte";

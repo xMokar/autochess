@@ -1,6 +1,6 @@
 <script lang="ts">
     import { type Field, type Unit } from "$lib/system";
-    import ElementIcon from "$lib/ElementIcon.svelte";
+    import TraitIcon from "$lib/TraitIcon.svelte";
     import { calculateFieldEffects } from "./combat";
 
 	let { unit, field=undefined }:{unit:Unit, field:Field|undefined} = $props()
@@ -14,8 +14,8 @@
 		</div>
 	</div>
 	<div class="col-12 col-md-6">
-		<b>Elemento:</b> 
-		<span class="float-end"><ElementIcon element={unit.element} /> </span>
+		<b>Rasgo:</b> 
+		<span class="float-end"><TraitIcon trait={unit.trait} /> </span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Ataque:</b>

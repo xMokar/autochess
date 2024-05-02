@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Units, type Unit } from "$lib/system";
-    import ElementIcon from "$lib/ElementIcon.svelte";
+    import TraitIcon from "$lib/TraitIcon.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
     import { goto } from "$app/navigation";
     import { calculateDamageStats } from "$lib/combat";
@@ -42,7 +42,7 @@
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
 				<div class="card">
 					<div class="card-header">
-						<ElementIcon element={unit.element} />
+						<TraitIcon trait={unit.trait} />
 						{unit.name}
 					</div>
 					<div class="card-body">
@@ -57,7 +57,7 @@
 		{#each units as source}
 		<div class="col-12 col-lg-6 mb-2 g-1">
 			<div class="card">
-				<div class="card-header"><ElementIcon element={source.element} /> {source.name}</div>
+				<div class="card-header"><TraitIcon trait={source.trait} /> {source.name}</div>
 				<div class="card-body p-0" >
 					<table class="table table-bordered table-striped mb-0">
 					<thead><tr>
@@ -73,7 +73,7 @@
 						
 						<tr>
 							<td>
-								<ElementIcon element={dmg.target.element} />
+								<TraitIcon trait={dmg.target.trait} />
 								{dmg.target.name} 
 							</td>
 							<td class="text-end">{dmg.damage.min}-{dmg.damage.max}</td>

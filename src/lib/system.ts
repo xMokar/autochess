@@ -1,4 +1,4 @@
-export interface Element {
+export interface Trait {
 	
 	id: string;
 	name: string;
@@ -82,14 +82,14 @@ export interface Unit {
 	hp: number,
 	defense: number;
 	movespeed: number;
-	element: Element;
+	trait: Trait;
 	targetting: Targetting;
 	cost: number;
 	attack: Dice;
 	effects: EffectFunction[];
 }
 
-let Elements:Element[] = [
+let Traits:Trait[] = [
 	{
 		id: 'fire',
 		name: 'Fuego',
@@ -111,7 +111,7 @@ let Elements:Element[] = [
 		name: 'Madera'
 	},
 ]
-export let ElementMap = Object.fromEntries(Elements.map(c => [ c.id, c ]))
+export let TraitMap = Object.fromEntries(Traits.map(c => [ c.id, c ]))
 
 export interface ActiveUnit {
 	player?:Player,
@@ -139,18 +139,18 @@ export interface Player {
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
-function changeDamageAgainstElement(element:Element, value:number) {
+function changeDamageAgainstTrait(trait:Trait, value:number) {
 	return ({defender}:EffectFunctionArgs) => {
 		let fullvalue = value>=0?`+${value}`:value
-		let message = `[${fullvalue} contra <span class="armor ${element.id}"></span>]`
+		let message = `[${fullvalue} contra <span class="armor ${trait.id}"></span>]`
 		let type = "damage"
-		if(!defender || defender.unit.element.id !== element.id)
+		if(!defender || defender.unit.trait.id !== trait.id)
 			return { type, value, message, active: false }
 		return { type , value, message, active: true } as Effect
 	}
 } 
 
-function traitTeamAttributesBetween(element:Element, min:number, max:number, value:number) {
+function traitTeamAttributesBetween(trait:Trait, min:number, max:number, value:number) {
 	return ({field}:EffectFunctionArgs) => {
 		let fullvalue = value>=0?`+${value}`:value
 		let rangeMessage = ""
@@ -160,9 +160,9 @@ function traitTeamAttributesBetween(element:Element, min:number, max:number, val
 			rangeMessage = `de ${min} a ${max}`
 		else 
 			rangeMessage = `al menos ${min}`
-		let message = `[${fullvalue} si tienes ${rangeMessage} <span class="armor ${element.id}"></span>]`
+		let message = `[${fullvalue} si tienes ${rangeMessage} <span class="armor ${trait.id}"></span>]`
 		let type = "damage"
-		let support = field?.filter(u => u.hp>0 && u.unit.element.id==element.id).length??0
+		let support = field?.filter(u => u.hp>0 && u.unit.trait.id==trait.id).length??0
 		if((support >= min) && (support <= max))
 			return { type, value, message, active: true } as Effect
 		return { type, value, message, active: false }
@@ -174,17 +174,17 @@ export let Units:Unit[] = [
 	{ 
 		id: 'mermaid',
 		name: 'Sirena',
-		info: `Es una bella chica peliroja con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
+		info: `Es una bella chica de cabello azul con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
 		hp: 10,
 		attack: { amount: 2, sides: 4, modifier: 2 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.metal, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.fire, 1),
-			changeDamageAgainstElement(ElementMap.water, -1),
+			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.fire, 1),
+			changeDamageAgainstTrait(TraitMap.water, -1),
 		],
 		defense:0,
 		movespeed: 1,
-		element: ElementMap.water,
+		trait: TraitMap.water,
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 	},
@@ -195,14 +195,14 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense:0,
 		movespeed: 1,
-		element: ElementMap.water,
+		trait: TraitMap.water,
 		targetting: TargettingMap.weakest1,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.metal, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.fire, 1),
-			changeDamageAgainstElement(ElementMap.water, -1),
+			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.fire, 1),
+			changeDamageAgainstTrait(TraitMap.water, -1),
 		],
 	},
 	{ 
@@ -212,14 +212,14 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense:0,
 		movespeed: 2,
-		element: ElementMap.metal,
+		trait: TraitMap.metal,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.earth, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.wood, 1),
-			changeDamageAgainstElement(ElementMap.metal, -1),
+			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.wood, 1),
+			changeDamageAgainstTrait(TraitMap.metal, -1),
 		],
 	},
 	{ 
@@ -229,31 +229,31 @@ export let Units:Unit[] = [
 		hp: 15,
 		defense:1,
 		movespeed: 1,
-		element: ElementMap.metal,
+		trait: TraitMap.metal,
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.earth, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.wood, 1),
-			changeDamageAgainstElement(ElementMap.metal, -1),
+			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.wood, 1),
+			changeDamageAgainstTrait(TraitMap.metal, -1),
 		],
 	},
 	{
 		id: 'firemage',
-		name: 'Mago',
+		name: 'Mago de fuego',
 		info: `Es un mago elemental de fuego.\nAtaca lanzando una bola de fuego.`,
 		hp: 10,
 		defense: 0,
 		movespeed: 1,
-		element: ElementMap.fire,
+		trait: TraitMap.fire,
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 0 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.wood, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.metal, 1),
-			changeDamageAgainstElement(ElementMap.fire, -1),
+			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.metal, 1),
+			changeDamageAgainstTrait(TraitMap.fire, -1),
 		],
 	},
 	{
@@ -263,14 +263,14 @@ export let Units:Unit[] = [
 		hp: 10,
 		defense: 0,
 		movespeed: 2,
-		element: ElementMap.wood,
+		trait: TraitMap.wood,
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.water, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.earth, 1),
-			changeDamageAgainstElement(ElementMap.wood, -1),
+			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.earth, 1),
+			changeDamageAgainstTrait(TraitMap.wood, -1),
 		],
 	},
 	{
@@ -280,14 +280,14 @@ export let Units:Unit[] = [
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
-		element: ElementMap.wood,
+		trait: TraitMap.wood,
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.water, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.earth, 1),
-			changeDamageAgainstElement(ElementMap.wood, -1),
+			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.earth, 1),
+			changeDamageAgainstTrait(TraitMap.wood, -1),
 		],
 	},
 	{
@@ -295,16 +295,16 @@ export let Units:Unit[] = [
 		name: 'Elemental de tierra',
 		info: `Creatura magica de tierra viva.\nAtaca haciendo temblar la tierra.`,
 		movespeed: 0,
-		element: ElementMap.earth,
+		trait: TraitMap.earth,
 		targetting: TargettingMap.everyone,
 		hp: 10,
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.water, 1),
-			changeDamageAgainstElement(ElementMap.earth, -1),
+			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.water, 1),
+			changeDamageAgainstTrait(TraitMap.earth, -1),
 		],
 	},
 	{
@@ -313,16 +313,16 @@ export let Units:Unit[] = [
 		info: `Es un hechicero que controla las fuerzas de la naturaleza.\nAtaca lanzando un mini-meteorito.`,
 
 		movespeed: 0,
-		element: ElementMap.earth,
+		trait: TraitMap.earth,
 		targetting: TargettingMap.random,
 		hp: 10,
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 10, modifier: 1 },
 		effects: [
-			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
-			changeDamageAgainstElement(ElementMap.water, 1),
-			changeDamageAgainstElement(ElementMap.earth, -1),
+			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
+			changeDamageAgainstTrait(TraitMap.water, 1),
+			changeDamageAgainstTrait(TraitMap.earth, -1),
 		],
 	},
 		

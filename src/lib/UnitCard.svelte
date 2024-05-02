@@ -1,6 +1,6 @@
 <script lang="ts">
     import { type Unit } from "$lib/system";
-    import ElementIcon from "$lib/ElementIcon.svelte";
+    import TraitIcon from "$lib/TraitIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
 
 	let { unit, actions = undefined }:{unit:Unit, actions:any|undefined} = $props()
@@ -24,8 +24,8 @@
 			<div class="col-12 col-md-6">
 			</div>
 			<div class="col-12 col-md-6">
-				<b>Elemento:</b> 
-				<span class="float-end"><ElementIcon element={unit.element} /> </span>
+				<b>Rasgo:</b> 
+				<span class="float-end"><TraitIcon trait={unit.trait} /> </span>
 			</div>
 			<div class="col-12 col-md-6">
 				<b>Ataque:</b>
