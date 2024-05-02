@@ -1,0 +1,29 @@
+.unit {
+  display:inline-block!important;
+  height:100px!important;
+  width:100%!important;
+  vertical-align:text-top!important;
+  line-height:24px!important;
+  height: 200px!important; 
+  width: 100%;
+  overflow: hidden;
+}
+.unit .metalelemental {
+  margin:-100px 0px!important;
+}
+.unit .waterelemental {
+  margin: -170px 0px!important;
+}
+.unit .earthelemental {
+  margin:-70px 0px!important;
+}
+.unit .firemage {
+  margin:-40px 0px!important;
+}
+.unit .druid {
+  margin:-180px 0px!important;
+}
+.unit .gunner {
+  margin:-100px 0px!important;
+}
+

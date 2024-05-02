@@ -17,7 +17,7 @@ let { player, actions=undefined, cardActions }:{
 	<div class="card-body">
 		<div class="row">
 			{#each player.hand as unit, index}
-				<div class="col-6 col-md-2 mb-2">
+				<div class="col-6 col-md-4 mb-2">
 					<UnitMiniCard {unit} {cardActions} {index} />
 				</div>
 			{/each}

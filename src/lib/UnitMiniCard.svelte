@@ -13,32 +13,13 @@
 </script>
 
 <div class="card g-1">
-	<div class="card-header" style="min-height: 4rem">
-		<span class="position-absolute top-0 start-0">
-			<ElementIcon element={unit.element} />
-		</span>
+	<div class="card-header">
 		{unit.name}
-		<span class="badge bg-danger position-absolute top-0 end-0">
-			{unit.hp}
-		</span>
 	</div>
 	<div class="card-body">
 		<div class="row">
-			<div class="col-12 col-md-6">
-				<b>HP:</b> 
-				<span class="float-end">{unit.hp}</span>
-			</div>
-			<div class="col-12 col-md-6">
-				<b>Ataque:</b>
-				<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
-			</div>
-			<div class="col-12 col-md-6 position-relative">
-				<b>Def:</b> 
-				<span class="float-end">{unit.defense}</span>
-			</div>
-			<div class="col-12 col-md-6">
-				<b>Vel:</b>
-				<span class="float-end">{unit.movespeed}</span>
+			<div class="unit">
+				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}"  />
 			</div>
 			<div class="col-12">
 				{#each calculateFieldEffects(unit, field) as effect}

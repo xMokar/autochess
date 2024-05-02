@@ -14,11 +14,9 @@ let { player, offered, buy }:Props = $props()
 Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 <div class="row mt-2">
 	{#each offered as unit, i}
-		<div class="col-12 col-md-3 mb-1">
+		<div class="col-12 col-md-4 mb-1">
 			{#snippet actions()}
-				<span class="float-end">
-					<button disabled={player.gold==0} class="btn btn-sm btn-danger" onclick={() => buy(i)}>Comprar</button>
-				</span>
+					<button disabled={player.gold==0} class="btn btn-sm btn-danger" onclick={() => buy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
 			{/snippet}
 			<UnitCard {unit} {actions} />
 		</div>

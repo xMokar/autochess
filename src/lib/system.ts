@@ -172,7 +172,7 @@ function traitTeamAttributesBetween(element:Element, min:number, max:number, val
 
 export let Units:Unit[] = [ 
 	{ 
-		id: 'watermage',
+		id: 'mermaid',
 		name: 'Sirena',
 		info: `Es una bella chica peliroja con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
 		hp: 10,
@@ -223,8 +223,8 @@ export let Units:Unit[] = [
 		],
 	},
 	{ 
-		id: 'tank',
-		name: 'Tanque',
+		id: 'metalelemental',
+		name: 'Elemental de metal',
 		info: `Es un soldado con armadura de oro.\nAtaca dando un espadazo.`,
 		hp: 15,
 		defense:1,
@@ -274,8 +274,8 @@ export let Units:Unit[] = [
 		],
 	},
 	{
-		id: 'treant',
-		name: 'Arbol humanoide',
+		id: 'woodelemental',
+		name: 'Elemental de madera',
 		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".\nAtaca con un latigo de raices.`,
 		hp: 20,
 		defense: 0,

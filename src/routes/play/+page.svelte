@@ -96,7 +96,7 @@ let restart = () => {
 		
 	mode = "buy"	
 	log = []
-	goto("/shop")
+	goto("/play")
 		
 }
 let log:string[] = $state([])
