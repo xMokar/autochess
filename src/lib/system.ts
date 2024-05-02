@@ -151,15 +151,22 @@ function changeDamageAgainstElement(element:Element, value:number) {
 	}
 } 
 
-function changeDamageWithSupportingElementAtLeastN(element:Element, min:number, value:number) {
+function traitTeamAttributesBetween(element:Element, min:number, max:number, value:number) {
 	return ({field}:EffectFunctionArgs) => {
 		let fullvalue = value>=0?`+${value}`:value
-		let message = `[${fullvalue} si tienes <span class="armor ${element.id}"></span>]`
+		let rangeMessage = ""
+		if (min==max)
+			rangeMessage = `solo ${min}`
+		else if (max<9) 
+			rangeMessage = `de ${min} a ${max}`
+		else 
+			rangeMessage = `al menos ${min}`
+		let message = `[${fullvalue} si tienes ${rangeMessage} <span class="armor ${element.id}"></span>]`
 		let type = "damage"
 		let support = field?.filter(u => u.hp>0 && u.unit.element.id==element.id).length??0
-		if(support < min)
-			return { type, value, message, active: false }
-		return { type, value, message, active: true } as Effect
+		if((support >= min) && (support <= max))
+			return { type, value, message, active: true } as Effect
+		return { type, value, message, active: false }
 	}
 }
 
@@ -173,7 +180,7 @@ export let Units:Unit[] = [
 		attackName: 'Invocar una ola magica desde atrás.',
 		attack: { amount: 2, sides: 4, modifier: 2 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 1, 1),
+			traitTeamAttributesBetween(ElementMap.metal, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.fire, 1),
 			changeDamageAgainstElement(ElementMap.water, -1),
 		],
@@ -196,7 +203,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.metal, 1, 1),
+			traitTeamAttributesBetween(ElementMap.metal, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.fire, 1),
 			changeDamageAgainstElement(ElementMap.water, -1),
 		],
@@ -214,7 +221,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 1, 1),
+			traitTeamAttributesBetween(ElementMap.earth, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
@@ -232,7 +239,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.earth, 1, 1),
+			traitTeamAttributesBetween(ElementMap.earth, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.wood, 1),
 			changeDamageAgainstElement(ElementMap.metal, -1),
 		],
@@ -250,7 +257,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.wood, 1, 1),
+			traitTeamAttributesBetween(ElementMap.wood, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.metal, 1),
 			changeDamageAgainstElement(ElementMap.fire, -1),
 		],
@@ -268,7 +275,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 1, 1),
+			traitTeamAttributesBetween(ElementMap.water, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
@@ -286,7 +293,7 @@ export let Units:Unit[] = [
 		cost: 1,
 		attack: { amount: 1, sides: 6, modifier: 0 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.water, 1, 1),
+			traitTeamAttributesBetween(ElementMap.water, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.earth, 1),
 			changeDamageAgainstElement(ElementMap.wood, -1),
 		],
@@ -304,7 +311,7 @@ export let Units:Unit[] = [
 		attackName: 'Hacer temblar la tierra.',
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 1, 1),
+			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
@@ -323,7 +330,7 @@ export let Units:Unit[] = [
 		attackName: 'Lanzar un mini meteorito.',
 		attack: { amount: 1, sides: 10, modifier: 1 },
 		effects: [
-			changeDamageWithSupportingElementAtLeastN(ElementMap.fire, 1, 1),
+			traitTeamAttributesBetween(ElementMap.fire, 1, 9, 1),
 			changeDamageAgainstElement(ElementMap.water, 1),
 			changeDamageAgainstElement(ElementMap.earth, -1),
 		],
