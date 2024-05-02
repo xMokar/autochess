@@ -21,6 +21,10 @@
 			<div class="unit">
 				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}"  />
 			</div>
+			<div class="col-12 col-md-6">
+				<b>Ataque:</b>
+				<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
+			</div>
 			<div class="col-12">
 				{#each calculateFieldEffects(unit, field) as effect}
 					<span class:fw-bold={effect.active} class:text-muted={!effect.active} style="white-space: nowrap">{@html effect.message}</span>
