@@ -158,7 +158,7 @@ let doFight = () => {
 		<h5>Ver la mano de cada jugador</h5>
 		{#each players as player}
 			<button onclick={() => select(player)} class="btn btn-warning me-2">
-				Ver mano de {player.name}
+				Administrar {player.name}
 			</button>
 		{/each}
 		<button onclick={() => select(undefined)} class="btn btn-secondary">
