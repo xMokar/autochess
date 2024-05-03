@@ -2,6 +2,7 @@
     import { type Field, type Unit } from "$lib/system";
     import { calculateFieldEffects } from "./combat";
     import UnitTraits from "./UnitTraits.svelte";
+    import Effect from "./Effect.svelte";
 
 	let { unit, field=undefined }:{unit:Unit, field:Field|undefined} = $props()
 </script>
@@ -41,7 +42,7 @@
 		<b>Efectos:</b><br>
 		<div class="ms-2" style="height:2rem">
 		{#each calculateFieldEffects(unit, field) as effect}
-			<span class:fw-bold={effect.active} class:text-muted={!effect.active} style="white-space: nowrap">{@html effect.message}</span>
+			<Effect {effect} />
 		{/each}
 		</div>
 	</div>

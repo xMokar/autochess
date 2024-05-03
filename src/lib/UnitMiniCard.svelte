@@ -4,6 +4,7 @@
     import { calculateFieldEffects } from "./combat";
     import UnitInfo from "./UnitInfo.svelte";
     import UnitTraits from "./UnitTraits.svelte";
+    import Effect from "./Effect.svelte";
 
 	let { unit, cardActions, field, index=0 }:{
 		unit:Unit,
@@ -34,7 +35,7 @@
 			</div>
 			<div class="col-12">
 				{#each calculateFieldEffects(unit, field) as effect}
-					<span class:fw-bold={effect.active} class:text-muted={!effect.active} style="white-space: nowrap">{@html effect.message}</span>
+					<Effect {effect} />
 				{/each}
 			</div>
 			<div class="col-12 col-md-6">

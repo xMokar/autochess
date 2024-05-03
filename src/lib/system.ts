@@ -61,7 +61,7 @@ interface Dice {
 	modifier: number,
 }
 
-interface Effect {
+export interface Effect {
 	type: string,
 	message: string,
 	active: boolean,
