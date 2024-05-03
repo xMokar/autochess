@@ -6,4 +6,4 @@ let [ _player1, _player2 ] = getPlayers()
 let player1 = $state(_player1)
 let player2 = $state(_player2)
 </script>
-<Battle home={player1} visitor={player2} />
+<Battle bind:home={player1} bind:visitor={player2} />

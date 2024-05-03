@@ -3,7 +3,7 @@
 import { type Player } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
-let { home, visitor}: {home:Player, visitor:Player} = $props()
+let { home=$bindable(), visitor=$bindable()}: {home:Player, visitor:Player} = $props()
 
 initBattle(home, visitor)
 
@@ -87,6 +87,6 @@ let stats = $state({
 			{@html msg}<br>
 		{/each}
 	</div>
-			<FieldGrid player={visitor} mirrored={true} />
-			<FieldGrid player={home} mirrored={false} />
+			<FieldGrid bind:player={visitor} mirrored={true} />
+			<FieldGrid bind:player={home} mirrored={false} />
 </div>

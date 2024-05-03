@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { updatePlayer } from '$lib/state';
+import { updatePlayer } from '$lib/state';
 import { type Player, type Field, Units, UnitMap } from '$lib/system'
 import UnitInfo from '$lib/UnitInfo.svelte';
 
-let { player, mirrored=false }: {player:Player, mirrored:boolean} = $props()
+let { player=$bindable(), mirrored=false }: {player:Player, mirrored:boolean} = $props()
 let fieldArray = $derived(fieldToArray(player.field, mirrored))
 
 function fieldToArray(field:Field, mirrored:boolean=false) {
@@ -42,15 +42,14 @@ function add(index:number) {
 				hp: 0,
 				unit: UnitMap[select.value]
 			})
-				player.field= player.field
 		}
 		
 		removeUnit()
 		addUnit()
-			console.log('test', player.field, fieldArray)
 		updatePlayer(player)
 	}
 }
+
 
 let isAlive = $derived(player.field.filter(activeUnit => activeUnit.hp>0).length>0)
 let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
@@ -67,7 +66,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 
 	<div class="card-body p-1">
 		<div class="row gx-1">
-			{#each fieldArray as activeUnit, index}
+			{#each fieldArray as activeUnit, index (index)}
 				<div class="col-4 mb-1" style="min-height: 175px">
 					<div class="card h-100 border-{player.color}">
 						<div class="card-header">
