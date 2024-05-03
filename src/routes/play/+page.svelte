@@ -86,18 +86,42 @@ let restart = () => {
 	goto("/play")
 		
 }
+
+let shop:Unit[] = $state([])
+let roll = (player:Player) => {
+	deck.push(...shop)
+	shop = deck.splice(0,4)
+	player.rolls--
+}
+let ontake = (index:number) => {
+	let [card] = shop.splice(index, 1)
+	return card
+}
+let start = (player:Player) => {
+	currentPlayer = player
+	mode = "shop"
+	roll(player)
+}
+let nextPlayer = () => {
+		deck.push(...shop)
+		currentPlayer = players.find(player => player.name != currentPlayer?.name)
+		if(currentPlayer===undefined)
+			return
+
+		if(currentPlayer.rolls==0) {
+			mode="manage"
+		}
+		roll(currentPlayer)
+}
 </script>
 
 <div class="container mt-2">
 	<a href="/" class="btn btn-primary">Guía del juego</a>
 	<button onclick={restart} class="btn btn-secondary">Reiniciar</button>
 	{#if mode=="selectplayer"}
-		<SelectPlayer {players} onselect={(player) => {
-			currentPlayer = player
-			mode = "shop"
-		}} />
+		<SelectPlayer {players} onselect={start} />
 	{:else if currentPlayer && mode=="shop"}
-		<Shop bind:deck={deck} bind:player={currentPlayer} onend={endTurn} />
+		<Shop cards={shop} bind:player={currentPlayer} oncontinue={nextPlayer} {ontake}/>
 	{:else if mode=="manage"}
 		<Manage {players} {onfold} />
 	{/if}

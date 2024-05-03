@@ -3,34 +3,27 @@
     import type { Player, Unit } from "$lib/system";
     import Hand from "./Hand.svelte";
 
-let {deck = $bindable(), player = $bindable(), onend}:{
-		deck:Unit[],
+let {cards, player = $bindable(), oncontinue, ontake}:{
+		cards:Unit[],
 		player:Player,
-		onend:()=>void,
+		oncontinue:()=>void,
+		ontake:(index:number)=>Unit
 	} = $props()
 
-let offered:Unit[] = $state([])
 let view = $state("shop")
-let roll = () => {
-	deck.push(...offered)
-	offered = deck.splice(0,4)
-	player.rolls--
-}
 
 let buy = (index:number) => {
 	if(player.gold==0)
 		return;
 	player.gold--
-	player.hand.push(...offered.splice(index, 1))
+	player.hand.push(ontake(index))
 }
-let _onend = () => {
-	deck.push(...offered)
-	onend()
+let _oncontinue = () => {
+	oncontinue()
 }
 let viewhand = () => {
 	view="hand"
 }
-roll()
 </script>
 
 {#if view=="shop"}
@@ -39,17 +32,14 @@ roll()
 		Tienda para <span class="text-{player.color}">{player.name}</span>
 		<span class="float-end">
 			<button onclick={viewhand} class="btn btn-outline-secondary">Ver mano</button>
-			{#if player.rolls>0}
-				<button onclick={roll} class="btn btn-outline-primary">Pedir cartas nuevas</button>
-			{:else}
-				<button onclick={_onend} class="btn btn-outline-danger">Termina tu turno de compra</button>
-			{/if}
+
+			<button onclick={_oncontinue} class="btn btn-outline-danger">Continuar</button>
 		</span>
 	</div>
 	<div class="card-body">
 		Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 		<div class="row mt-2">
-			{#each offered as unit, i}
+			{#each cards as unit, i}
 				<div class="col-12 col-md-4 mb-1">
 					{#snippet actions()}
 							<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => buy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
