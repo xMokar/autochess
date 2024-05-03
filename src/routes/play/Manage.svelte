@@ -4,7 +4,7 @@
     import ManagePlayer from './ManagePlayer.svelte';
 
 let {players,onfold}:{players:Player[],onfold:()=>void} = $props()
-let player:Player|undefined = $state(players[0])
+let player:Player|undefined = $state(undefined)
 
 let log:string[]=$state([])
 let winner:Player|undefined=$state(undefined)
@@ -22,6 +22,7 @@ let doFight = () => {
 		Administrar {_player.name}
 	</button>
 {/each}
+<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>
 
 <button onclick={() => doFight()} class="btn btn-secondary">
 	Pelear
