@@ -82,12 +82,14 @@ function moveend(c:Coordinate) {
 		{#each grid as g, index}
 		{@const unit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 		{#snippet fieldCardActions()}
+			{#if taken===undefined}
 			<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
-				Mover
+				Agarrar
 			</button>
 			<button onclick={() => release(g)} class="btn btn-sm btn-info">
 				Regresar
 			</button>
+			{/if}
 		{/snippet}
 			<div class="col-4" style="min-height: 9rem">
 				{#if taken!== undefined && !unit}

@@ -14,7 +14,7 @@ let {player, onclose, boardActions, cardActions}:{
 	<div class="card-header bg-{player.color} text-light">
 		Viendo la mano de {player.name}
 		<span class="float-end">
-			<button onclick={onclose} class="btn btn-primary">Regresar</button>
+			<button onclick={onclose} class="btn btn-primary">Tablero</button>
 			{@render boardActions()}
 		</span>
 	</div>
