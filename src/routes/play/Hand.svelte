@@ -5,8 +5,8 @@
 
 let {player, onclose, boardActions, cardActions, closeText}:{
 	player:Player, 
-	cardActions:Snippet<[number]>,
-	boardActions:Snippet,
+	cardActions:Snippet<[number]>|undefined,
+	boardActions:Snippet|undefined,
 	onclose:()=>void,
 	closeText:string
 } = $props();
@@ -16,7 +16,9 @@ let {player, onclose, boardActions, cardActions, closeText}:{
 		Viendo la mano de {player.name}
 		<span class="float-end">
 			<button onclick={onclose} class="btn btn-outline-light">{closeText}</button>
+			{#if boardActions}
 			{@render boardActions()}
+			{/if}
 		</span>
 	</div>
 	<div class="card-body">
