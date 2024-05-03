@@ -161,13 +161,18 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<ol>
 			<li>Se revuelven las cartas de unidades.</li>
 
-			<li>A cada jugador se le dan 5 cartas en privado, puede escoger 4 de ellas y colocarlas boca abajo.</li>
+			<li>A cada jugador se la da 6 de oro.</li>
+			<li><b>Empieza la etapa de compra.</b> Se tira una moneda para ver quien compra primero.</li>
 
-			<li>Tienen la opcion de hacer un <b>reroll</b>, descartando un máximo de 3 cartas y pidiendo un nuevo set de 5 cartas.</li>
+			<li>Se le entregan 4 cartas al jugador que ganó la tirada de moneda, puede comprar las que quiera usando su oro.</li>
+
+			<li>Se repite el paso anterior con el otro jugador.</li>
+
+			<li>Se puede regresar al paso 4 una vez más, cada jugador tiene derecho a recibir 2 sets de unidades para comprar.</li>
 
 			<li>Ambos jugadores voltean sus unidades, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
-			<li>En este momento <b>empieza la ronda</b></li>
+			<li>En este momento <b>empieza una etapa de ronda de combate</b></li>
 
 			<li>Se tira una moneda para decidir quien tiene preferencia.</li>
 
@@ -176,15 +181,15 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 			<li>Se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
 			<li>Se <b>tiran los dados</b> apropiados segun el elemento del objetivo</li>
 
-			<li>Antes o despues de atacar (pero solo una vez), <b>la unidad atacando puede ser movida</b> una unidad de movimiento (la cual es un espacio horizontal o vertical de la rejilla personal)</li>
+			<li>Antes o despues de atacar (pero solo una vez), <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
 
-			<li>Una vez que una unidad ataque, se <b>gira esa carta</b> para indicar que ya fue usada en esta ronda.</li>
+			<li>Una vez que una unidad ataque, se <b>gira esa carta</b>, colocandola horizontalmente, para indicar que ya fue usada en esta ronda.</li>
 			
 			<li>Se continua el proceso con las unidades que no hayan actuado alternando entre un jugador y otro.</li>
 
-			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (<i>regresando al paso 6</i>) hasta que algún jugador se quede sin unidades.</li>
+			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (<i>regresando al paso 9</i>) hasta que algún jugador se quede sin unidades.</li>
 
-			<li>Al terminar la partida, <b>puede ofrecerse una revancha u otro jugador puede retar al vencedor</b>. El vencedor tiene que usar las mismas cartas mientras que el oponente empieza el proceso desde el <i>paso 2</i>.</li>
+			<li>Al terminar la partida, <b>puede ofrecerse una revancha u otro jugador puede retar al vencedor</b>. El vencedor tiene que usar las mismas cartas mientras que el oponente realiza su proceso de compra, teniendo el derecho de recibir 2 sets de 4 cartas, por separado, para comprar y continuar en el paso 7.</li>
 			</ol>
 
 
