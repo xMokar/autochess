@@ -12,7 +12,7 @@ let player1 = $state({
 			color: 'primary',
 			finished: false,
 			maxgold: 5,
-			gold: 5,
+			gold: 6,
 			rolls: 2,
 			hand: [],
 			field: [ ],
@@ -24,7 +24,7 @@ let player2 = $state({
 			color: 'danger',
 			finished: false,
 			maxgold: 5,
-			gold: 5,
+			gold: 6,
 			rolls: 2,
 			hand: [],
 			field: []
@@ -61,7 +61,7 @@ let currentPlayer:Player|undefined = $state(undefined)
 let resetPlayer = (player:Player) => {
 	player.finished = false
 	player.rolls = 2
-	player.gold = 5
+	player.gold = 6
 	deck.push(...player.hand)
 	deck.push(...player.field.map(au => au.unit))
 	console.log(`${player.name}: returning ${player.hand.length} cards from hand, ${player.field.length} cards on the field`)
