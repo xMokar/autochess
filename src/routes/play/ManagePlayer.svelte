@@ -38,8 +38,24 @@ function release(c:Coordinate) {
 }
 
 function cancel() {
-		taken=undefined
-		view="hand"
+	taken=undefined
+	view="hand"
+}
+
+let moving:ActiveUnit|undefined = $state(undefined)
+function movestart(c:Coordinate) {
+	moving=player.field.find(au => c.x==au.setx && c.y==au.sety)
+}
+
+function moveend(c:Coordinate) {
+	if(!moving)
+		return
+	moving.setx = c.x
+	moving.sety = c.y
+	moving.x = c.x
+	moving.y = c.y
+	moving = undefined
+
 }
 </script>
 
@@ -81,6 +97,9 @@ function cancel() {
 		{#each grid as g, index}
 		{@const unit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 		{#snippet fieldCardActions()}
+			<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
+				Mover
+			</button>
 			<button onclick={() => release(g)} class="btn btn-sm btn-info">
 				Regresar
 			</button>
@@ -93,6 +112,9 @@ function cancel() {
 				{/if}
 				{#if unit}
 					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
+				{/if}
+				{#if moving && player.field.find(au => au.sety==g.y && au.setx==g.x)===undefined}
+					<button onclick={() => moveend(g)} class="btn btn-sm btn-secondary">Soltar</button>
 				{/if}
 				
 
