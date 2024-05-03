@@ -67,7 +67,7 @@ function moveend(c:Coordinate) {
 	{/if}
 {/snippet}
 {#if view=="hand"}
-	<Hand {player} onclose={() => view="board"} {cardActions} boardActions={actions} />
+	<Hand {player} onclose={() => view="board"} {cardActions} boardActions={actions} closeText="Tablero" />
 {/if}
 {#if view=="board"}
 <div class="card mt-2">

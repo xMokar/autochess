@@ -3,18 +3,19 @@
     import type { Player } from "$lib/system";
     import type { Snippet } from "svelte";
 
-let {player, onclose, boardActions, cardActions}:{
+let {player, onclose, boardActions, cardActions, closeText}:{
 	player:Player, 
 	cardActions:Snippet<[number]>,
 	boardActions:Snippet,
-	onclose:()=>void
+	onclose:()=>void,
+	closeText:string
 } = $props();
 </script>
 <div class="card mt-2">
 	<div class="card-header bg-{player.color} text-light">
 		Viendo la mano de {player.name}
 		<span class="float-end">
-			<button onclick={onclose} class="btn btn-primary">Tablero</button>
+			<button onclick={onclose} class="btn btn-primary">{closeText}</button>
 			{@render boardActions()}
 		</span>
 	</div>

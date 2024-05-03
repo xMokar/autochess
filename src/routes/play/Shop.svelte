@@ -62,6 +62,6 @@ roll()
 	</div>
 </div>
 {:else}
-	<Hand {player} onclose={() => view="shop"} cardActions={undefined} boardActions={undefined} />
+	<Hand {player} onclose={() => view="shop"} cardActions={undefined} boardActions={undefined} closeText="Regresar" />
 
 {/if}
