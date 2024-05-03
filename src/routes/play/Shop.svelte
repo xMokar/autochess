@@ -38,11 +38,11 @@ roll()
 	<div class="card-header">
 		Tienda para <span class="text-{player.color}">{player.name}</span>
 		<span class="float-end">
-			<button onclick={viewhand} class="btn btn-secondary">Ver mano</button>
+			<button onclick={viewhand} class="btn btn-outline-secondary">Ver mano</button>
 			{#if player.rolls>0}
-				<button onclick={roll} class="btn btn-primary">Pedir cartas nuevas</button>
+				<button onclick={roll} class="btn btn-outline-primary">Pedir cartas nuevas</button>
 			{:else}
-				<button onclick={_onend} class="btn btn-danger">Termina tu turno de compra</button>
+				<button onclick={_onend} class="btn btn-outline-danger">Termina tu turno de compra</button>
 			{/if}
 		</span>
 	</div>

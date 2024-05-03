@@ -72,9 +72,9 @@ function moveend(c:Coordinate) {
 {#if view=="board"}
 <div class="card mt-2">
 	<div class="card-header bg-success text-light">
-		Tablero
+		Tablero de {player.name}
 		<div class="float-end">
-			<button onclick={cancel} class="btn btn-danger">Ver mano</button>
+			<button onclick={cancel} class="btn btn-outline-light">Ver mano</button>
 		</div>
 	</div>
 	<div class="card-body">

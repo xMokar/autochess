@@ -32,16 +32,17 @@ let doFight = () => {
 
 {#if player}
 	{#snippet actions()}
-		<button class="btn btn-info" onclick={onfold}>
+		<button class="btn btn-outline-warning" onclick={onfold}>
 			Retirarse
 		</button>
 	{/snippet}
 	<ManagePlayer {player} {actions} />
+{:else}
+	<div>
+	{#each log as msg}
+	{@html msg}<br>
+	{/each}
+	</div>
 {/if}
 
-<div>
-{#each log as msg}
-{@html msg}<br>
-{/each}
-</div>
 
