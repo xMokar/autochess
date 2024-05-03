@@ -10,8 +10,10 @@ let grid = Array(9).fill(0).map((_, i) => ({
 	y: Math.floor(i/3)
 }))
 let taken:number|undefined = $state(undefined)
+let view:string = $state("hand")
 function take(i:number) {
 	taken = i
+	view = "board"
 }
 function drop(c: Coordinate) {
 	if(taken===undefined) return
@@ -26,11 +28,18 @@ function drop(c: Coordinate) {
 	})
 	updatePlayer(player)
 	taken=undefined
+	view="hand"
 }
 function release(c:Coordinate) {
 	let i = player.field.findIndex(unit => unit.setx==c.x&&unit.sety==c.y)
 	let [activeUnit] = player.field.splice(i, 1)
 	player.hand.push(activeUnit.unit)
+	view="hand"
+}
+
+function cancel() {
+		taken=undefined
+		view="hand"
 }
 </script>
 
@@ -39,10 +48,14 @@ function release(c:Coordinate) {
 		<button onclick={() => take(i)} class="btn btn-sm btn-primary">Agarrar</button>
 	{/if}
 {/snippet}
+{#if view=="hand"}
 <div class="card mt-2">
 	<div class="card-header bg-{player.color} text-light">
 		Viendo la mano de {player.name}
-		<span class="float-end">{@render actions(player)}</span>
+		<span class="float-end">
+			<button onclick={() => view="board"} class="btn btn-primary">Tablero</button>
+			{@render actions(player)}
+		</span>
 	</div>
 	<div class="card-body">
 		<div class="row">
@@ -54,8 +67,15 @@ function release(c:Coordinate) {
 		</div>
 	</div>
 </div>
+{/if}
+{#if view=="board"}
 <div class="card mt-2">
-	<div class="card-header bg-success text-light">Tablero</div>
+	<div class="card-header bg-success text-light">
+		Tablero
+		<div class="float-end">
+			<button onclick={cancel} class="btn btn-danger">Cancelar</button>
+		</div>
+	</div>
 	<div class="card-body">
 		<div class="row">
 		{#each grid as g, index}
@@ -81,3 +101,4 @@ function release(c:Coordinate) {
 		</div>
 	</div>
 </div>
+{/if}
