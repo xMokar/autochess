@@ -13,7 +13,7 @@ let offered:Unit[] = $state([])
 let view = $state("shop")
 let roll = () => {
 	deck.push(...offered)
-	offered = deck.splice(0,5)
+	offered = deck.splice(0,4)
 	player.rolls--
 }
 
