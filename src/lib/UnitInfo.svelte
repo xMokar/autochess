@@ -40,7 +40,7 @@
 		{unit.targetting.name}
 		</div>
 		<b>Efectos:</b><br>
-		<div class="ms-2" style="height:2rem">
+		<div class="ms-2">
 		{#each calculateFieldEffects(unit, field) as effect}
 			<Effect {effect} />
 		{/each}
