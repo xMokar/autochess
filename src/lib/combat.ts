@@ -269,18 +269,21 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	let effects = calculateEffects({attacker,defender,field})
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)
-	let min = damage
+	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier
 	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
+	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
 		if(effect.type != "damage") continue;
 		if(effect.active) {
+			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
 			damage += effect.value
 			max += effect.value
 		} else if (effect.value>0) {
-			max += effect.value
+	//		max += effect.value
 		}
 	}
+	//console.log(`Min: ${min}, Max: ${max}, effects: ${effects}`)
 	return {
 		damage,
 		min,
