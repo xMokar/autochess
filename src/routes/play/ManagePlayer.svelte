@@ -2,8 +2,10 @@
     import UnitMiniCard from "$lib/UnitMiniCard.svelte";
     import { updatePlayer } from "$lib/state";
 import type { Player, Coordinate, ActiveUnit } from "$lib/system";
+    import type { Snippet } from "svelte";
+    import Hand from "./Hand.svelte";
 
-let { player, actions }: {player:Player, actions:any} = $props();
+let { player, actions }: {player:Player, actions:Snippet} = $props();
 let grid = Array(9).fill(0).map((_, i) => ({
 	i,
 	x: i%3,
@@ -65,31 +67,14 @@ function moveend(c:Coordinate) {
 	{/if}
 {/snippet}
 {#if view=="hand"}
-<div class="card mt-2">
-	<div class="card-header bg-{player.color} text-light">
-		Viendo la mano de {player.name}
-		<span class="float-end">
-			<button onclick={() => view="board"} class="btn btn-primary">Tablero</button>
-			{@render actions(player)}
-		</span>
-	</div>
-	<div class="card-body">
-		<div class="row">
-			{#each player.hand as unit, index}
-				<div class="col-6 col-md-4 mb-2">
-					<UnitMiniCard {unit} {cardActions} {index} field={undefined} />
-				</div>
-			{/each}
-		</div>
-	</div>
-</div>
+	<Hand {player} onclose={() => view="board"} {cardActions} boardActions={actions} />
 {/if}
 {#if view=="board"}
 <div class="card mt-2">
 	<div class="card-header bg-success text-light">
 		Tablero
 		<div class="float-end">
-			<button onclick={cancel} class="btn btn-danger">Cancelar</button>
+			<button onclick={cancel} class="btn btn-danger">Ver mano</button>
 		</div>
 	</div>
 	<div class="card-body">
@@ -114,7 +99,7 @@ function moveend(c:Coordinate) {
 					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
 				{/if}
 				{#if moving && player.field.find(au => au.sety==g.y && au.setx==g.x)===undefined}
-					<button onclick={() => moveend(g)} class="btn btn-sm btn-secondary">Soltar</button>
+					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar</button>
 				{/if}
 				
 

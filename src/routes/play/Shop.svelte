@@ -1,6 +1,7 @@
 <script lang="ts">
     import UnitCard from "$lib/UnitCard.svelte";
     import type { Player, Unit } from "$lib/system";
+    import Hand from "./Hand.svelte";
 
 let {deck = $bindable(), player = $bindable(), onend}:{
 		deck:Unit[],
@@ -9,6 +10,7 @@ let {deck = $bindable(), player = $bindable(), onend}:{
 	} = $props()
 
 let offered:Unit[] = $state([])
+let view = $state("shop")
 let roll = () => {
 	deck.push(...offered)
 	offered = deck.splice(0,5)
@@ -25,13 +27,18 @@ let _onend = () => {
 	deck.push(...offered)
 	onend()
 }
+let viewhand = () => {
+	view="hand"
+}
 roll()
 </script>
 
+{#if view=="shop"}
 <div class="card mt-2">
 	<div class="card-header">
 		Tienda para <span class="text-{player.color}">{player.name}</span>
 		<span class="float-end">
+			<button onclick={viewhand} class="btn btn-secondary">Ver mano</button>
 			{#if player.rolls>0}
 				<button onclick={roll} class="btn btn-primary">Pedir cartas nuevas</button>
 			{:else}
@@ -54,3 +61,7 @@ roll()
 
 	</div>
 </div>
+{:else}
+	<Hand {player} onclose={() => view="shop"} cardActions={undefined} boardActions={undefined} />
+
+{/if}
