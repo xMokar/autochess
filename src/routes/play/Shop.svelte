@@ -39,7 +39,7 @@ let show = $state(false)
 			{/if}
 			<button onclick={viewhand} class="btn btn-outline-secondary">Ver mano</button>
 
-			<button onclick={_oncontinue} class="btn btn-outline-danger">Continuar</button>
+			<button onclick={_oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 		</span>
 	</div>
 	<div class="card-body">
