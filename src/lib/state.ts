@@ -84,8 +84,5 @@ export function syncUserData(player:Player) {
 }
 
 export function updatePlayer(player:Player) {
-	for(let au of player.field) {
-		delete(au.player)
-	}
 	localStorage.setItem(player.id, JSON.stringify(player))
 }
