@@ -56,7 +56,7 @@ let show = $state(false)
 							<div class="card">
 								<div class="card-header">Carta escondida</div>
 								<div class="card-body">
-									El contenido de esta carta esta oculto por privacidad, puedes darle click al boton de Mostrar para ver tus cartas.
+									El contenido de esta carta esta oculto por privacidad, si eres <span class="text-{player.color}">{player.name}</span> puedes darle click al boton de Mostrar para ver tus cartas.
 								</div>
 							</div>
 							
