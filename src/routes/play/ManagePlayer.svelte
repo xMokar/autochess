@@ -101,6 +101,7 @@ function moveend(c:Coordinate) {
 				{#if unit}
 					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
 				{/if}
+						
 				
 
 			</div>

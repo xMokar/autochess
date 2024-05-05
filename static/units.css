@@ -1,4 +1,4 @@
 .unit {
-  height: 200px!important; 
+  max-height: 350px!important; 
   overflow: hidden;
 }

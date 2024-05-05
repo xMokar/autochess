@@ -22,16 +22,6 @@
 			<div class="unit">
 				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt={unit.name} />
 			</div>
-			<div class="col-12 col-md-6">
-			</div>
-			<div class="col-12 col-md-6">
-				<b>Rasgos:</b> 
-				<UnitTraits {unit} />
-			</div>
-			<div class="col-12 col-md-6">
-				<b>Ataque:</b>
-				<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
-			</div>
 		{:else}
 		<UnitInfo {unit} field={undefined} />
 		{/if}

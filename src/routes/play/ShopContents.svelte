@@ -22,7 +22,7 @@ let { player, buttons, cards, show, onbuy }:{
 		Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 		<div class="row mt-2">
 				{#each cards as unit, i}
-					<div class="col-12 col-md-4 mb-1">
+					<div class="col-md-4 mb-1 d-flex align-items-stretch">
 						{#if show}
 							{#snippet actions()}
 								<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
@@ -37,6 +37,10 @@ let { player, buttons, cards, show, onbuy }:{
 							</div>
 							
 						{/if}
+					</div>
+				{:else}
+					<div class="col-12">
+						Ya compraste todas las cartas de esta ronda de compra, dale click en el botón de "Siguiente jugador".
 					</div>
 				{/each}
 		</div>
