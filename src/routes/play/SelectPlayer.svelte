@@ -22,5 +22,10 @@ let {players, onselect}:{players:Player[], onselect:(player:Player)=>void} = $pr
 				</div>
 			</div>
 		</div>
+
+		<p>
+			<b>Instrucciones:</b><br>
+			Puedes ponerle nombre a los jugadores y luego apretar el botón de empezar del jugador que comprará primero.
+		</p>
 </div>
 
