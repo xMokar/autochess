@@ -16,17 +16,39 @@ let doFight = () => {
 }
 </script>
 
-<h5>Ver la mano de cada jugador</h5>
-{#each players as _player}
-	<button onclick={() => player = _player} class="btn btn-{_player.color} me-2">
-		Administrar {_player.name}
-	</button>
-{/each}
-<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>
-
-<button onclick={() => doFight()} class="btn btn-secondary">
-	Pelear
-</button>
+<h5>Etapa de administración de tablero y de batalla.</h5>
+<div class="row">
+	<div class="col-3">
+		<table class="table table-bordered">
+		<tbody>
+		<tr>
+			<td>Nombre</td>
+			<td>#Tablero</td>
+			<td>Acciones</td>
+			<td>Nombre</td>
+			<td>#Tablero</td>
+			<td>Acciones</td>
+		<tr>
+		{#each players as _player}
+			<td>{_player.name}</td>
+			<td>{_player.field.length}</td>
+			<td>
+				<button onclick={() => player = _player} class="btn btn-{_player.color} me-2">
+					Administrar
+				</button>
+			</td>
+		{/each}
+		</tr>
+		<tr>
+			<td colspan="4">
+				<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>
+				<button disabled={!(players[0].field.length==4 && players[1].field.length==4)} onclick={() => doFight()} class="btn btn-secondary">Pelear</button>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
 {#if winner}
 	<b class="text-{winner.color}">{winner.name}</b> es el ganador!
 {/if}
