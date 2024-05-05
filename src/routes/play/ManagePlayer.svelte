@@ -1,7 +1,7 @@
 <script lang="ts">
     import UnitMiniCard from "$lib/UnitMiniCard.svelte";
     import { updatePlayer } from "$lib/state";
-import type { Player, Coordinate, ActiveUnit } from "$lib/system";
+import type { Player, Coordinate, ActiveUnit, Unit } from "$lib/system";
     import type { Snippet } from "svelte";
     import Hand from "./Hand.svelte";
 
@@ -12,6 +12,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 	y: Math.floor(i/3)
 }))
 let taken:number|undefined = $state(undefined)
+let takenUnit:Unit|undefined = $derived(taken===undefined? undefined: player.hand[taken])
 let view:string = $state("hand")
 function take(i:number) {
 	taken = i
@@ -63,7 +64,7 @@ function moveend(c:Coordinate) {
 
 {#snippet cardActions(i:number)}
 	{#if taken===undefined}
-		<button onclick={() => take(i)} class="btn btn-sm btn-primary">Agarrar</button>
+		<button onclick={() => take(i)} class="btn btn-sm btn-primary">Agarrar {player.hand[i].name}</button>
 	{/if}
 {/snippet}
 {#if view=="hand"}
@@ -84,7 +85,7 @@ function moveend(c:Coordinate) {
 		{#snippet fieldCardActions()}
 			{#if taken===undefined}
 			<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
-				Agarrar
+				Agarrar {unit?.unit.name}
 			</button>
 			<button onclick={() => release(g)} class="btn btn-sm btn-info">
 				Regresar
@@ -93,10 +94,10 @@ function moveend(c:Coordinate) {
 		{/snippet}
 			<div class="col-12 col-md-4" style="min-height: 9rem">
 				{#if taken!== undefined && !unit}
-					<button onclick={() => drop(g)} class="btn btn-sm btn-primary">Soltar</button>
+					<button onclick={() => drop(g)} class="btn btn-sm btn-primary">Soltar {takenUnit?.name} aquí</button>
 				{/if}
 				{#if moving && player.field.find(au => au.sety==g.y && au.setx==g.x)===undefined}
-					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar</button>
+					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar {moving.unit.name} aquí</button>
 				{/if}
 				{#if unit}
 					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
