@@ -23,13 +23,11 @@ let doFight = () => {
 		<tbody>
 		<tr>
 			<td>Nombre</td>
-			<td>#Tablero</td>
+			<td title="Unidades en el tablero">Unidades</td>
 			<td>Acciones</td>
-			<td>Nombre</td>
-			<td>#Tablero</td>
-			<td>Acciones</td>
-		<tr>
+		</tr>
 		{#each players as _player}
+		<tr>
 			<td>{_player.name}</td>
 			<td>{_player.field.length}</td>
 			<td>
@@ -37,8 +35,8 @@ let doFight = () => {
 					Administrar
 				</button>
 			</td>
-		{/each}
 		</tr>
+		{/each}
 		<tr>
 			<td colspan="4">
 				<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>

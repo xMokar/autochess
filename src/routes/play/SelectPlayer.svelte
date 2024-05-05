@@ -6,7 +6,7 @@ let {players, onselect}:{players:Player[], onselect:(player:Player)=>void} = $pr
 
 <h5>Comprar cartas</h5>
 <div class="row">
-		<div class="col-6">
+		<div class="col-12 col-md-6">
 			<div class="card">
 				<div class="card-header">Configuración de partida
 				</div>

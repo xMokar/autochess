@@ -24,7 +24,7 @@ let {player, onclose, boardActions, cardActions, closeText}:{
 	<div class="card-body">
 		<div class="row">
 			{#each player.hand as unit, index}
-				<div class="col-6 col-md-4 mb-2">
+				<div class="col-12 col-sm-12 col-md-4 mb-2">
 					<UnitMiniCard {unit} {cardActions} {index} field={undefined} />
 				</div>
 			{/each}

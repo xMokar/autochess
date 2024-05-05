@@ -91,17 +91,15 @@ function moveend(c:Coordinate) {
 			</button>
 			{/if}
 		{/snippet}
-			<div class="col-4" style="min-height: 9rem">
+			<div class="col-12 col-md-4" style="min-height: 9rem">
 				{#if taken!== undefined && !unit}
-				<button onclick={() => drop(g)} class="btn btn-sm btn-primary">
-					Soltar
-				</button>
-				{/if}
-				{#if unit}
-					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
+					<button onclick={() => drop(g)} class="btn btn-sm btn-primary">Soltar</button>
 				{/if}
 				{#if moving && player.field.find(au => au.sety==g.y && au.setx==g.x)===undefined}
 					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar</button>
+				{/if}
+				{#if unit}
+					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
 				{/if}
 				
 
