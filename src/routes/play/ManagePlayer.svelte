@@ -38,7 +38,7 @@ function gotoHand() {
 	{/if}
 {/snippet}
 {#if view=="hand"}
-	<Hand {player} onclose={() => view="board"} {cardActions} boardActions={actions} closeText="Tablero" />
+	<Hand {player} onclose={() => view="board"} onclick={(i) => ontake(i)} boardActions={actions} closeText="Tablero" />
 {:else if view=="board"}
 	<ManagePlayerBoard {player} {oncancel} {transferCard} {gotoHand} {takenUnit} />
 {/if}

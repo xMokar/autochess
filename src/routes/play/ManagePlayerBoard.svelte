@@ -1,6 +1,7 @@
 <script lang="ts">
     import UnitMiniCard from '$lib/UnitMiniCard.svelte';
     import type { ActiveUnit, Coordinate, Player, Unit } from '$lib/system';
+    import DropUnitCard from './DropUnitCard.svelte';
 
 let { player, oncancel, transferCard, gotoHand, takenUnit}:{
 	player:Player,
@@ -70,24 +71,20 @@ function isCoordinateAvailable(c:Coordinate) {
 		{#each grid as g, index}
 			{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 			{#snippet cardActions()}
-				<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
-					Agarrar {fieldUnit?.unit.name}
-				</button>
-				{#if takenUnit!==undefined}
-				<button onclick={() => release(g)} class="btn btn-sm btn-info">
-					Regresar
+				{#if !moving}
+				<button onclick={() => release(g)} class="btn btn-secondary btn-sm">
+					Retirar del tablero
 				</button>
 				{/if}
 			{/snippet}
-			<div class="col-12 col-md-4" style="min-height: 9rem">
+			<div class="col-12 col-md-4 d-flex align-items-stretch">
 				{#if takenUnit!== undefined && !fieldUnit}
-					<button onclick={() => ondrop(g)} class="btn btn-sm btn-primary">Soltar {takenUnit.name} aquí</button>
-				{/if}
-				{#if moving && isCoordinateAvailable(g)}
-					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar {moving.unit.name} aquí</button>
+					<DropUnitCard onclick={() => ondrop(g)} unit={takenUnit} />
+				{:else if moving && isCoordinateAvailable(g)}
+					<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
 				{/if}
 				{#if fieldUnit}
-					<UnitMiniCard unit={fieldUnit.unit} {cardActions} {field} {index} />
+					<UnitMiniCard unit={fieldUnit.unit} {cardActions} {field} {index} onclick={() => movestart(g)}/>
 				{/if}
 			</div>
 		{/each}

@@ -1,16 +1,15 @@
 <script lang="ts">
     import { type Field, type Unit } from "$lib/system";
     import type { Snippet } from "svelte";
-    import { calculateFieldEffects } from "./combat";
     import UnitInfo from "./UnitInfo.svelte";
     import UnitTraits from "./UnitTraits.svelte";
-    import Effect from "./Effect.svelte";
 
-	let { unit, cardActions, field, index=0 }:{
+	let { unit, cardActions, field, onclick, index=0 }:{
 		unit:Unit,
 		field:Field|undefined,
 		cardActions:Snippet<[number]>|undefined,
-		index:number
+		index:number,
+		onclick:()=>void,
 	} = $props()
 	let front = $state(true)
 </script>
@@ -27,13 +26,13 @@
 		{#if front}
 		<div class="row">
 			<div class="unit">
-				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt="{unit.name}" />
+				<span {onclick} role="button">
+					<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt="{unit.name}" />
+				</span>
 			</div>
-			<div class="col-12 col-md-6">
-				{#if cardActions}
-					{@render cardActions(index)}
-				{/if}
-			</div>
+			{#if cardActions}
+				{@render cardActions(index)}
+			{/if}
 		</div>
 		{:else}
 			<UnitInfo {unit} {field} />

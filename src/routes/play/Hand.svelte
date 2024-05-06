@@ -3,11 +3,11 @@
     import type { Player } from "$lib/system";
     import type { Snippet } from "svelte";
 
-let {player, onclose, boardActions, cardActions, closeText}:{
+let {player, onclose, onclick, boardActions, closeText}:{
 	player:Player, 
-	cardActions:Snippet<[number]>|undefined,
 	boardActions:Snippet|undefined,
 	onclose:()=>void,
+	onclick:(i:number)=>void,
 	closeText:string
 } = $props();
 </script>
@@ -25,8 +25,10 @@ let {player, onclose, boardActions, cardActions, closeText}:{
 		<div class="row">
 			{#each player.hand as unit, index}
 				<div class="col-4 mb-2 d-flex align-items-stretch">
-					<UnitMiniCard {unit} {cardActions} {index} field={undefined} />
+					<UnitMiniCard {unit} onclick={() => onclick(index)} {index} field={undefined} cardActions={undefined} />
 				</div>
+			{:else}
+				No tienes cartas en la mano.
 			{/each}
 		</div>
 	</div>
