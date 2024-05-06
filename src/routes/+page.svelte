@@ -20,7 +20,7 @@
 			target,
 			damage: calculateDamageStats(source, target)
 			}))
-			.sort((a, b) => b.damage.max-a.damage.max)
+			.sort((a, b) => ((b.damage.min+b.damage.max)/2)-((a.damage.min+a.damage.max)/2))
 	}
 
 	function reset() {
