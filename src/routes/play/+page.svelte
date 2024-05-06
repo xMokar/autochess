@@ -110,6 +110,7 @@ let nextPlayer = () => {
 
 		if(currentPlayer.rolls==0) {
 			mode="manage"
+			return
 		}
 		roll(currentPlayer)
 }
