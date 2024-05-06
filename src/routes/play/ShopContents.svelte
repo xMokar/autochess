@@ -1,14 +1,15 @@
 <script lang="ts">
-    import UnitCard from '$lib/UnitCard.svelte';
+    import Effect from '$lib/Effect.svelte';
+import UnitCard from '$lib/UnitCard.svelte';
     import type { Player, Unit } from '$lib/system';
     import type { Snippet } from 'svelte';
 
-let { player, buttons, cards, show, onbuy }:{
+let { player, buttons, cards, onbuy, rolled }:{
 	player:Player,
 	buttons:Snippet,
 	cards:Unit[],
 	onbuy:(i:number) => void,
-	show:boolean
+	rolled:boolean
 } = $props()
 </script>
 <div class="card mt-2">
@@ -23,24 +24,19 @@ let { player, buttons, cards, show, onbuy }:{
 		<div class="row mt-2">
 				{#each cards as unit, i}
 					<div class="col-md-4 mb-1 d-flex align-items-stretch">
-						{#if show}
-							{#snippet actions()}
-								<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
-							{/snippet}
-							<UnitCard {unit} {actions} />
-						{:else}
-							<div class="card">
-								<div class="card-header">Carta escondida</div>
-								<div class="card-body">
-									El contenido de esta carta esta oculto por privacidad, si eres <span class="text-{player.color}">{player.name}</span> puedes darle click al boton de Mostrar para ver tus cartas.
-								</div>
-							</div>
-							
-						{/if}
+						{#snippet actions()}
+							<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
+						{/snippet}
+						<UnitCard {unit} {actions} />
 					</div>
 				{:else}
 					<div class="col-12">
-						Ya compraste todas las cartas de esta ronda de compra, dale click en el botón de "Siguiente jugador".
+						La tienda esta vacia.
+						{#if rolled}
+							Es momento de darle click al botón de "Siguiente jugador"
+						{:else}
+							Puedes pedir unidades, que no las vea el otro jugador.
+						{/if}
 					</div>
 				{/each}
 		</div>

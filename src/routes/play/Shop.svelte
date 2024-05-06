@@ -1,43 +1,62 @@
 <script lang="ts">
-    import type { Player, Unit } from "$lib/system";
-    import Hand from "./Hand.svelte";
-    import ShopContents from "./ShopContents.svelte";
+import { Units, type Player, type Unit } from "$lib/system";
+import Hand from "./Hand.svelte";
+import ShopContents from "./ShopContents.svelte";
 
-let {cards, player = $bindable(), oncontinue, ontake}:{
-		cards:Unit[],
+let {player = $bindable(), oncontinue}:{
 		player:Player,
 		oncontinue:()=>void,
-		ontake:(index:number)=>Unit
 	} = $props()
 
 let view = $state("shop")
 
+let newDeck = Units
+	.flatMap(unit => Array(5).fill(unit))
+	.map((unit,index) => ({...unit, index}) as Unit)
+
+
+let shuffle = (deck:Unit[]) => deck
+	.map(unit => ({ unit, order: Math.random()*deck.length }))
+	.sort((a, b) => b.order-a.order)
+	.map(({unit}) => unit)
+
+let deck = $state(shuffle(newDeck))
+let cards:Unit[] = $state([])
+let rolled = $state(false)
+let roll = () => {
+	deck.push(...cards)
+	cards = deck.splice(0,4)
+	rolled = true
+	player.rolls--
+}
 let onbuy = (index:number) => {
 	if(player.gold==0)
 		return;
 	player.gold--
-	player.hand.push(ontake(index))
+	let [card] = cards.splice(index, 1)
+	player.hand.push(card)
 }
 let _oncontinue = () => {
-	show = false
+	deck.push(...cards)
+	cards = []
+	rolled = false
 	oncontinue()
 }
 let viewhand = () => {
 	view="hand"
 }
-let show = $state(false)
 </script>
 
 {#if view=="shop"}
 {#snippet buttons()}
-	{#if !show}
-		<button class="btn btn-outline-primary" onclick={() => show = true}>Mostrar cartas</button>
+	{#if !rolled}
+		<button class="btn btn-outline-primary" onclick={roll}>Pedir unidades</button>
 	{/if}
 	<button onclick={viewhand} class="btn btn-outline-secondary">Ver mano</button>
 
 	<button onclick={_oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 {/snippet}
-	<ShopContents {player} {buttons} {cards} {show} {onbuy} />
+	<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
 {:else}
 	<Hand {player} onclose={() => view="shop"} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
 {/if}
