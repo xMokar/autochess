@@ -1,11 +1,15 @@
 <script lang="ts">
     import { initBattle, fight } from "$lib/combat";
-import { type Player } from "$lib/system";
+    import { getPlayers } from "$lib/state";
+    import { UnitMap, type Coordinate, type Player } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
-let { home=$bindable(), visitor=$bindable()}: {home:Player, visitor:Player} = $props()
-
-initBattle(home, visitor)
+let [ _player1, _player2 ] = getPlayers()
+let home = $state(_player1)
+let visitor = $state(_player2)
+$effect(() => {
+	initBattle(home, visitor)
+})
 
 let winner = $state("Nadie")
 function run100() {
@@ -64,6 +68,22 @@ let stats = $state({
 	}
 })
 
+let onRemoveUnit = (player:Player, c:Coordinate) => {
+	player.field=player.field.filter(i => !(i.setx==c.x && i.sety==c.y))
+}
+let onAddUnit = (player:Player, c:Coordinate, value:string) => {
+	if(!value) {
+		return;
+	}
+	player.field.push({
+		setx: c.x,
+		sety: c.y,
+		x: c.x,
+		y: c.y,
+		hp: 0,
+		unit: UnitMap[value]
+	})
+}
 </script>
 
 <div class="container mt-2">
@@ -87,6 +107,6 @@ let stats = $state({
 			{@html msg}<br>
 		{/each}
 	</div>
-			<FieldGrid bind:player={visitor} mirrored={true} />
-			<FieldGrid bind:player={home} mirrored={false} />
+			<FieldGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
+			<FieldGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
 </div>

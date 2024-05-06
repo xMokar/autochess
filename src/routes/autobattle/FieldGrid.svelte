@@ -1,9 +1,14 @@
 <script lang="ts">
 import { updatePlayer } from '$lib/state';
-import { type Player, type Field, Units, UnitMap } from '$lib/system'
+import { type Player, type Field, Units, type Coordinate } from '$lib/system'
 import UnitInfo from '$lib/UnitInfo.svelte';
 
-let { player=$bindable(), mirrored=false }: {player:Player, mirrored:boolean} = $props()
+let { player, mirrored=false, onAddUnit, onRemoveUnit }:{
+	player:Player, 
+	mirrored:boolean,
+	onAddUnit: (player:Player, c:Coordinate, value:string)=>void,
+	onRemoveUnit: (player:Player, c:Coordinate)=>void
+} = $props()
 let fieldArray = $derived(fieldToArray(player.field, mirrored))
 
 function fieldToArray(field:Field, mirrored:boolean=false) {
@@ -26,26 +31,9 @@ function add(index:number) {
 		let y = Math.floor(index/3)
 		let mirroredy = mirrored? 2-y: y
 		let x = index%3
-
-		let removeUnit = () => {
-			player.field=player.field.filter(i => !(i.setx==x && i.sety==mirroredy))
-		}
-		let addUnit = () => {
-			if(!select.value) {
-				return;
-			}
-			player.field.push({
-				setx: x,
-				sety: mirroredy,
-				x,
-				y:mirrored?-(3-y):y,
-				hp: 0,
-				unit: UnitMap[select.value]
-			})
-		}
-		
-		removeUnit()
-		addUnit()
+		let c:Coordinate = { x, y: mirroredy }
+		onRemoveUnit(player, c)
+		onAddUnit(player, c, select.value)
 		updatePlayer(player)
 	}
 }
