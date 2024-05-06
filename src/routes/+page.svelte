@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Units, type Unit } from "$lib/system";
-    import TraitIcon from "$lib/TraitIcon.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
     import { goto } from "$app/navigation";
     import { calculateDamageStats } from "$lib/combat";
@@ -30,14 +29,15 @@
 	}
 </script>
 <div class="container mt-2">
-	<a class="btn btn-success" href="/autobattle">AutoBattle</a>
-	<a class="btn btn-secondary" href="/play">Jugar</a>
-	<br>
+	<div class="d-print-none">
+		<a class="btn btn-success" href="/autobattle">AutoBattle</a>
+		<a class="btn btn-secondary" href="/play">Jugar</a>
+		<br>
+	</div>
 	<div class="row">
 		<div class="col-12">
 		<h4>Lista de Unidades</h4>
 		</div>
-
 
 		{#each units as unit}
 			<div class="col-12 col-md-6  col-lg-4 col-xl-3 mb-2 g-1">
