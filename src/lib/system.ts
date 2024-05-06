@@ -180,8 +180,8 @@ export let Units:Unit[] = [
 		attack: { amount: 2, sides: 4, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.fire, 1),
-			changeDamageAgainstTrait(TraitMap.water, -1),
+			changeDamageAgainstTrait(TraitMap.fire, 3),
+			changeDamageAgainstTrait(TraitMap.water, -3),
 		],
 		defense:0,
 		movespeed: 1,
@@ -202,8 +202,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.fire, 1),
-			changeDamageAgainstTrait(TraitMap.water, -1),
+			changeDamageAgainstTrait(TraitMap.fire, 3),
+			changeDamageAgainstTrait(TraitMap.water, -3),
 		],
 	},
 	{ 
@@ -219,8 +219,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 4 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.wood, 1),
-			changeDamageAgainstTrait(TraitMap.metal, -1),
+			changeDamageAgainstTrait(TraitMap.wood, 3),
+			changeDamageAgainstTrait(TraitMap.metal, -3),
 		],
 	},
 	{ 
@@ -236,8 +236,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.wood, 1),
-			changeDamageAgainstTrait(TraitMap.metal, -1),
+			changeDamageAgainstTrait(TraitMap.wood, 3),
+			changeDamageAgainstTrait(TraitMap.metal, -3),
 		],
 	},
 	{
@@ -253,8 +253,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 8, modifier: 2 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.metal, 1),
-			changeDamageAgainstTrait(TraitMap.fire, -1),
+			changeDamageAgainstTrait(TraitMap.metal, 3),
+			changeDamageAgainstTrait(TraitMap.fire, -3),
 		],
 	},
 	{
@@ -270,8 +270,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.metal, 1),
-			changeDamageAgainstTrait(TraitMap.fire, -1),
+			changeDamageAgainstTrait(TraitMap.metal, 3),
+			changeDamageAgainstTrait(TraitMap.fire, -3),
 		],
 	},
 	{
@@ -287,8 +287,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.earth, 1),
-			changeDamageAgainstTrait(TraitMap.wood, -1),
+			changeDamageAgainstTrait(TraitMap.earth, 3),
+			changeDamageAgainstTrait(TraitMap.wood, -3),
 		],
 	},
 	{
@@ -304,8 +304,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.earth, 1),
-			changeDamageAgainstTrait(TraitMap.wood, -1),
+			changeDamageAgainstTrait(TraitMap.earth, 3),
+			changeDamageAgainstTrait(TraitMap.wood, -3),
 		],
 	},
 	{
@@ -318,11 +318,11 @@ export let Units:Unit[] = [
 		hp: 20,
 		defense:0,
 		cost: 1,
-		attack: { amount: 1, sides: 4, modifier: 1 },
+		attack: { amount: 1, sides: 4, modifier: 0 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.water, 1),
-			changeDamageAgainstTrait(TraitMap.earth, -1),
+			changeDamageAgainstTrait(TraitMap.water, 3),
+			changeDamageAgainstTrait(TraitMap.earth, -3),
 		],
 	},
 	{
@@ -339,8 +339,8 @@ export let Units:Unit[] = [
 		attack: { amount: 1, sides: 10, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.water, 1),
-			changeDamageAgainstTrait(TraitMap.earth, -1),
+			changeDamageAgainstTrait(TraitMap.water, 3),
+			changeDamageAgainstTrait(TraitMap.earth, -3),
 		],
 	},
 		
