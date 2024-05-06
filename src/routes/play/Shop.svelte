@@ -3,12 +3,12 @@ import { Units, type Player, type Unit } from "$lib/system";
 import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
 
-let {player, oncontinue, onroll, onbuy}:{
-		player:Player,
-		oncontinue:()=>void,
-		onroll:(player:Player)=>void,
-		onbuy:(player:Player, unit:Unit)=>void,
-	} = $props()
+let {player, oncontinue: oncontinue_parent, onroll: onroll_parent, onbuy: onbuy_parent}:{
+	player:Player,
+	oncontinue:()=>void,
+	onroll:(player:Player)=>void,
+	onbuy:(player:Player, unit:Unit)=>void,
+} = $props()
 
 let view = $state("shop")
 
@@ -25,25 +25,25 @@ let shuffle = (deck:Unit[]) => deck
 let deck = $state(shuffle(newDeck))
 let cards:Unit[] = $state([])
 let rolled = $state(false)
-let roll = () => {
+let onroll = () => {
 	deck.push(...cards)
 	cards = deck.splice(0,4)
 	rolled = true
-	onroll(player)
+	onroll_parent(player)
 }
-let _onbuy = (index:number) => {
+let onbuy = (index:number) => {
 	if(player.gold==0)
 		return;
 	let [card] = cards.splice(index, 1)
-	onbuy(player, card)
+	onbuy_parent(player, card)
 }
-let _oncontinue = () => {
+let oncontinue = () => {
 	deck.push(...cards)
 	cards = []
 	rolled = false
-	oncontinue()
+	oncontinue_parent()
 }
-let viewhand = () => {
+let onviewhand = () => {
 	view="hand"
 }
 </script>
@@ -51,13 +51,13 @@ let viewhand = () => {
 {#if view=="shop"}
 {#snippet buttons()}
 	{#if !rolled}
-		<button class="btn btn-outline-primary" onclick={roll}>Pedir unidades</button>
+		<button class="btn btn-outline-primary" onclick={onroll}>Pedir unidades</button>
 	{/if}
-	<button onclick={viewhand} class="btn btn-outline-secondary">Ver mano</button>
+	<button onclick={onviewhand} class="btn btn-outline-secondary">Ver mano</button>
 
-	<button onclick={_oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
+	<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 {/snippet}
-	<ShopContents {player} {buttons} {cards} onbuy={_onbuy} {rolled} />
+	<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
 {:else}
 	<Hand {player} onclose={() => view="shop"} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
 {/if}
