@@ -10,6 +10,7 @@ let { player, oncancel, transferCard, gotoHand, takenUnit}:{
 	takenUnit:Unit|undefined
 }= $props()
 
+let field = $derived(player.field)
 let grid = Array(9).fill(0).map((_, i) => ({
 	i,
 	x: i%3,
@@ -52,6 +53,10 @@ function release(c:Coordinate) {
 	player.hand.push(activeUnit.unit)
 	gotoHand()
 }
+
+function isCoordinateAvailable(c:Coordinate) {
+	return player.field.find(au => au.sety==c.y && au.setx==c.x)===undefined
+}
 </script>
 <div class="card mt-2">
 	<div class="card-header bg-success text-light">
@@ -63,30 +68,27 @@ function release(c:Coordinate) {
 	<div class="card-body">
 		<div class="row">
 		{#each grid as g, index}
-		{@const unit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
-		{#snippet fieldCardActions()}
-			<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
-				Agarrar {unit?.unit.name}
-			</button>
-			{#if takenUnit!==undefined}
-			<button onclick={() => release(g)} class="btn btn-sm btn-info">
-				Regresar
-			</button>
-			{/if}
-		{/snippet}
-			<div class="col-12 col-md-4" style="min-height: 9rem">
-				{#if takenUnit!== undefined && !unit}
-					<button onclick={() => ondrop(g)} class="btn btn-sm btn-primary">Soltar {takenUnit?.name} aquí</button>
+			{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
+			{#snippet cardActions()}
+				<button onclick={() => movestart(g)} class="btn btn-sm btn-primary">
+					Agarrar {fieldUnit?.unit.name}
+				</button>
+				{#if takenUnit!==undefined}
+				<button onclick={() => release(g)} class="btn btn-sm btn-info">
+					Regresar
+				</button>
 				{/if}
-				{#if moving && player.field.find(au => au.sety==g.y && au.setx==g.x)===undefined}
+			{/snippet}
+			<div class="col-12 col-md-4" style="min-height: 9rem">
+				{#if takenUnit!== undefined && !fieldUnit}
+					<button onclick={() => ondrop(g)} class="btn btn-sm btn-primary">Soltar {takenUnit.name} aquí</button>
+				{/if}
+				{#if moving && isCoordinateAvailable(g)}
 					<button onclick={() => moveend(g)} class="btn btn-sm btn-primary">Soltar {moving.unit.name} aquí</button>
 				{/if}
-				{#if unit}
-					<UnitMiniCard unit={unit.unit} cardActions={fieldCardActions} field={player.field} {index} />
+				{#if fieldUnit}
+					<UnitMiniCard unit={fieldUnit.unit} {cardActions} {field} {index} />
 				{/if}
-						
-				
-
 			</div>
 		{/each}
 		</div>

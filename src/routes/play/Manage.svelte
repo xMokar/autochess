@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { fight } from '$lib/combat';
-    import type { Player } from '$lib/system';
-    import ManagePlayer from './ManagePlayer.svelte';
+import { fight } from '$lib/combat';
+import type { Player } from '$lib/system';
+import ManagePlayer from './ManagePlayer.svelte';
 
 let {players,onfold}:{players:Player[],onfold:()=>void} = $props()
 let player:Player|undefined = $state(undefined)
@@ -26,12 +26,12 @@ let doFight = () => {
 			<td title="Unidades en el tablero">Unidades</td>
 			<td>Acciones</td>
 		</tr>
-		{#each players as _player}
+		{#each players as p}
 		<tr>
-			<td>{_player.name}</td>
-			<td>{_player.field.length}</td>
+			<td>{p.name}</td>
+			<td>{p.field.length}</td>
 			<td>
-				<button onclick={() => player = _player} class="btn btn-{_player.color} me-2">
+				<button onclick={() => player = p} class="btn btn-{p.color} me-2">
 					Administrar
 				</button>
 			</td>
@@ -54,7 +54,7 @@ let doFight = () => {
 {#if player}
 	{#snippet actions()}
 		<button class="btn btn-outline-warning" onclick={onfold}>
-			Retirarse
+			Darse por vencido
 		</button>
 	{/snippet}
 	<ManagePlayer {player} {actions} />

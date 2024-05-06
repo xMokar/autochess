@@ -8,7 +8,7 @@ let { player, actions }: {player:Player, actions:Snippet} = $props();
 let taken:number|undefined = $state(undefined)
 let takenUnit:Unit|undefined = $derived(taken===undefined? undefined: player.hand[taken])
 let view:string = $state("hand")
-function take(i:number) {
+function ontake(i:number) {
 	taken = i
 	view = "board"
 }
@@ -34,7 +34,7 @@ function gotoHand() {
 
 {#snippet cardActions(i:number)}
 	{#if taken===undefined}
-		<button onclick={() => take(i)} class="btn btn-sm btn-primary">Agarrar {player.hand[i].name}</button>
+		<button onclick={() => ontake(i)} class="btn btn-sm btn-primary">Agarrar {player.hand[i].name}</button>
 	{/if}
 {/snippet}
 {#if view=="hand"}
