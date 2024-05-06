@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		{:else}
-			<UnitInfo {unit} field={undefined} />
+			<UnitInfo {unit} {field} />
 		{/if}
 	</div>
 </div>
