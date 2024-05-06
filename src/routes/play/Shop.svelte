@@ -41,7 +41,7 @@ let show = $state(false)
 {/snippet}
 	<ShopContents {player} {buttons} {cards} {show} {onbuy} />
 {:else}
-	<Hand {player} onclose={() => view="shop"} cardActions={undefined} boardActions={undefined} closeText="Regresar" />
+	<Hand {player} onclose={() => view="shop"} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
 {/if}
 		<p>
 			<b>Instrucciones:</b><br>
