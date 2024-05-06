@@ -64,8 +64,6 @@ let resetPlayer = (player:Player) => {
 	player.gold = 6
 	deck.push(...player.hand)
 	deck.push(...player.field.map(au => au.unit))
-	console.log(`${player.name}: returning ${player.hand.length} cards from hand, ${player.field.length} cards on the field`)
-	console.log(`Deck size: ${deck.length}`)
 	player.hand = []
 	player.field = []
 }
@@ -102,7 +100,7 @@ let start = (player:Player) => {
 	mode = "shop"
 	roll(player)
 }
-let nextPlayer = () => {
+let oncontinue = () => {
 		deck.push(...shop)
 		currentPlayer = players.find(player => player.name != currentPlayer?.name)
 		if(currentPlayer===undefined)
@@ -122,7 +120,7 @@ let nextPlayer = () => {
 	{#if mode=="selectplayer"}
 		<SelectPlayer {players} onselect={start} />
 	{:else if currentPlayer && mode=="shop"}
-		<Shop cards={shop} bind:player={currentPlayer} oncontinue={nextPlayer} {ontake}/>
+		<Shop cards={shop} bind:player={currentPlayer} {oncontinue} {ontake}/>
 	{:else if mode=="manage"}
 		<Manage {players} {onfold} />
 	{/if}

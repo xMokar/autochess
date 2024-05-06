@@ -1,7 +1,5 @@
 <script lang="ts">
-    import UnitCard from "$lib/UnitCard.svelte";
     import type { Player, Unit } from "$lib/system";
-    import Page from "../+page.svelte";
     import Hand from "./Hand.svelte";
     import ShopContents from "./ShopContents.svelte";
 
