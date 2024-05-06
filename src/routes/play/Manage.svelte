@@ -25,6 +25,7 @@ let doFight = () => {
 			<td>Nombre</td>
 			<td title="Unidades en el tablero">Unidades</td>
 			<td>Acciones</td>
+			<td></td>
 		</tr>
 		{#each players as p}
 		<tr>
@@ -35,6 +36,10 @@ let doFight = () => {
 					Administrar
 				</button>
 			</td>
+			<td>
+				{#if winner?.name == p.name}
+					GANADOR
+				{/if}
 		</tr>
 		{/each}
 		<tr>
@@ -47,9 +52,6 @@ let doFight = () => {
 		</table>
 	</div>
 </div>
-{#if winner}
-	<b class="text-{winner.color}">{winner.name}</b> es el ganador!
-{/if}
 
 {#if player}
 	{#snippet actions()}
