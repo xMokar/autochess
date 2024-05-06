@@ -63,6 +63,14 @@ let onstart = (player:Player) => {
 	currentPlayer = player
 	mode = "shop"
 }
+
+let onroll = (player:Player) => {
+	player.rolls--
+}
+let onbuy = (player:Player, unit:Unit) => {
+	player.gold--
+	player.hand.push(unit)
+}
 let oncontinue = () => {
 		currentPlayer = players.find(player => player.name != currentPlayer?.name)
 		if(currentPlayer===undefined)
@@ -81,7 +89,7 @@ let oncontinue = () => {
 	{#if mode=="selectplayer"}
 		<SelectPlayer {players} onselect={onstart} />
 	{:else if currentPlayer && mode=="shop"}
-		<Shop bind:player={currentPlayer} {oncontinue} />
+		<Shop player={currentPlayer} {oncontinue} {onroll} {onbuy} />
 	{:else if mode=="manage"}
 		<Manage {players} {onfold} />
 	{/if}

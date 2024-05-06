@@ -3,9 +3,11 @@ import { Units, type Player, type Unit } from "$lib/system";
 import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
 
-let {player = $bindable(), oncontinue}:{
+let {player, oncontinue, onroll, onbuy}:{
 		player:Player,
 		oncontinue:()=>void,
+		onroll:(player:Player)=>void,
+		onbuy:(player:Player, unit:Unit)=>void,
 	} = $props()
 
 let view = $state("shop")
@@ -27,14 +29,13 @@ let roll = () => {
 	deck.push(...cards)
 	cards = deck.splice(0,4)
 	rolled = true
-	player.rolls--
+	onroll(player)
 }
-let onbuy = (index:number) => {
+let _onbuy = (index:number) => {
 	if(player.gold==0)
 		return;
-	player.gold--
 	let [card] = cards.splice(index, 1)
-	player.hand.push(card)
+	onbuy(player, card)
 }
 let _oncontinue = () => {
 	deck.push(...cards)
@@ -56,7 +57,7 @@ let viewhand = () => {
 
 	<button onclick={_oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 {/snippet}
-	<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
+	<ShopContents {player} {buttons} {cards} onbuy={_onbuy} {rolled} />
 {:else}
 	<Hand {player} onclose={() => view="shop"} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
 {/if}
