@@ -12,7 +12,7 @@ let player1 = $state({
 			color: 'primary',
 			finished: false,
 			maxgold: 5,
-			gold: 6,
+			gold: 10,
 			rolls: 2,
 			hand: [],
 			field: [ ],
@@ -24,7 +24,7 @@ let player2 = $state({
 			color: 'danger',
 			finished: false,
 			maxgold: 5,
-			gold: 6,
+			gold: 10,
 			rolls: 2,
 			hand: [],
 			field: []
@@ -38,7 +38,7 @@ let currentPlayer:Player|undefined = $state(undefined)
 let resetPlayer = (player:Player) => {
 	player.finished = false
 	player.rolls = 2
-	player.gold = 6
+	player.gold = 10
 	player.hand = []
 	player.field = []
 }
@@ -66,6 +66,7 @@ let onstart = (player:Player) => {
 
 let onroll = (player:Player) => {
 	player.rolls--
+	player.gold -= 2
 }
 let onbuy = (player:Player, unit:Unit) => {
 	player.gold--
