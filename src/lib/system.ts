@@ -175,7 +175,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'mermaid',
 		name: 'Sirena',
-		info: `Es una bella chica de cabello azul con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
+		info: `Es una bella chica de cabello azul con cola de pez. Ataca invocando una ola magica desde atras del enemigo.`,
 		hp: 10,
 		attack: { amount: 2, sides: 4, modifier: 1 },
 		effects: [
@@ -192,7 +192,7 @@ export let Units:Unit[] = [
 	{ 
 		id: 'waterelemental',
 		name: 'Elemental de agua',
-		info: `Es una creatura de agua viva, con grandes poderes mágicos.\nAtaca invocando un remolino de agua rasgador.`,
+		info: `Es una creatura de agua viva, con grandes poderes mágicos. Ataca invocando un remolino de agua rasgador.`,
 		hp: 20,
 		defense:0,
 		movespeed: 1,
@@ -294,7 +294,7 @@ export let Units:Unit[] = [
 	{
 		id: 'woodelemental',
 		name: 'Elemental de madera',
-		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob".\nAtaca con un latigo de raices.`,
+		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob". Ataca con un latigo de raices.`,
 		hp: 20,
 		defense: 0,
 		movespeed: 1,
