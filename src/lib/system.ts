@@ -177,7 +177,7 @@ export let Units:Unit[] = [
 		name: 'Sirena',
 		info: `Es una bella chica de cabello azul con cola de pez\nAtaca invocando una ola magica desde atras del enemigo.`,
 		hp: 10,
-		attack: { amount: 2, sides: 4, modifier: 0 },
+		attack: { amount: 2, sides: 4, modifier: 1 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
 			changeDamageAgainstTrait(TraitMap.fire, 1),
@@ -199,7 +199,7 @@ export let Units:Unit[] = [
 		traits: [TraitMap.water],
 		targetting: TargettingMap.nearby,
 		cost: 1,
-		attack: { amount: 1, sides: 6, modifier: 0 },
+		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
 			changeDamageAgainstTrait(TraitMap.fire, 1),
@@ -233,7 +233,7 @@ export let Units:Unit[] = [
 		traits: [TraitMap.metal],
 		targetting: TargettingMap.closest1,
 		cost: 1,
-		attack: { amount: 1, sides: 6, modifier: 0 },
+		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
 			changeDamageAgainstTrait(TraitMap.wood, 1),
@@ -267,7 +267,7 @@ export let Units:Unit[] = [
 		traits: [TraitMap.fire],
 		targetting: TargettingMap.closest1,
 		cost: 1,
-		attack: { amount: 1, sides: 6, modifier: 0 },
+		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
 			changeDamageAgainstTrait(TraitMap.metal, 1),
@@ -301,7 +301,7 @@ export let Units:Unit[] = [
 		traits: [TraitMap.wood],
 		targetting: TargettingMap.nearby,
 		cost: 1,
-		attack: { amount: 1, sides: 6, modifier: 0 },
+		attack: { amount: 1, sides: 4, modifier: 3 },
 		effects: [
 			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
 			changeDamageAgainstTrait(TraitMap.earth, 1),
