@@ -279,10 +279,10 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
 			damage += effect.value
 			max += effect.value
-		} else if (effect.value>0) {
-	//		max += effect.value
-		}
+			min += effect.value
+		} 
 	}
+	min = Math.max(min, 0)
 	//console.log(`Min: ${min}, Max: ${max}, effects: ${effects}`)
 	return {
 		damage,
