@@ -16,7 +16,6 @@ let newDeck = Units
 	.flatMap(unit => Array(5).fill(unit))
 	.map((unit,index) => ({...unit, index}) as Unit)
 
-
 let shuffle = (deck:Unit[]) => deck
 	.map(unit => ({ unit, order: Math.random()*deck.length }))
 	.sort((a, b) => b.order-a.order)
@@ -46,27 +45,30 @@ let oncontinue = () => {
 let onviewhand = () => {
 	view="hand"
 }
+let onviewshop = () => {
+	view="shop"
+}
 </script>
 
 {#if view=="shop"}
-{#snippet buttons()}
-	{#if !rolled}
-		<button class="btn btn-outline-primary" onclick={onroll}>Pedir unidades</button>
-	{/if}
-	<button onclick={onviewhand} class="btn btn-outline-secondary">Ver mano</button>
+	{#snippet buttons()}
+		{#if !rolled}
+			<button class="btn btn-outline-primary" onclick={onroll}>Pedir unidades</button>
+		{/if}
+		<button onclick={onviewhand} class="btn btn-outline-secondary">Ver mano</button>
 
-	<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
-{/snippet}
+		<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
+	{/snippet}
 	<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
 {:else}
-	<Hand {player} onclose={() => view="shop"} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
+	<Hand {player} onclose={onviewshop} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
 {/if}
-		<p>
-			<b>Instrucciones:</b><br>
-			Ya empezó el juego, el primer jugador toma el control de este dispositivo y le puede dar click al botón "Mostrar Cartas".<br>
-			A continuación, verá las cartas que le tocaron y tiene una cantidad de oro limitada para comprar algunas, para agregarlas a su mano. (Volvera a ver otras cartas más adelante)<br>
-			En cualquier momento puedes ver que cartas tienes en la mano dandole click al botón "Ver mano".<br>
-			Cuando ya no le interesé ninguna carta, le puede dar click en "Siguiente jugador" y le da el dispositivo al otro jugador, quien puede ver sus cartas y elegir si quiere comprar alguna.<br>
-			Este proceso se puede repetir algunas veces, cuando se haya repetido suficientes veces, pasarán a la siguiente etapa.<br>
 
-		</p>
+<p>
+	<b>Instrucciones:</b><br>
+	Ya empezó el juego, el primer jugador toma el control de este dispositivo y le puede dar click al botón "Mostrar Cartas".<br>
+	A continuación, verá las cartas que le tocaron y tiene una cantidad de oro limitada para comprar algunas, para agregarlas a su mano. (Volvera a ver otras cartas más adelante)<br>
+	En cualquier momento puedes ver que cartas tienes en la mano dandole click al botón "Ver mano".<br>
+	Cuando ya no le interesé ninguna carta, le puede dar click en "Siguiente jugador" y le da el dispositivo al otro jugador, quien puede ver sus cartas y elegir si quiere comprar alguna.<br>
+	Este proceso se puede repetir algunas veces, cuando se haya repetido suficientes veces, pasarán a la siguiente etapa.<br>
+</p>

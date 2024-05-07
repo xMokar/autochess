@@ -1,4 +1,3 @@
-import { untrack } from "svelte";
 import { UnitMap, type Player } from "./system";
 
 export function getPlayers() {
@@ -78,9 +77,9 @@ export function syncUserData(player:Player) {
 	}
 	// updatePlayerField runs through the player
 	// field to set each unit its player instance
-	for(let au of player.field) {
+	//for(let au of player.field) {
 	//	au.player = untrack(() => player)
-	}
+	//}
 }
 
 export function updatePlayer(player:Player) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Player } from "$lib/system";
+import type { Player } from "$lib/system";
 
 let {players, onselect}:{players:Player[], onselect:(player:Player)=>void} = $props()
 </script>
