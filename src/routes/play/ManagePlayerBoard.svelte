@@ -44,6 +44,7 @@ function ondrop(c: Coordinate) {
 		x: c.x,
 		y: c.y,
 		hp: unit.hp,
+		attackcooldown: 0,
 	})
 	gotoHand()
 }

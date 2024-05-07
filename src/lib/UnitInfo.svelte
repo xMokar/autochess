@@ -31,8 +31,8 @@
 		<span class="float-end">{unit.defense}</span>
 	</div>
 	<div class="col-12 col-md-6">
-		<b>Vel:</b>
-		<span class="float-end">{unit.movespeed}</span>
+		<b>Ataca cada:</b>
+		<span class="float-end">{unit.attackcooldown} ticks</span>
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>

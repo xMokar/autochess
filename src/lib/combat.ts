@@ -115,8 +115,9 @@ interface Turn {
 	target:Player,
 }
 
-type TurnsBySpeed = {[key:string]:Turn[]}
-function *createTurnOrder(source:Player, target:Player) {
+export function combatRound(source:Player, target:Player)  {
+	let output = []
+	output.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
 	let sourceUnits:Turn[] = source.field
 		.filter(activeUnit => activeUnit.hp>0)
 		.map(activeUnit => ({
@@ -127,43 +128,15 @@ function *createTurnOrder(source:Player, target:Player) {
 		.map(activeUnit => ({
 			activeUnit, source:target, target: source
 		}))
-
-	let splitUnitsBySpeed = (player:Turn[]) => player 
-		.reduce((total, u) => {
-			if(!total[String(u.activeUnit.unit.movespeed)])
-				total[String(u.activeUnit.unit.movespeed)] = []
-			total[String(u.activeUnit.unit.movespeed)].push(u)
-			return total
-		}, {} as TurnsBySpeed)
-
-	let sourceUnitsBySpeed = splitUnitsBySpeed(sourceUnits)
-	let targetUnitsBySpeed = splitUnitsBySpeed(targetUnits)
-
-	let allUnitsBySpeed = splitUnitsBySpeed([...sourceUnits, ...targetUnits])
-	let speeds = [...Object.keys(allUnitsBySpeed)]
-		.map(Number)
-		.sort((a,b)=>b-a)
-		.map(String)
-
-	for(let speed of speeds) {
-		let pop = (turns:TurnsBySpeed) => {
-			if(!turns[speed]) return undefined
-			return turns[speed].pop()
-		}
-		while(true) {
-			let sourceTurn = pop(sourceUnitsBySpeed)
-			if(sourceTurn) yield(sourceTurn)
-			let targetTurn = pop(targetUnitsBySpeed)
-			if(targetTurn) yield(targetTurn)
-			if(!sourceTurn && !targetTurn) break;
+	let units = [...sourceUnits, ...targetUnits]
+	let tick = () => {
+		output.push('Tick')
+		for(let unit of units) {
+			unit.activeUnit.attackcooldown++
 		}
 	}
-}
-
-export function combatRound(source:Player, target:Player)  {
-	let output = []
-	output.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
-	let turns = createTurnOrder(source, target)
+	let unitsReady = () => units
+		.filter(u => u.activeUnit.attackcooldown==u.activeUnit.unit.attackcooldown)
 
 	let total = {
 		[source.name]: {
@@ -176,13 +149,17 @@ export function combatRound(source:Player, target:Player)  {
 		}
 	}
 	
-	for(let turn of turns) {
-		let attack = Attack(turn.source, turn.activeUnit, turn.target)
-		if (!attack.damage)
-			continue
-		total[turn.source.name].dmgmax += attack.damage.max
-		total[turn.source.name].dmg += attack.damage.damage
-		output.push(...attack.output)
+	for(let i = 0; i < 20; i++) {
+		tick()
+		for(let turn of unitsReady()) {
+			let attack = Attack(turn.source, turn.activeUnit, turn.target)
+			if (!attack.damage)
+				continue
+			total[turn.source.name].dmgmax += attack.damage.max
+			total[turn.source.name].dmg += attack.damage.damage
+			output.push(...attack.output)
+			turn.activeUnit.attackcooldown=0
+		}
 	}
 	output.push('')
 	return output
@@ -197,6 +174,7 @@ function setBattleCoordinates(player:Player) {
 
 function resetUnits(player:Player) {
 	for(let activeUnit of player.field) {
+		activeUnit.attackcooldown = 0
 		activeUnit.hp = activeUnit.unit.hp
 	}
 }
@@ -213,17 +191,15 @@ export function fight(player1:Player, player2:Player) {
 	initBattle(player1, player2)
 	let player1Alive = true
 	let player2Alive = true
-	for(let i=0; i<5; i++) {
-		let homeFirst = Math.random()*100>50
-		if (homeFirst)
-			log.push(...combatRound(player1, player2))
-		else
-			log.push(...combatRound(player2, player1))
-		player1Alive = player1.field.filter(activeUnit => activeUnit.hp>0).length>0
-		player2Alive = player2.field.filter(activeUnit => activeUnit.hp>0).length>0
-		if(!player1Alive || !player2Alive) 
-			break
-	}
+
+	let homeFirst = Math.random()*100>50
+	if (homeFirst)
+		log.push(...combatRound(player1, player2))
+	else
+		log.push(...combatRound(player2, player1))
+	player1Alive = player1.field.filter(activeUnit => activeUnit.hp>0).length>0
+	player2Alive = player2.field.filter(activeUnit => activeUnit.hp>0).length>0
+
 	let showFieldHP = (player:Player) => {
 		log.push('Unidades vivas:')
 		for(let unit of player.field) {
@@ -298,12 +274,14 @@ export function calculateDamageStats(attacker:Unit, defender:Unit) {
 			hp: 1, 
 			x: 0, y: 0,
 			setx: 0, sety: 0,
+			attackcooldown: 0,
 		}, 
 		defender: {
 			unit: defender,
 			hp: 1, 
 			x: 0, y: 0,
 			setx: 0, sety: 0,
+			attackcooldown: 0,
 		}
 	})
 }

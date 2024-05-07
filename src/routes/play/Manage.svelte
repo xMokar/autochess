@@ -45,7 +45,10 @@ let doFight = () => {
 		<tr>
 			<td colspan="4">
 				<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>
-				<button disabled={!(players[0].field.length==4 && players[1].field.length==4)} onclick={() => doFight()} class="btn btn-secondary">Pelear</button>
+				<button disabled={!(players[0].field.length==3 && players[1].field.length==3)} 
+					onclick={() => doFight()} class="btn btn-secondary">
+					Pelear
+				</button>
 			</td>
 		</tr>
 		</tbody>
