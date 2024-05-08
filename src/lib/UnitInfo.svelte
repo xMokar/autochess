@@ -17,8 +17,7 @@
 	<div class="col-6">
 		<b>Precio:</b>
 		<div class="float-end">
-		{unit.cost}
-		<span class="badge bg-warning text-dark">$</span>
+		{unit.cost} <span class="icon">🪙</span>
 		</div>
 	</div>
 	<div class="col-6">

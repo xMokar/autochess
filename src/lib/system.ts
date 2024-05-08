@@ -2,6 +2,7 @@ export interface Trait {
 	
 	id: string;
 	name: string;
+	icon: string;
 }
 
 interface Targetting {
@@ -94,22 +95,28 @@ let Traits:Trait[] = [
 	{
 		id: 'fire',
 		name: 'Fuego',
+		icon: '🔥',
+		
 	},
 	{
 		id: 'earth',
 		name: 'Tierra',
+		icon: '⛰️',
 	},
 	{
 		id: 'metal',
 		name: 'Metal',
+		icon: '⚙️',
 	},
 	{
 		id: 'water',
-		name: 'Agua'
+		name: 'Agua',
+		icon: '🌊',
 	},
 	{
 		id: 'wood',
-		name: 'Madera'
+		name: 'Madera',
+		icon: '🪵',
 	},
 ]
 export let TraitMap = Object.fromEntries(Traits.map(c => [ c.id, c ]))
@@ -144,7 +151,7 @@ let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 function changeDamageAgainstTrait(trait:Trait, value:number) {
 	return ({defender}:EffectFunctionArgs) => {
 		let fullvalue = value>=0?`+${value}`:value
-		let message = `[${fullvalue} contra <span class="armor ${trait.id}"></span>]`
+		let message = `${fullvalue} contra <span class="icon">${trait.icon}</span>`
 		let type = "damage"
 		let def_trait= defender?.unit.traits.find(t => t.id===trait.id)
 		if(!defender || !def_trait || def_trait.id !== trait.id)
@@ -163,7 +170,7 @@ function traitTeamAttributesBetween(trait:Trait, min:number, max:number, value:n
 			rangeMessage = `de ${min} a ${max}`
 		else 
 			rangeMessage = `al menos ${min}`
-		let message = `[${fullvalue} si tienes ${rangeMessage} <span class="armor ${trait.id}"></span>]`
+		let message = `${fullvalue} si tienes ${rangeMessage} <span class="icon">${trait.icon}</span>`
 		let type = "damage"
 		let support = field?.filter(u => u.hp>0 && u.unit.traits.find(t => t.id==trait.id)).length??0
 		if((support >= min) && (support <= max))
