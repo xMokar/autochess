@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-	import { Units, type Unit, type Player } from "$lib/system";
+	import { type Unit, type Player } from "$lib/system";
     import Manage from "./Manage.svelte";
     import SelectPlayer from "./SelectPlayer.svelte";
     import Shop from "./Shop.svelte";
