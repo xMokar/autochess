@@ -30,6 +30,11 @@ function transferCard() {
 function gotoHand() {
 	view = "hand"
 }
+$effect(()=> {
+	// track player, when it changes, reset state.
+	player;
+	oncancel()
+})
 </script>
 
 {#snippet cardActions(i:number)}
