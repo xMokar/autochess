@@ -133,11 +133,11 @@ export function combatRound(source:Player, target:Player)  {
 	let tick = () => {
 		output.push('Tick')
 		for(let unit of units) {
-			unit.activeUnit.attackcooldown++
+			unit.activeUnit.energy+=unit.activeUnit.unit.energypertick
 		}
 	}
 	let unitsReady = () => units
-		.filter(u => u.activeUnit.attackcooldown==u.activeUnit.unit.attackcooldown)
+		.filter(u => u.activeUnit.energy==u.activeUnit.unit.energymax)
 
 	let total = {
 		[source.name]: {
@@ -159,7 +159,7 @@ export function combatRound(source:Player, target:Player)  {
 			total[turn.source.name].dmgmax += attack.damage.max
 			total[turn.source.name].dmg += attack.damage.damage
 			output.push(...attack.output)
-			turn.activeUnit.attackcooldown=0
+			turn.activeUnit.energy=0
 		}
 	}
 	output.push('')
@@ -175,7 +175,7 @@ function setBattleCoordinates(player:Player) {
 
 function resetUnits(player:Player) {
 	for(let activeUnit of player.field) {
-		activeUnit.attackcooldown = 0
+		activeUnit.energy = 0
 		activeUnit.hp = activeUnit.unit.hp
 	}
 }
@@ -278,14 +278,14 @@ export function calculateDamageStats(attacker:Unit, defender:Unit) {
 			hp: 1, 
 			x: 0, y: 0,
 			setx: 0, sety: 0,
-			attackcooldown: 0,
-		}, 
+			energy: 0,
+		} as ActiveUnit, 
 		defender: {
 			unit: defender,
 			hp: 1, 
 			x: 0, y: 0,
 			setx: 0, sety: 0,
-			attackcooldown: 0,
-		}
+			energy: 0,
+		} as ActiveUnit
 	})
 }

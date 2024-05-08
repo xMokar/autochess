@@ -13,7 +13,7 @@
 			return [1,2,3,3,4,4]
 		return sides.map(x => Math.ceil(x/(6/(face))))
 	}
-	let units = [...Units].sort((a,b) => b.movespeed-a.movespeed)
+	let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
 	let targetTable = (source:Unit) => {
 		return units.map((target) => ({
 			target,
@@ -170,24 +170,20 @@ a			La distribución sugerida es 5 de cada unidad.<br>
 
 			<li>Se puede regresar al paso 4 una vez más, cada jugador tiene derecho a recibir 2 sets de unidades para comprar.</li>
 
-			<li>Ambos jugadores voltean sus unidades, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
+			<li>Ambos jugadores eligen 3 unidades y las voltean, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
 			<li>En este momento <b>empieza una etapa de ronda de combate</b></li>
 
 			<li>Se tira una moneda para decidir quien tiene preferencia.</li>
 
-			<li>Se determina el orden de ataque, <b>las cartas que tengan mas velocidad atacan primero</b>, en caso de empate el jugador que tenga preferencia ataca primero, cuando un jugador tenga varias unidades con la misma velocidad, el puede elegir cual actua primero.</li>
+			<li>El combate gira al rededor de "ticks" de juego, en cada tick, se le agrega la cantidad de energia por tick apropiada a cada unidad en el tablero, 
+				cuando alguna unidad acumule suficiente energía podra actuar, en caso de empate, las unidades del jugador con preferencia atacan primero. Se repite este
+				proceso las veces que consideren necesarias hasta que alguien se quede sin unidades.</li>
 
-			<li>Se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
-			<li>Se <b>tiran los dados</b> apropiados segun el elemento del objetivo</li>
+			<li>A la hora de atacar se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
+			<li>Se <b>tiran los dados</b> apropiados segun el elemento del objetivo y se determinan los efectos activos para aumentar la bonificación.</li>
 
-			<li>Antes o despues de atacar (pero solo una vez), <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
-
-			<li>Una vez que una unidad ataque, se <b>gira esa carta</b>, colocandola horizontalmente, para indicar que ya fue usada en esta ronda.</li>
-			
-			<li>Se continua el proceso con las unidades que no hayan actuado alternando entre un jugador y otro.</li>
-
-			<li>Una vez que todas las unidades hayan actuado, termina la ronda y pueden empezar una ronda nueva (<i>regresando al paso 9</i>) hasta que algún jugador se quede sin unidades.</li>
+			<li>Despues de atacar, <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
 
 			<li>Al terminar la partida, <b>puede ofrecerse una revancha u otro jugador puede retar al vencedor</b>. El vencedor tiene que usar las mismas cartas mientras que el oponente realiza su proceso de compra, teniendo el derecho de recibir 2 sets de 4 cartas, por separado, para comprar y continuar en el paso 7.</li>
 			</ol>

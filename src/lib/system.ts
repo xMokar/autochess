@@ -81,7 +81,8 @@ export interface Unit {
 	info: string;
 	hp: number,
 	defense: number;
-	attackcooldown: number;
+	energymax: number;
+	energypertick: number;
 	traits: Trait[];
 	targetting: Targetting;
 	cost: number;
@@ -121,7 +122,7 @@ export interface ActiveUnit {
 	hp: number
 	x:number
 	y:number
-	attackcooldown:number
+	energy:number
 }
 
 export type Field = ActiveUnit[]
@@ -185,7 +186,8 @@ export let Units:Unit[] = [
 			changeDamageAgainstTrait(TraitMap.water, -3),
 		],
 		defense:0,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.water],
 		targetting: TargettingMap.farthest1,
 		cost: 1,
@@ -196,7 +198,8 @@ export let Units:Unit[] = [
 		info: `Es una creatura de agua viva, con grandes poderes mágicos. Ataca invocando un remolino de agua rasgador.`,
 		hp: 20,
 		defense:0,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.water],
 		targetting: TargettingMap.nearby,
 		cost: 1,
@@ -213,7 +216,8 @@ export let Units:Unit[] = [
 		info: `Es un rebelde sín causa que resuelve las problemas a balazos.\nAtaca disparando su pistola.`,
 		hp: 15,
 		defense:0,
-		attackcooldown: 3,
+		energymax: 3,
+		energypertick: 1,
 		traits: [TraitMap.metal],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
@@ -230,7 +234,8 @@ export let Units:Unit[] = [
 		info: `Es un soldado con armadura de oro.\nAtaca dando un espadazo.`,
 		hp: 20,
 		defense:1,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.metal],
 		targetting: TargettingMap.closest1,
 		cost: 1,
@@ -247,7 +252,8 @@ export let Units:Unit[] = [
 		info: `Es un mago elemental de fuego.\nAtaca lanzando una bola de fuego.`,
 		hp: 15,
 		defense: 0,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.fire],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
@@ -264,7 +270,8 @@ export let Units:Unit[] = [
 		info: `Es una creatura de fuego vivo.\nAtaca dando un puñetazo ardiente.`,
 		hp: 20,
 		defense: 0,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.fire],
 		targetting: TargettingMap.closest1,
 		cost: 1,
@@ -281,7 +288,8 @@ export let Units:Unit[] = [
 		info: `Es un soldado con arco y flecha.\nAtaca disparando una lluvia de flechas.`,
 		hp: 15,
 		defense: 0,
-		attackcooldown: 3,
+		energymax: 3,
+		energypertick: 1,
 		traits: [TraitMap.wood],
 		targetting: TargettingMap.farthest2,
 		cost: 1,
@@ -298,7 +306,8 @@ export let Units:Unit[] = [
 		info: `Es una criatura humanoide de madera viva, por algun motivo solo puede decir "yo soy noob". Ataca con un latigo de raices.`,
 		hp: 20,
 		defense: 0,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.wood],
 		targetting: TargettingMap.nearby,
 		cost: 1,
@@ -313,7 +322,8 @@ export let Units:Unit[] = [
 		id: 'earthelemental',
 		name: 'Elemental de tierra',
 		info: `Creatura magica de tierra viva.\nAtaca haciendo temblar la tierra.`,
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.earth],
 		targetting: TargettingMap.everyone,
 		hp: 20,
@@ -331,7 +341,8 @@ export let Units:Unit[] = [
 		name: 'Druida',
 		info: `Es un hechicero que controla las fuerzas de la naturaleza.\nAtaca lanzando un mini-meteorito.`,
 
-		attackcooldown: 4,
+		energymax: 4,
+		energypertick: 1,
 		traits: [TraitMap.earth],
 		targetting: TargettingMap.random,
 		hp: 15,

@@ -30,9 +30,13 @@
 		<b>Def:</b> 
 		<span class="float-end">{unit.defense}</span>
 	</div>
-	<div class="col-12 col-md-6">
-		<b>Ataca cada:</b>
-		<span class="float-end">{unit.attackcooldown} ticks</span>
+	<div class="col-6">
+		<b>Energía maxima:</b>
+		<span class="float-end">{unit.energymax}</span>
+	</div>
+	<div class="col-6">
+		<b>Energía por tick:</b>
+		<span class="float-end">{unit.energypertick}</span>
 	</div>
 	<div class="col-12">
 		<b>Objetivos:</b> <br>
