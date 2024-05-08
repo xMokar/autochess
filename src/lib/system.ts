@@ -363,7 +363,7 @@ export interface DamageRoll {
 	damage:number,
 	max:number,
 	min:number,
-	effects?:number,
+	roll:string,
 }
 
 export interface Coordinate {

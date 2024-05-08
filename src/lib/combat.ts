@@ -79,6 +79,7 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 			damage:0,
 			max:0,
 			min:0,
+			roll:'',
 	}
 	if(!activeUnit.hp) {
 		return {
@@ -97,7 +98,7 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 	}
 	for(let targetUnit of targets) {
 		let damage = calculateDamage({attacker:activeUnit, defender:targetUnit, field:source.field})
-		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (efectos: ${damage.effects})`)
+		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
 			output.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
@@ -245,26 +246,29 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	let effects = calculateEffects({attacker,defender,field})
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)
+	let damageBeforeEffects = damage
 	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier
 	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
-	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
+	console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
 		if(effect.type != "damage") continue;
 		if(effect.active) {
-			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
+			console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
 			damage += effect.value
 			max += effect.value
 			min += effect.value
 		} 
 	}
 	min = Math.max(min, 0)
-	//console.log(`Min: ${min}, Max: ${max}, effects: ${effects}`)
+	let effectDamage = damage-damageBeforeEffects
+	console.log(`Dmg: ${damage} Min: ${min}, Max: ${max}, effects: ${effectDamage}`)
+	
 	return {
 		damage,
 		min,
 		max,
-		effects:damage-min
+		roll: `${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}+${effectDamage}`
 	} as DamageRoll
 }
 export function calculateDamageStats(attacker:Unit, defender:Unit) {
