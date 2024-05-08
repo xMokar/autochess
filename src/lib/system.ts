@@ -111,7 +111,7 @@ let Traits:Trait[] = [
 	{
 		id: 'water',
 		name: 'Agua',
-		icon: '🌊',
+		icon: '💧',
 	},
 	{
 		id: 'wood',
