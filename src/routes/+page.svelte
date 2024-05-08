@@ -94,56 +94,9 @@
 		<div>
 			<h5>Cálculos matemáticos de dados.</h5>
 			<p>
-				Para calcular el daño tienes que tirar dados según la indicación, por ejemplo <b>2d6</b> significa 2 dados de 6 caras<br>
-				Mientras que <b>2d6+1</b> significa 2 dados de 6 caras y al resultado se le suma 1.
+				Para calcular el daño tienes que tirar dados según la indicación, por ejemplo <b>2d6+1</b> significa 2 dados de 6 caras y al resultado le sumas 1<br>
 			</p>
 
-			<p>
-				Estatisticamente eso significa que si tiras dos 1s, el valor minimo es un 2+2. Y si tiras dos 6s, el valor maximo es 12+2 (+1 por cada dado que tires).
-			</p>
-
-			<h5>¿Qué hago si solo tengo dados de 6?</h5>
-			<p>
-				Si solo tienes dados de seis caras, puedes tirarlo y usar la siguiente relación, una manera facil de recordarlo es:
-			</p>
-			<ul>
-				<li>d2: de 1-3 es 1, de 4-6 es 2</li>
-				<li>d3: lo divides entre 2, si da exacto usas el numero, si no, le sumas 1 y lo divides entre 2.</li>
-				<li>d4: de 3-4 es 3, de 5-6 es 4</li>
-				<li>d5: el 6 es 5</li>
-			</ul>
-
-				<table class="table table-striped table-bordered" style="width: 150px">
-				<thead>
-				<tr>
-					<th>C</th>
-					<th>1</th>
-					<th>2</th>
-					<th>3</th>
-					<th>4</th>
-					<th>5</th>
-					<th>6</th>
-				</tr>
-				</thead>
-				<tbody>
-				{#each sides.slice(1, sides.length-1) as n1}
-					<tr>
-						<td>{n1}</td>
-						{#each table(n1) as n2}
-							<td>{n2}</td>
-						{/each}
-					</tr>
-				{/each}
-						
-				</tbody>
-				</table>
-
-			<p>
-				Alternativamente puedes crear una baraja con cartas de numeros del 1
-				al numero máximo que sea alcanzable por las unidades que estas usando.
-				Cuando necesites un numero, dejas solo las cartas con los números 
-				validos, las revuelves y agarras una.
-			</p>
 			<h5>¿Comó puedo armar una partida?</h5>
 			<p>
 				Para armar un partida, necesitas un deck de cartas de unidades,
@@ -151,43 +104,43 @@
 
 				Las cartas deben estar distribuidas de forma pareja a menos que alguna unidad sea demasiado fuerte, 
 				pueden haber menos unidades de esta.<br>
-a			La distribución sugerida es 5 de cada unidad.<br>
+				La distribución sugerida es 5 de cada unidad.<br>
 
-				A parte, necesitas estas instrucciones impresas para tenerlas de referencia.
+				Necesitas varios dados de 6 caras y al menos un dado de 4, 8 y 10 caras.<br>
+
+				A parte, necesitas estas instrucciones impresas para tenerlas de referencia.<br>
 			</p>
 			
 			<h5>¿Cómo se juega?</h5>
 
 			<ol>
+			<li>Se recomienda jugar con un numero par de jugadores.</li>
 			<li>Se revuelven las cartas de unidades.</li>
 
-			<li>A cada jugador se la da 6 de oro.</li>
-			<li><b>Empieza la etapa de compra.</b> Se tira una moneda para ver quien compra primero.</li>
+			<li><b>Empieza la etapa de compra.</b> A cada jugador se la da 10 de oro.</li>
+			<li>Se tira una moneda para ver quien compra primero.</li>
 
-			<li>Se le entregan 4 cartas al jugador que ganó la tirada de moneda, puede comprar las que quiera usando su oro.</li>
+			<li>El primer jugador paga 2 de oro y pide un set de 4 cartas, puede comprar las que quiera usando su oro disponible. Se repite este paso con los siguientes jugadores avanzando en el sentido de las manecillas de reloj.</li>
 
-			<li>Se repite el paso anterior con el otro jugador.</li>
+			<li>Se puede regresar al paso anterior una vez más, cada jugador tiene derecho a ver 2 sets de unidades para comprar.</li>
 
-			<li>Se puede regresar al paso 4 una vez más, cada jugador tiene derecho a recibir 2 sets de unidades para comprar.</li>
+			<li>Todos los jugadores eligen 3 unidades de su mano y las voltean, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
-			<li>Ambos jugadores eligen 3 unidades y las voltean, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
+			<li>Cada jugador tira un dado y se ordenaran de menor a mayor y en este órden jugaran uno contra uno.</li>
 
-			<li>En este momento <b>empieza una etapa de ronda de combate</b></li>
-
-			<li>Se tira una moneda para decidir quien tiene preferencia.</li>
+			<li>En este momento <b>empieza una etapa de ronda de combate</b>, en cada combate, se tira una moneda para decidir quien tiene preferencia.</li>
 
 			<li>El combate gira al rededor de "ticks" de juego, en cada tick, se le agrega la cantidad de energia por tick apropiada a cada unidad en el tablero, 
 				cuando alguna unidad acumule suficiente energía podra actuar, en caso de empate, las unidades del jugador con preferencia atacan primero. Se repite este
 				proceso las veces que consideren necesarias hasta que alguien se quede sin unidades.</li>
 
 			<li>A la hora de atacar se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
-			<li>Se <b>tiran los dados</b> apropiados segun el elemento del objetivo y se determinan los efectos activos para aumentar la bonificación.</li>
+			<li>Se <b>tiran los dados</b> segun el ataque de la unidad atacando y se determinan los efectos activos para aumentar una bonificación.</li>
 
 			<li>Despues de atacar, <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
 
-			<li>Al terminar la partida, <b>puede ofrecerse una revancha u otro jugador puede retar al vencedor</b>. El vencedor tiene que usar las mismas cartas mientras que el oponente realiza su proceso de compra, teniendo el derecho de recibir 2 sets de 4 cartas, por separado, para comprar y continuar en el paso 7.</li>
-			</ol>
-
+			<li>Los perdedores perderan vida segun el numero de unidades vivas en el territorio de su oponente.</li>
+			<li>Se regresa a la <u>etapa de compra</u> para continuar jugando contra otros jugadores</li>
 
 		</div>
 
