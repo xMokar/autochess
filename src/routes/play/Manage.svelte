@@ -14,56 +14,62 @@ let doFight = () => {
 	log = result.log
 	winner = result.winner
 }
+let onclose = () => {
+	player = undefined
+}
 </script>
 
 <h5>Etapa de administración de tablero y de batalla.</h5>
-<div class="row">
-	<div class="col-3">
-		<table class="table table-bordered">
-		<tbody>
-		<tr>
-			<td>Nombre</td>
-			<td title="Unidades en el tablero">Unidades</td>
-			<td>Acciones</td>
-			<td></td>
-		</tr>
-		{#each players as p}
-		<tr>
-			<td>{p.name}</td>
-			<td>{p.field.length}</td>
-			<td>
-				<button onclick={() => player = p} class="btn btn-{p.color} me-2">
-					Administrar
-				</button>
-			</td>
-			<td>
-				{#if winner?.name == p.name}
-					GANADOR
-				{/if}
-		</tr>
-		{/each}
-		<tr>
-			<td colspan="4">
-				<button onclick={() => player = undefined} class="btn btn-outline-primary">Ocultar cartas</button>
-				<button disabled={!(players[0].field.length==3 && players[1].field.length==3)} 
-					onclick={() => doFight()} class="btn btn-secondary">
-					Pelear
-				</button>
-			</td>
-		</tr>
-		</tbody>
-		</table>
-	</div>
-</div>
 
 {#if player}
 	{#snippet actions()}
-		<button class="btn btn-outline-warning" onclick={onfold}>
+		<button class="btn btn-warning" onclick={onfold}>
 			Darse por vencido
+		</button>
+		<button class="btn btn-secondary" onclick={onclose}>
+			Cerrar
 		</button>
 	{/snippet}
 	<ManagePlayer {player} {actions} />
 {:else}
+	<div class="row">
+		<div class="col-3">
+			<table class="table table-bordered">
+			<tbody>
+			<tr>
+				<td>Nombre</td>
+				<td title="Unidades en el tablero">Unidades</td>
+				<td>Acciones</td>
+				<td></td>
+			</tr>
+			{#each players as p}
+			<tr>
+				<td>{p.name}</td>
+				<td>{p.field.length}</td>
+				<td>
+					<button onclick={() => player = p} class="btn btn-{p.color} me-2">
+						Administrar
+					</button>
+				</td>
+				<td>
+					{#if winner?.name == p.name}
+						GANADOR
+					{/if}
+			</tr>
+			{/each}
+			<tr>
+				<td colspan="2"></td>
+				<td colspan="2">
+					<button disabled={!(players[0].field.length==3 && players[1].field.length==3)} 
+						onclick={() => doFight()} class="btn btn-secondary">
+						Pelear
+					</button>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+	</div>
 	<div>
 	{#each log as msg}
 	{@html msg}<br>
