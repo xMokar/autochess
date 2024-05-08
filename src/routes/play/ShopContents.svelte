@@ -25,7 +25,7 @@ let { player, buttons, cards, onbuy, rolled }:{
 				{#each cards as unit, i}
 					<div class="col-md-4 mb-1 d-flex align-items-stretch">
 						{#snippet actions()}
-							<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="bi bi-currency-dollar"></span></button>
+							<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="icon">🪙</span></button>
 						{/snippet}
 						<UnitCard {unit} {actions} />
 					</div>
