@@ -10,6 +10,7 @@ let { players, onendcombat, ondamage }:{
 
 let shuffledPairs = () => {
 	let shuffled = players
+		.filter(p => p.hp>0)
 		.map(i => ({ order: Math.random(), value: i}))
 		.sort((a, b)=>a.order-b.order)
 		.map(({value}) => value)
