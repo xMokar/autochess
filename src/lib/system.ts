@@ -136,6 +136,7 @@ export type Field = ActiveUnit[]
 export interface Player {
 	id: string,
 	name: string,
+	hp: number,
 	field: Field,
 	mirrored: boolean,
 	color: string,

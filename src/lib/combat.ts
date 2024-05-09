@@ -188,7 +188,7 @@ export function initBattle(player1:Player, player2: Player) {
 }
 
 export function fight(player1:Player, player2:Player) {
-	let log = []
+	let log = [`Combate entre <span class="text-${player1.color}">${player1.name}</span> y <span class="text-${player2.color}">${player2.name}</span>`]
 	initBattle(player1, player2)
 	let player1Alive = true
 	let player2Alive = true
@@ -213,6 +213,7 @@ export function fight(player1:Player, player2:Player) {
 		log.push("Empate!")
 		return {
 			winner: undefined,
+			loser: undefined,
 			log
 		}
 	} else if (player1Alive) {
@@ -220,6 +221,7 @@ export function fight(player1:Player, player2:Player) {
 		log.push(`<b class="text-${player1.color}">${player1.name}</b> es el ganador`)
 		return {
 			winner: player1,
+			loser: player2,
 			log
 		}
 	} else  {
@@ -227,6 +229,7 @@ export function fight(player1:Player, player2:Player) {
 		log.push(`<b class="text-${player2.color}">${player2.name}</b> es el ganador`)
 		return {
 			winner: player2,
+			loser: player1,
 			log
 		}
 	}
@@ -249,12 +252,12 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	let damageBeforeEffects = damage
 	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier
 	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
-	console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
+	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
 		if(effect.type != "damage") continue;
 		if(effect.active) {
-			console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
+			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
 			damage += effect.value
 			max += effect.value
 			min += effect.value
@@ -262,7 +265,7 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	}
 	min = Math.max(min, 0)
 	let effectDamage = damage-damageBeforeEffects
-	console.log(`Dmg: ${damage} Min: ${min}, Max: ${max}, effects: ${effectDamage}`)
+	//console.log(`Dmg: ${damage} Min: ${min}, Max: ${max}, effects: ${effectDamage}`)
 	
 	return {
 		damage,

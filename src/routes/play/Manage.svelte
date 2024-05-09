@@ -1,43 +1,42 @@
 <script lang="ts">
-import { fight } from '$lib/combat';
 import type { Player } from '$lib/system';
+import Combat from './Combat.svelte';
 import ManagePlayer from './ManagePlayer.svelte';
 
-let {players,onfold}:{players:Player[],onfold:()=>void} = $props()
+let {players,onfold,ondamage,onendcombat}:{
+	players:Player[],
+	ondamage:(player:Player, amount:number)=>void,
+	onendcombat:()=>void,
+	onfold:()=>void
+} = $props()
 let player:Player|undefined = $state(undefined)
+let view = $state("main")
 
-let log:string[]=$state([])
-let winner:Player|undefined=$state(undefined)
 let doFight = () => {
 	player = undefined
-	let result = fight(players[0], players[1])
-	log = result.log
-	winner = result.winner
+	view = "combat"
 }
 let onclose = () => {
 	player = undefined
+	view = "main"
+}
+
+let onmanage = (p:Player) => {
+	player = p
+	view = "manage"
 }
 </script>
 
 <h5>Etapa de administración de tablero y de batalla.</h5>
 
-{#if player}
-	{#snippet actions()}
-		<button class="btn btn-warning" onclick={onfold}>
-			Darse por vencido
-		</button>
-		<button class="btn btn-secondary" onclick={onclose}>
-			Cerrar
-		</button>
-	{/snippet}
-	<ManagePlayer {player} {actions} />
-{:else}
+{#if view == "main"}
 	<div class="row">
 		<div class="col-3">
 			<table class="table table-bordered">
 			<tbody>
 			<tr>
 				<td>Nombre</td>
+				<td>HP</td>
 				<td title="Unidades en el tablero">Unidades</td>
 				<td>Acciones</td>
 				<td></td>
@@ -45,16 +44,14 @@ let onclose = () => {
 			{#each players as p}
 			<tr>
 				<td>{p.name}</td>
+				<td>{p.hp}</td>
 				<td>{p.field.length}</td>
 				<td>
-					<button onclick={() => player = p} class="btn btn-{p.color} me-2">
+					<button onclick={() => onmanage(p)} class="btn btn-{p.color} me-2">
 						Administrar
 					</button>
 				</td>
 				<td>
-					{#if winner?.name == p.name}
-						GANADOR
-					{/if}
 			</tr>
 			{/each}
 			<tr>
@@ -70,11 +67,18 @@ let onclose = () => {
 			</table>
 		</div>
 	</div>
-	<div>
-	{#each log as msg}
-	{@html msg}<br>
-	{/each}
-	</div>
+{:else if view == "manage" && player}
+	{#snippet actions()}
+		<button class="btn btn-warning" onclick={onfold}>
+			Darse por vencido
+		</button>
+		<button class="btn btn-secondary" onclick={onclose}>
+			Cerrar
+		</button>
+	{/snippet}
+	<ManagePlayer {player} {actions} />
+{:else if view == "combat"}
+	<Combat {players} {ondamage} {onendcombat} />
 {/if}
 
 <p>

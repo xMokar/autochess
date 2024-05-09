@@ -37,11 +37,6 @@ $effect(()=> {
 })
 </script>
 
-{#snippet cardActions(i:number)}
-	{#if taken===undefined}
-		<button onclick={() => ontake(i)} class="btn btn-sm btn-primary">Agarrar {player.hand[i].name}</button>
-	{/if}
-{/snippet}
 {#if view=="hand"}
 	<Hand {player} onclose={() => view="board"} onclick={(i) => ontake(i)} boardActions={actions} closeText="Tablero" />
 {:else if view=="board"}

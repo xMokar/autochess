@@ -1,7 +1,12 @@
 <script lang="ts">
 import type { Player } from "$lib/system";
 
-let {players, onselect}:{players:Player[], onselect:(player:Player)=>void} = $props()
+let {players, onselect, onremoveplayer, onnewplayer}:{
+	players:Player[], 
+	onnewplayer:()=>void,
+	onremoveplayer:(player:Player)=>void,
+	onselect:(player:Player)=>void
+} = $props()
 </script>
 
 <h5>Comprar cartas</h5>
@@ -11,13 +16,17 @@ let {players, onselect}:{players:Player[], onselect:(player:Player)=>void} = $pr
 				<div class="card-header">Configuración de partida
 				</div>
 				<div class="card-body">
+					<button onclick={onnewplayer} class="btn btn-sm btn-primary">New Player</button><br>
 					{#each players as player}
+						<button onclick={() => onremoveplayer(player)} class="btn btn-sm btn-danger">-</button>
 						<input type="text" bind:value={player.name} />
+						<span class="text-{player.color}">Color</span>
 						<button onclick={() => {
 							onselect(player)
 						}} class="btn btn-sm btn-success me-2">
 							Empezar
-						</button><br>
+						</button>
+						<br>
 					{/each}
 				</div>
 			</div>
