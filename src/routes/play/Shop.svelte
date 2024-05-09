@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Units, type Player, type Unit } from "$lib/system";
+    import Board from "./Board.svelte";
 import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
 
@@ -42,27 +43,21 @@ let oncontinue = () => {
 	rolled = false
 	oncontinue_parent()
 }
-let onviewhand = () => {
-	view="hand"
-}
 let onviewshop = () => {
 	view="shop"
 }
 </script>
 
-{#if view=="shop"}
-	{#snippet buttons()}
-		{#if !rolled}
-			<button class="btn btn-outline-primary" onclick={onroll}>Pedir unidades</button>
-		{/if}
-		<button onclick={onviewhand} class="btn btn-outline-secondary">Ver mano</button>
+{#snippet buttons()}
+	{#if !rolled}
+		<button class="btn btn-outline-primary" onclick={onroll}>Mostrar unidades</button>
+	{/if}
 
-		<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
-	{/snippet}
-	<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
-{:else}
-	<Hand {player} onclose={onviewshop} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
-{/if}
+	<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
+{/snippet}
+<ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
+<Hand {player} onclose={onviewshop} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
+<Board {player} />
 
 <p>
 	<b>Instrucciones:</b><br>

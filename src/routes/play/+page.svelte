@@ -33,12 +33,13 @@ let player2 = $state({
 		} as Player
 )
 let players:Player[] = $state([player1, player2])
+let livingPlayers = $derived(players.filter(player => player.hp>0))
 
 let mode= $state("selectplayer")
 let currentPlayerIndex:number|undefined = $state(undefined)
 let currentPlayer:Player|undefined = $derived(currentPlayerIndex==undefined? 
 		undefined: 
-		players[currentPlayerIndex])
+		livingPlayers[currentPlayerIndex])
 
 let resetPlayer = (player:Player) => {
 	player.finished = false
@@ -81,20 +82,16 @@ let onbuy = (player:Player, unit:Unit) => {
 	player.hand.push(unit)
 }
 let oncontinue = () => {
-		if(currentPlayerIndex===players.length-1 || currentPlayerIndex===undefined)
-			currentPlayerIndex = 0
-		else {
-			let index = currentPlayerIndex+1
-			while(index<players.length && players[index].hp<=0) 
-				index++
-			if(index<players.length && players[index].hp>0)
-				currentPlayerIndex = index
-			else 
-				currentPlayerIndex = undefined
-		}
+		//FIXME esto no funciona bien cuando el primer jugador ya esta muerto
+		if(currentPlayerIndex===livingPlayers.length-1 || currentPlayerIndex===undefined)
+			currentPlayerIndex=0
+		else
+			currentPlayerIndex++
 		
-		if(currentPlayer===undefined)
+		if(currentPlayer===undefined) {
+			console.log('oncontinue: currentPlayer==undefined, index:', currentPlayerIndex, 'livingplayers', livingPlayers)
 			return
+		}
 
 		if(currentPlayer.rolls==0) {
 			mode="manage"
@@ -125,8 +122,12 @@ let ondamage = (player:Player, amount:number) => {
 	player.hp-=amount
 }
 let onendcombat = () => {
+	if (players.filter(player => player.hp>0).length==1) {
+		mode="victory"
+		return
+	}
 	mode="shop"
-	currentPlayerIndex = 0
+	currentPlayerIndex = players.findIndex(player => player.hp>0)
 	for(let player of players) {
 		if(player.hp<=0) continue
 		player.rolls=1
@@ -144,5 +145,10 @@ let onendcombat = () => {
 		<Shop player={currentPlayer} {oncontinue} {onroll} {onbuy} />
 	{:else if mode=="manage"}
 		<Manage {players} {onfold} {ondamage} {onendcombat} />
+	{:else if mode=="victory"}
+		{@const winner = livingPlayers[0]}
+		<div>
+			El ganador del torneo es <span class="fw-bold text-{winner.color}">{winner.name}</span>!
+		</div>
 	{/if}
 </div>

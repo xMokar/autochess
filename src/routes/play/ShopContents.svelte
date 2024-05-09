@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Effect from '$lib/Effect.svelte';
 import UnitCard from '$lib/UnitCard.svelte';
     import type { Player, Unit } from '$lib/system';
     import type { Snippet } from 'svelte';
@@ -23,19 +22,24 @@ let { player, buttons, cards, onbuy, rolled }:{
 		Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 		<div class="row mt-2">
 				{#each cards as unit, i}
-					<div class="col-md-4 mb-1 d-flex align-items-stretch">
-						{#snippet actions()}
-							<button disabled={player.gold==0} class="btn btn-sm btn-warning" onclick={() => onbuy(i)} title="Comprar"><span class="icon">🪙</span></button>
-						{/snippet}
-						<UnitCard {unit} {actions} />
+					<div class="col-md-3 mb-1 d-flex align-items-stretch">
+						<UnitCard onclick={() => onbuy(i)} {unit} actions={undefined} />
 					</div>
 				{:else}
 					<div class="col-12">
-						La tienda esta vacia.
 						{#if rolled}
 							Es momento de darle click al botón de "Siguiente jugador"
 						{:else}
-							Puedes pedir unidades, que no las vea el otro jugador.
+							<div class="row row-col-4">
+								{#each Array(4).fill(0) as _}
+								<div class="col">
+									<div class="card">
+										<div class="card-header">Carta oculta</div>
+										<div class="card-body">Puedes darle click en el boton de "Mostrar cartas"</div>
+									</div>
+								</div>
+								{/each}
+							</div>
 						{/if}
 					</div>
 				{/each}

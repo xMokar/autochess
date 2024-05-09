@@ -11,6 +11,7 @@ let view:string = $state("hand")
 function ontake(i:number) {
 	taken = i
 	view = "board"
+	document.getElementById("board")?.scrollIntoView();
 }
 
 function oncancel() {
@@ -27,9 +28,6 @@ function transferCard() {
 	return unit
 }
 
-function gotoHand() {
-	view = "hand"
-}
 $effect(()=> {
 	// track player, when it changes, reset state.
 	player;
@@ -37,8 +35,5 @@ $effect(()=> {
 })
 </script>
 
-{#if view=="hand"}
-	<Hand {player} onclose={() => view="board"} onclick={(i) => ontake(i)} boardActions={actions} closeText="Tablero" />
-{:else if view=="board"}
-	<ManagePlayerBoard {player} {oncancel} {transferCard} {gotoHand} {takenUnit} />
-{/if}
+<Hand {player} onclose={() => view="board"} onclick={(i) => ontake(i)} boardActions={actions} closeText="Tablero" />
+<ManagePlayerBoard {player} {transferCard} {takenUnit} />

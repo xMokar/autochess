@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="unit">
 				<span {onclick} role="button">
-					<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt="{unit.name}" />
+					<img src="/units/{unit.id}.png"  width="100%" class="unit {unit.id}" alt="{unit.name}" />
 				</span>
 			</div>
 			{#if cardActions}

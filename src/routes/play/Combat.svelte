@@ -27,11 +27,14 @@ let winner:Player|undefined=$state(undefined)
 let nextFight = () => {
 	let next = pairs.shift()
 	if(!next) {
-		console.log('close')
 		onendcombat()
 		return
 	}
 	let [p1, p2] = next
+	if(p1===undefined || p2===undefined) {
+			onendcombat()
+			return
+	}
 	let result = fight(p1, p2)
 	log = result.log
 	winner = result.winner
@@ -45,7 +48,7 @@ nextFight()
 </script>
 <button class="btn btn-sm btn-success" onclick={nextFight}>Continuar</button>
 {#if winner}
-Winner: {winner.name}
+Ganador: <span class="fw-bold text-{winner.color}">{winner.name}</span>
 {/if}
 <div>
 {#each log as msg}

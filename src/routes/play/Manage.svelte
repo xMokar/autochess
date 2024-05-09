@@ -39,7 +39,6 @@ let onmanage = (p:Player) => {
 				<td>HP</td>
 				<td title="Unidades en el tablero">Unidades</td>
 				<td>Acciones</td>
-				<td></td>
 			</tr>
 			{#each players as p}
 			<tr>
@@ -51,11 +50,10 @@ let onmanage = (p:Player) => {
 						Administrar
 					</button>
 				</td>
-				<td>
 			</tr>
 			{/each}
 			<tr>
-				<td colspan="2"></td>
+				<td colspan="3"></td>
 				<td colspan="2">
 					<button disabled={!(players[0].field.length==3 && players[1].field.length==3)} 
 						onclick={() => doFight()} class="btn btn-secondary">

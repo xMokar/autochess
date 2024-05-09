@@ -3,12 +3,16 @@
     import UnitInfo from "./UnitInfo.svelte";
     import UnitTraits from "./UnitTraits.svelte";
 
-	let { unit, actions = undefined }:{unit:Unit, actions:any|undefined} = $props()
+	let { unit, actions = undefined, onclick }:{
+		unit:Unit, 
+		onclick:()=>void,
+		actions:any|undefined
+	} = $props()
 	let front = $state(true)
 </script>
 
 <div class="card">
-	<div class="card-header">
+	<div class="card-header" style="height: 4.5rem">
 		<UnitTraits {unit} />
 		{unit.name}
 		<div class="float-end">
@@ -20,7 +24,9 @@
 	<div class="card-body">
 		{#if front}
 			<div class="unit">
+				<span {onclick} role="button">
 				<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt={unit.name} />
+				</span>
 			</div>
 		{:else}
 		<UnitInfo {unit} field={undefined} />

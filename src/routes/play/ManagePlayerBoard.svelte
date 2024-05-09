@@ -1,17 +1,14 @@
 <script lang="ts">
-    import UnitMiniCard from '$lib/UnitMiniCard.svelte';
+    import UnitCard from '$lib/UnitCard.svelte';
     import type { ActiveUnit, Coordinate, Player, Unit } from '$lib/system';
     import DropUnitCard from './DropUnitCard.svelte';
 
-let { player, oncancel, transferCard, gotoHand, takenUnit}:{
+let { player, transferCard, takenUnit}:{
 	player:Player,
-	oncancel:()=>void,
 	transferCard:()=>Unit|undefined,
-	gotoHand:()=>void,
 	takenUnit:Unit|undefined
 }= $props()
 
-let field = $derived(player.field)
 let grid = Array(9).fill(0).map((_, i) => ({
 	i,
 	x: i%3,
@@ -46,30 +43,26 @@ function ondrop(c: Coordinate) {
 		hp: unit.hp,
 		energy: 0,
 	})
-	gotoHand()
 }
 
 function release(c:Coordinate) {
 	let i = player.field.findIndex(unit => unit.setx==c.x&&unit.sety==c.y)
 	let [activeUnit] = player.field.splice(i, 1)
 	player.hand.push(activeUnit.unit)
-	gotoHand()
 }
 
 function isCoordinateAvailable(c:Coordinate) {
 	return player.field.find(au => au.sety==c.y && au.setx==c.x)===undefined
 }
 </script>
-<div class="card mt-2">
-	<div class="card-header bg-success text-light">
+<div class="card mt-2" id="board">
+	<div class="card-header bg-{player.color} text-light">
 		Tablero de {player.name}
-		<div class="float-end">
-			<button onclick={oncancel} class="btn btn-outline-light">Ver mano</button>
-		</div>
 	</div>
 	<div class="card-body">
-		<div class="row">
-		{#each grid as g, index}
+
+		<div class="row row-cols-3 w-75">
+		{#each grid as g}
 			{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 			{#snippet cardActions()}
 				{#if !moving}
@@ -78,14 +71,14 @@ function isCoordinateAvailable(c:Coordinate) {
 				</button>
 				{/if}
 			{/snippet}
-			<div class="col-12 col-md-4 d-flex align-items-stretch">
+			<div class="col d-flex align-items-stretch">
 				{#if takenUnit!== undefined && !fieldUnit}
 					<DropUnitCard onclick={() => ondrop(g)} unit={takenUnit} />
 				{:else if moving && isCoordinateAvailable(g)}
 					<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
 				{/if}
 				{#if fieldUnit}
-					<UnitMiniCard unit={fieldUnit.unit} {cardActions} {field} {index} onclick={() => movestart(g)}/>
+					<UnitCard unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)}/>
 				{/if}
 			</div>
 		{/each}
