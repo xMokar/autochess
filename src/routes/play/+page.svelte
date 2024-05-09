@@ -8,7 +8,7 @@
 let player1 = $state({ 
 			id: 'player1',
 			name: 'Azul',
-			hp: 10,
+			hp: 3,
 			mirrored: false,
 			color: 'primary',
 			finished: false,
@@ -21,7 +21,7 @@ let player1 = $state({
 let player2 = $state({
 			id: 'player2',
 			name: 'Rojo',
-			hp: 10,
+			hp: 3,
 			mirrored: true,
 			color: 'danger',
 			finished: false,
@@ -42,7 +42,7 @@ let currentPlayer:Player|undefined = $derived(currentPlayerIndex==undefined?
 
 let resetPlayer = (player:Player) => {
 	player.finished = false
-	player.hp = 10
+	player.hp = 3
 	player.rolls = 2
 	player.gold = 10
 	player.hand = []
@@ -107,7 +107,7 @@ let onnewplayer = () => {
 	players.push({
 			id: 'player'+id,
 			name: 'Player'+id,
-			hp: 10,
+			hp: 3,
 			mirrored: false,
 			color: colors[id],
 			finished: false,
