@@ -4,7 +4,7 @@ import type { Snippet } from "svelte";
 import Hand from "./Hand.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
 
-let { player, actions }: {player:Player, actions:Snippet} = $props();
+let { player, actions }: {player:Player, actions:Snippet|undefined} = $props();
 let taken:number|undefined = $state(undefined)
 let takenUnit:Unit|undefined = $derived(taken===undefined? undefined: player.hand[taken])
 let view:string = $state("hand")

@@ -3,6 +3,7 @@ import { Units, type Player, type Unit } from "$lib/system";
     import ShopBoard from "./ShopBoard.svelte";
 import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
+    import ManagePlayer from "./ManagePlayer.svelte";
 
 let {player, oncontinue: oncontinue_parent, onroll: onroll_parent, onbuy: onbuy_parent}:{
 	player:Player,
@@ -10,8 +11,6 @@ let {player, oncontinue: oncontinue_parent, onroll: onroll_parent, onbuy: onbuy_
 	onroll:(player:Player)=>void,
 	onbuy:(player:Player, unit:Unit)=>void,
 } = $props()
-
-let view = $state("shop")
 
 let newDeck = Units
 	.flatMap(unit => Array(5).fill(unit))
@@ -43,9 +42,6 @@ let oncontinue = () => {
 	rolled = false
 	oncontinue_parent()
 }
-let onviewshop = () => {
-	view="shop"
-}
 </script>
 
 {#snippet buttons()}
@@ -56,8 +52,7 @@ let onviewshop = () => {
 	<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 {/snippet}
 <ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
-<Hand {player} onclose={onviewshop} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
-<ShopBoard {player} />
+<ManagePlayer {player} actions={undefined} />
 
 <p>
 	<b>Instrucciones:</b><br>
