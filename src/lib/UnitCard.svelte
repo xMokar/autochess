@@ -24,16 +24,13 @@
 {/snippet}
 <Modal bind:show={showModal} body={card} />
 <div class="card w-100">
-	<div class="card-header" style="height: 4.5rem">
+	<div class="card-header">
 		{unit.name}
 		<div class="float-end">
 			<button onclick={() => showModal=true} class="btn btn-sm btn-secondary"><span class="bi bi-info-circle-fill"></span></button>
 		</div>
 	</div>
 	<div class="card-body">
-		<div>
-			{@render actions()}
-		</div>
 
 		<div class="unit position-relative">
 			<span {onclick} role="button">
@@ -48,13 +45,16 @@
 				
 			</div>
 		</div>
+			<div>
+				{@render actions()}
+			</div>
 	</div>
 </div>
 
 <style>
 .unit {
   max-height: 200px!important; 
-  height: 200px;
+  height: 150px;
   width: 100%;
   overflow: hidden;
 }

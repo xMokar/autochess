@@ -1,5 +1,6 @@
 <script lang="ts">
-    import UnitCard from '$lib/UnitCard.svelte';
+    import ChampName from '$lib/ChampName.svelte';
+import UnitCard from '$lib/UnitCard.svelte';
     import type { ActiveUnit, Coordinate, Player, Unit } from '$lib/system';
     import DropUnitCard from './DropUnitCard.svelte';
 
@@ -60,28 +61,34 @@ function isCoordinateAvailable(c:Coordinate) {
 		Tablero de {player.name}
 	</div>
 	<div class="card-body">
-
-		<div class="row row-cols-3 w-75">
-		{#each grid as g}
-			{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
-			{#snippet cardActions()}
-				{#if !moving}
-				<button onclick={() => release(g)} class="btn btn-secondary btn-sm form-control">
-					Retirar del tablero
-				</button>
-				{/if}
-			{/snippet}
-			<div class="col d-flex align-items-stretch">
-				{#if takenUnit!== undefined && !fieldUnit}
-					<DropUnitCard onclick={() => ondrop(g)} unit={takenUnit} />
-				{:else if moving && isCoordinateAvailable(g)}
-					<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
-				{/if}
-				{#if fieldUnit}
-					<UnitCard field={player.field} unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)} />
-				{/if}
+		<div class="row">
+			<div class="col-9">
+				<div class="row row-cols-3">
+				{#each grid as g}
+					{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
+					{#snippet cardActions()}
+						{#if !moving}
+						<button onclick={() => release(g)} class="btn btn-secondary btn-sm form-control">
+							Retirar del tablero
+						</button>
+						{/if}
+					{/snippet}
+					<div class="col d-flex align-items-stretch" style="height: 250px">
+						{#if takenUnit!== undefined && !fieldUnit}
+							<DropUnitCard onclick={() => ondrop(g)} unit={takenUnit} />
+						{:else if moving && isCoordinateAvailable(g)}
+							<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
+						{/if}
+						{#if fieldUnit}
+							<UnitCard field={player.field} unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)} />
+						{/if}
+					</div>
+				{/each}
+				</div>
 			</div>
-		{/each}
+			<div class="col-3">
+				...
+			</div>
 		</div>
 	</div>
 </div>
