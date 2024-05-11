@@ -97,7 +97,7 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage({attacker:activeUnit, defender:targetUnit, field:source.field})
+		let damage = calculateDamage(activeUnit.unit, targetUnit.unit, source.field)
 		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
