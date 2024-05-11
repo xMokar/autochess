@@ -1,6 +1,6 @@
 <script lang="ts">
     import { NoUnit, type Field, type Unit } from "$lib/system";
-    import { calculateCombatTraits, calculateDamage, calculateDamageStats, calculateTeamTraits } from "./combat";
+    import { calculateCombatTraits, calculateTeamTraits } from "./combat";
     import UnitTraits from "./UnitTraits.svelte";
     import Effect from "./Effect.svelte";
 
@@ -49,14 +49,12 @@
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}
 		</div>
-		{#if field}
-			<b>Efectos de equipo:</b><br>
-			<div class="ms-2">
-			{#each calculateTeamTraits(unit, field) as effect}
-				<Effect {effect} />
-			{/each}
-			</div>
-		{/if}
+		<b>Efectos de equipo:</b><br>
+		<div class="ms-2">
+		{#each calculateTeamTraits(unit, field??[]) as effect}
+			<Effect {effect} />
+		{/each}
+		</div>
 		<b>Efectos de combate:</b><br>
 		{#each calculateCombatTraits(unit, NoUnit) as effect}
 			<div class="ms-2">
