@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Units, type Player, type Unit } from "$lib/system";
-    import Board from "./Board.svelte";
+    import ShopBoard from "./ShopBoard.svelte";
 import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
 
@@ -57,7 +57,7 @@ let onviewshop = () => {
 {/snippet}
 <ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
 <Hand {player} onclose={onviewshop} boardActions={undefined} onclick={() => undefined} closeText="Regresar" />
-<Board {player} />
+<ShopBoard {player} />
 
 <p>
 	<b>Instrucciones:</b><br>
