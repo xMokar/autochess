@@ -50,6 +50,7 @@ function release(c:Coordinate) {
 	let i = player.field.findIndex(unit => unit.setx==c.x&&unit.sety==c.y)
 	let [activeUnit] = player.field.splice(i, 1)
 	player.hand.push(activeUnit.unit)
+	document.getElementById("hand")?.scrollIntoView();
 }
 
 function isCoordinateAvailable(c:Coordinate) {

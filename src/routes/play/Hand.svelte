@@ -11,7 +11,7 @@ let {player, onclick, boardActions}:{
 	closeText:string
 } = $props();
 </script>
-<div class="card mt-2">
+<div class="card mt-2" id="hand">
 	<div class="card-header bg-{player.color} text-light">
 		Viendo la mano de {player.name}
 		{#if boardActions}

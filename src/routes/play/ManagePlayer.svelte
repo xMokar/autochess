@@ -25,6 +25,7 @@ function transferCard() {
 	}
 	let [unit] = player.hand.splice(taken, 1)
 	taken = undefined
+	document.getElementById("hand")?.scrollIntoView();
 	return unit
 }
 
