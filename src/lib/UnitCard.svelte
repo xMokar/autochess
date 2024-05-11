@@ -1,14 +1,16 @@
 <script lang="ts">
-    import { type Unit } from "$lib/system";
+    import { type Field, type Unit } from "$lib/system";
     import UnitInfo from "./UnitInfo.svelte";
     import UnitTraits from "./UnitTraits.svelte";
 
-	let { unit, actions = undefined, onclick }:{
+	let { unit, actions = undefined, onclick, front:startFront, field }:{
 		unit:Unit, 
 		onclick:()=>void,
+		front:boolean,
+		field:Field|undefined,
 		actions:any|undefined
 	} = $props()
-	let front = $state(true)
+	let front = $state(startFront)
 </script>
 
 <div class="card">
@@ -16,12 +18,14 @@
 		<UnitTraits {unit} />
 		{unit.name}
 		<div class="float-end">
-			{@render actions()}
 			<button onclick={() => front=!front} class="btn btn-sm btn-secondary"><span class="bi bi-sign-turn-left-fill"></span></button>
 		</div>
-
 	</div>
 	<div class="card-body">
+		<div>
+			{@render actions()}
+		</div>
+
 		{#if front}
 			<div class="unit">
 				<span {onclick} role="button">
@@ -29,7 +33,7 @@
 				</span>
 			</div>
 		{:else}
-		<UnitInfo {unit} field={undefined} />
+		<UnitInfo {unit} {field} />
 		{/if}
 	</div>
 </div>

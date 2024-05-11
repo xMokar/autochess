@@ -1,7 +1,7 @@
 <script lang="ts">
 import { updatePlayer } from '$lib/state';
 import { type Player, type Field, Units, type Coordinate } from '$lib/system'
-import UnitInfo from '$lib/UnitInfo.svelte';
+    import UnitCard from '$lib/UnitCard.svelte';
 
 let { player, mirrored=false, onAddUnit, onRemoveUnit }:{
 	player:Player, 
@@ -55,27 +55,27 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 	<div class="card-body p-1">
 		<div class="row gx-1">
 			{#each fieldArray as activeUnit, index (index)}
+				{#snippet actions()}
+					<select onchange={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100 form-control">
+						<option value="">-</option>
+						{#each Units as unit}
+							<option value="{unit.id}">{unit.name}</option>
+						{/each}
+					</select>
+				{/snippet}
 				<div class="col-4 mb-1" style="min-height: 175px">
-					<div class="card h-100 border-{player.color}">
-						<div class="card-header">
-							<select onchange={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100">
-								<option value="">-</option>
-								{#each Units as unit}
-									<option value="{unit.id}">{unit.name}</option>
-								{/each}
-							</select>
-							{#if activeUnit}
-							<span class="badge bg-danger position-absolute top-0 end-0">{activeUnit.hp}</span><br>
-							{/if}
+					{#if activeUnit}
+						
+						<UnitCard unit={activeUnit.unit} front={true} {actions} onclick={() => undefined} />
+					{:else}
+						<div class="card h-100 border-{player.color}">
+							<div class="card-header" style="height: 4.5rem">Espacio vacio
+							</div>
+							<div class="card-body p-1">
+								{@render actions()}
+							</div>
 						</div>
-						<div class="card-body p-1">
-							{#if activeUnit}
-								<UnitInfo unit="{activeUnit.unit}" field={player.field} />
-							{:else}
-							&nbsp;
-							{/if}
-						</div>
-					</div>
+					{/if}
 				</div>
 			{/each}
 		</div>

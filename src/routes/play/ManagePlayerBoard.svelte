@@ -66,7 +66,7 @@ function isCoordinateAvailable(c:Coordinate) {
 			{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
 			{#snippet cardActions()}
 				{#if !moving}
-				<button onclick={() => release(g)} class="btn btn-secondary btn-sm">
+				<button onclick={() => release(g)} class="btn btn-secondary btn-sm form-control">
 					Retirar del tablero
 				</button>
 				{/if}
@@ -78,7 +78,7 @@ function isCoordinateAvailable(c:Coordinate) {
 					<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
 				{/if}
 				{#if fieldUnit}
-					<UnitCard unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)}/>
+					<UnitCard field={player.field} unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)} front={true} />
 				{/if}
 			</div>
 		{/each}

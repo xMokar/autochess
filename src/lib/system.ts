@@ -69,6 +69,18 @@ export interface Effect {
 	value: number
 }
 
+export interface CombatTraitArgs {
+	attacker: ActiveUnit
+	defender: ActiveUnit
+}
+export type CombatTraitFunction = (defender:Unit) => Effect
+
+export interface TeamTraitArgs {
+	unit: ActiveUnit
+	field: Field
+}
+export type TeamTraitFunction = (field:Field) => Effect
+
 export interface EffectFunctionArgs {
 	attacker: ActiveUnit
 	defender?: ActiveUnit
@@ -76,6 +88,7 @@ export interface EffectFunctionArgs {
 }
 
 export type EffectFunction = (args:EffectFunctionArgs) => Effect
+
 export interface Unit {
 	id: string;
 	name: string;
@@ -88,7 +101,24 @@ export interface Unit {
 	targetting: Targetting;
 	cost: number;
 	attack: Dice;
-	effects: EffectFunction[];
+	combatTraits: CombatTraitFunction[];
+	teamTraits: TeamTraitFunction[];
+}
+
+export let NoUnit = {
+	id: '',
+	name: '',
+	info: '',
+	hp: 0,
+	defense: 0,
+	energymax: 0,
+	energypertick: 0,
+	traits: [],
+	targetting: TargettingMap.closest1,
+	cost: 0,
+	attack: { amount: 1, sides: 1, modifier: 1 },
+	combatTraits: [],
+	teamTraits: [],
 }
 
 let Traits:Trait[] = [
@@ -149,20 +179,20 @@ export interface Player {
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
-function changeDamageAgainstTrait(trait:Trait, value:number) {
-	return ({defender}:EffectFunctionArgs) => {
+function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction {
+	return (defender: Unit) => {
 		let fullvalue = value>=0?`+${value}`:value
 		let message = `${fullvalue} contra <span class="icon">${trait.icon}</span>`
 		let type = "damage"
-		let def_trait= defender?.unit.traits.find(t => t.id===trait.id)
+		let def_trait= defender.traits.find(t => t.id===trait.id)
 		if(!defender || !def_trait || def_trait.id !== trait.id)
 			return { type, value, message, active: false } as Effect
 		return { type , value, message, active: true } as Effect
 	}
 } 
 
-function traitTeamAttributesBetween(trait:Trait, min:number, max:number, value:number) {
-	return ({field}:EffectFunctionArgs) => {
+function teamTraitsBetween(trait:Trait, min:number, max:number, value:number): TeamTraitFunction {
+	return (field:Field) => {
 		let fullvalue = value>=0?`+${value}`:value
 		let rangeMessage = ""
 		if (min==max)
@@ -188,10 +218,12 @@ export let Units:Unit[] = [
 		info: `Es una bella chica de cabello azul con cola de pez. Ataca invocando una ola magica desde atras del enemigo.`,
 		hp: 15,
 		attack: { amount: 2, sides: 4, modifier: 1 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.fire, 3),
-			changeDamageAgainstTrait(TraitMap.water, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.metal, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.fire, 3),
+			damageAgainstUnitEffect(TraitMap.water, -3),
 		],
 		defense:0,
 		energymax: 4,
@@ -212,10 +244,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.metal, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.fire, 3),
-			changeDamageAgainstTrait(TraitMap.water, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.metal, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.fire, 3),
+			damageAgainstUnitEffect(TraitMap.water, -3),
 		],
 	},
 	{ 
@@ -230,10 +264,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.wood, 3),
-			changeDamageAgainstTrait(TraitMap.metal, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.earth, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.wood, 3),
+			damageAgainstUnitEffect(TraitMap.metal, -3),
 		],
 	},
 	{ 
@@ -248,10 +284,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.earth, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.wood, 3),
-			changeDamageAgainstTrait(TraitMap.metal, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.earth, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.wood, 3),
+			damageAgainstUnitEffect(TraitMap.metal, -3),
 		],
 	},
 	{
@@ -266,10 +304,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 2 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.metal, 3),
-			changeDamageAgainstTrait(TraitMap.fire, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.wood, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.metal, 3),
+			damageAgainstUnitEffect(TraitMap.fire, -3),
 		],
 	},
 	{
@@ -284,10 +324,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.wood, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.metal, 3),
-			changeDamageAgainstTrait(TraitMap.fire, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.wood, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.metal, 3),
+			damageAgainstUnitEffect(TraitMap.fire, -3),
 		],
 	},
 	{
@@ -302,10 +344,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.earth, 3),
-			changeDamageAgainstTrait(TraitMap.wood, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.water, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.earth, 3),
+			damageAgainstUnitEffect(TraitMap.wood, -3),
 		],
 	},
 	{
@@ -320,10 +364,12 @@ export let Units:Unit[] = [
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.water, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.earth, 3),
-			changeDamageAgainstTrait(TraitMap.wood, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.water, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.earth, 3),
+			damageAgainstUnitEffect(TraitMap.wood, -3),
 		],
 	},
 	{
@@ -338,10 +384,12 @@ export let Units:Unit[] = [
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 0 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.water, 3),
-			changeDamageAgainstTrait(TraitMap.earth, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.fire, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.water, 3),
+			damageAgainstUnitEffect(TraitMap.earth, -3),
 		],
 	},
 	{
@@ -357,10 +405,12 @@ export let Units:Unit[] = [
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 10, modifier: 1 },
-		effects: [
-			traitTeamAttributesBetween(TraitMap.fire, 1, 9, 1),
-			changeDamageAgainstTrait(TraitMap.water, 3),
-			changeDamageAgainstTrait(TraitMap.earth, -3),
+		teamTraits: [
+			teamTraitsBetween(TraitMap.fire, 1, 9, 1),
+		],
+		combatTraits: [
+			damageAgainstUnitEffect(TraitMap.water, 3),
+			damageAgainstUnitEffect(TraitMap.earth, -3),
 		],
 	},
 		

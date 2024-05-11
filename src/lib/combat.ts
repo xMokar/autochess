@@ -235,18 +235,22 @@ export function fight(player1:Player, player2:Player) {
 	}
 }
 
-export function calculateEffects({attacker,defender,field}: EffectFunctionArgs) {
-	return attacker.unit.effects.map(effect => effect({attacker,defender,field}))
+export function calculateCombatTraits(attacker:Unit, defender:Unit) {
+	return attacker.combatTraits.map(effect => effect(defender))
 }
-export function calculateFieldEffects(attacker:Unit,field:Field|undefined) {
-	return attacker.effects.map(effect => effect({attacker:{
-		unit:attacker,
-	} as ActiveUnit,field}))
+export function calculateTeamTraits(attacker:Unit,field:Field) {
+	return attacker.teamTraits.map(effect => effect(field))
 }
 export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 	// ahora el daño se calculara asi:
-	// obtenemos todos los effectos que apliquen de unit
-	let effects = calculateEffects({attacker,defender,field})
+	// obtenemos todos los effectos que apliquen de la unidad
+	let teamEffects = !field? []:
+		calculateTeamTraits(attacker.unit,field)
+		
+	let combatEffects = !defender? []:
+		calculateCombatTraits(attacker.unit, defender.unit)
+		
+	let effects = [...teamEffects, ...combatEffects]
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)
 	let damageBeforeEffects = damage
