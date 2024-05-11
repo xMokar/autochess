@@ -4,6 +4,7 @@ export function getPlayers() {
 	let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 
 			id: 'player1',
 			name: 'Azul',
+			hp: 3,
 			mirrored: false,
 			color: 'primary',
 			finished: false,
@@ -19,6 +20,7 @@ export function getPlayers() {
 					sety: 0,
 					x: 0,
 					y: 0,
+					energy: 0,
 				},
 				{
 					hp: 0,
@@ -27,6 +29,7 @@ export function getPlayers() {
 					sety: 1,
 					x: 0,
 					y: 0,
+					energy: 0,
 				}
 			],
 		} as Player
@@ -34,6 +37,7 @@ export function getPlayers() {
 	let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
 			id: 'player2',
 			name: 'Rojo',
+			hp: 3,
 			mirrored: true,
 			color: 'danger',
 			finished: false,
@@ -49,6 +53,7 @@ export function getPlayers() {
 					sety: 0,
 					x: 0,
 					y: 0,
+					energy: 0,
 				},
 				{
 					hp: 0,
@@ -57,6 +62,7 @@ export function getPlayers() {
 					sety: 1,
 					x: 0,
 					y: 0,
+					energy: 0,
 				}
 			]
 		} as Player
