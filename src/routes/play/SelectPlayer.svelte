@@ -13,20 +13,23 @@ let {players, onselect, onremoveplayer, onnewplayer}:{
 <div class="row">
 		<div class="col-12 col-md-6">
 			<div class="card">
-				<div class="card-header">Configuración de partida
-				</div>
+				<div class="card-header">Configuración de partida </div>
 				<div class="card-body">
-					<button onclick={onnewplayer} class="btn btn-sm btn-primary">New Player</button><br>
+					<button onclick={onnewplayer} class="btn btn-sm btn-primary mb-2">New Player</button><br>
 					{#each players as player}
-						<button onclick={() => onremoveplayer(player)} class="btn btn-sm btn-danger">-</button>
-						<input type="text" bind:value={player.name} />
-						<span class="text-{player.color}">Color</span>
-						<button onclick={() => {
-							onselect(player)
-						}} class="btn btn-sm btn-success me-2">
-							Empezar
-						</button>
-						<br>
+					<div class="row row-cols-2">
+						<div class="col">
+							<input class="form-control" type="text" bind:value={player.name} />
+						</div>
+						<div class="col">
+							<button onclick={() => {
+								onselect(player)
+							}} class="btn btn-sm me-2 btn-{player.color}">
+								Empezar
+							</button>
+							<button onclick={() => onremoveplayer(player)} class="btn btn-sm btn-danger">Eliminar</button>
+						</div>
+					</div>
 					{/each}
 				</div>
 			</div>
