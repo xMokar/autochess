@@ -14,7 +14,12 @@
 </script>
 
 {#snippet card()}
-		<UnitInfo {unit} {field} />
+	<div class="card">
+		<div class="card-header"><UnitTraits {unit} />{unit.name}</div>
+		<div class="card-body">
+			<UnitInfo {unit} {field} />
+		</div>
+	</div>
 {/snippet}
 <Modal bind:show={showModal} body={card} />
 <div class="card">

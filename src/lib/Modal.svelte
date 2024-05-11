@@ -17,16 +17,14 @@
 	onclick={() => dialog.close()}
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div>
-		{@render body()}
-		<!-- svelte-ignore a11y-autofocus -->
-	</div>
+	{@render body()}
+	<!-- svelte-ignore a11y-autofocus -->
 </dialog>
 
 <style>
 	dialog {
 		max-width: 32em;
-		border-radius: 0.2em;
+		border-radius: 1em;
 		border: none;
 		padding: 0;
 	}
