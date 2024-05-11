@@ -4,6 +4,7 @@
     import { calculateDamageStats } from "$lib/combat";
     import UnitTraits from "$lib/UnitTraits.svelte";
     import UnitCard from "$lib/UnitCard.svelte";
+    import UnitInfo from "$lib/UnitInfo.svelte";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
 		// No me gusta la distribución matematica del cuatro
@@ -40,8 +41,13 @@
 		</div>
 
 		{#each units as unit}
-			<div class="col-4">
-				<UnitCard {unit} onclick={() => undefined} actions={undefined} front={false} />
+			<div class="col-3 mb-2">
+				<div class="card">
+					<div class="card-header"><UnitTraits {unit} />{unit.name}</div>
+					<div class="card-body">
+						<UnitInfo {unit} field={undefined} />
+					</div>
+				</div>
 			</div>
 		{/each}
 	</div>

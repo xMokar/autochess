@@ -78,7 +78,7 @@ function isCoordinateAvailable(c:Coordinate) {
 					<DropUnitCard onclick={() => moveend(g)} unit={moving.unit} />
 				{/if}
 				{#if fieldUnit}
-					<UnitCard field={player.field} unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)} front={true} />
+					<UnitCard field={player.field} unit={fieldUnit.unit} actions={cardActions} onclick={() => movestart(g)} />
 				{/if}
 			</div>
 		{/each}

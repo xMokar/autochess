@@ -66,7 +66,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 				<div class="col-4 mb-1" style="min-height: 175px">
 					{#if activeUnit}
 						
-						<UnitCard unit={activeUnit.unit} front={true} {actions} onclick={() => undefined} />
+						<UnitCard unit={activeUnit.unit} {actions} onclick={() => undefined} field={player.field} />
 					{:else}
 						<div class="card h-100 border-{player.color}">
 							<div class="card-header" style="height: 4.5rem">Espacio vacio

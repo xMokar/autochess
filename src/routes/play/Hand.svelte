@@ -24,7 +24,7 @@ let {player, onclick, boardActions}:{
 		<div class="row">
 			{#each player.hand as unit, index}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
-					<UnitCard {unit} onclick={() => onclick(index)} actions={undefined} front={true} />
+					<UnitCard {unit} onclick={() => onclick(index)} actions={undefined} field={undefined} />
 				</div>
 			{:else}
 				No tienes cartas en la mano.
