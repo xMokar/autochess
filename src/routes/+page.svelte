@@ -1,9 +1,8 @@
 <script lang="ts">
     import { Units, type Unit } from "$lib/system";
     import { goto } from "$app/navigation";
-    import { calculateDamageStats } from "$lib/combat";
+    import { calculateDamage } from "$lib/combat";
     import UnitTraits from "$lib/UnitTraits.svelte";
-    import UnitCard from "$lib/UnitCard.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
 	let sides = [1,2,3,4,5,6]
 	function table(face:number) {
@@ -18,7 +17,7 @@
 	let targetTable = (source:Unit) => {
 		return units.map((target) => ({
 			target,
-			damage: calculateDamageStats(source, target)
+			damage: calculateDamage(source, target)
 			}))
 			.sort((a, b) => ((b.damage.min+b.damage.max)/2)-((a.damage.min+a.damage.max)/2))
 	}

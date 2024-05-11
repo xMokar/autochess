@@ -241,21 +241,21 @@ export function calculateCombatTraits(attacker:Unit, defender:Unit) {
 export function calculateTeamTraits(attacker:Unit,field:Field) {
 	return attacker.teamTraits.map(effect => effect(field))
 }
-export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
+export function calculateDamage(attacker:Unit,defender:Unit|undefined,field:Field|undefined=undefined) {
 	// ahora el daño se calculara asi:
 	// obtenemos todos los effectos que apliquen de la unidad
 	let teamEffects = !field? []:
-		calculateTeamTraits(attacker.unit,field)
+		calculateTeamTraits(attacker,field)
 		
 	let combatEffects = !defender? []:
-		calculateCombatTraits(attacker.unit, defender.unit)
+		calculateCombatTraits(attacker, defender)
 		
 	let effects = [...teamEffects, ...combatEffects]
 	// obtenemos el dado unit.attack y lo tiramos
-	let damage = RollDice(attacker.unit.attack)
+	let damage = RollDice(attacker.attack)
 	let damageBeforeEffects = damage
-	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier
-	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier
+	let min = attacker.attack.amount+attacker.attack.modifier
+	let max = attacker.attack.amount*attacker.attack.sides+attacker.attack.modifier
 	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
@@ -275,24 +275,6 @@ export function calculateDamage({attacker,defender,field}:EffectFunctionArgs) {
 		damage,
 		min,
 		max,
-		roll: `${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}+${effectDamage}`
+		roll: `${attacker.attack.amount}d${attacker.attack.sides}+${attacker.attack.modifier}+${effectDamage}`
 	} as DamageRoll
-}
-export function calculateDamageStats(attacker:Unit, defender:Unit) {
-	return calculateDamage({
-		attacker: {
-			unit: attacker,
-			hp: 1, 
-			x: 0, y: 0,
-			setx: 0, sety: 0,
-			energy: 0,
-		} as ActiveUnit, 
-		defender: {
-			unit: defender,
-			hp: 1, 
-			x: 0, y: 0,
-			setx: 0, sety: 0,
-			energy: 0,
-		} as ActiveUnit
-	})
 }

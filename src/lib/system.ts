@@ -69,21 +69,12 @@ export interface Effect {
 	value: number
 }
 
-export interface CombatTraitArgs {
-	attacker: ActiveUnit
-	defender: ActiveUnit
-}
 export type CombatTraitFunction = (defender:Unit) => Effect
-
-export interface TeamTraitArgs {
-	unit: ActiveUnit
-	field: Field
-}
 export type TeamTraitFunction = (field:Field) => Effect
 
 export interface EffectFunctionArgs {
-	attacker: ActiveUnit
-	defender?: ActiveUnit
+	attacker: Unit
+	defender?: Unit
 	field?: Field
 }
 
