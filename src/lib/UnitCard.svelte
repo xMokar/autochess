@@ -38,7 +38,7 @@
 			</span>
 			<div class="overlay position-absolute bottom-0 pb-2 ps-2">
 				{#each unit.traits as trait}
-					<div class="trait">
+					<div class="trait mb-1">
 						<TraitIcon {trait} /> {trait.name}&nbsp;<br>
 					</div>
 				{/each}
@@ -62,5 +62,6 @@
 .overlay .trait {
 background: #eee;
 border-radius: 1rem;
+border: 1px solid #aaa;
 }
 </style>
