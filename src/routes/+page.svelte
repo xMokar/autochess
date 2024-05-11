@@ -97,10 +97,10 @@
 				Para calcular el daño tienes que tirar dados según la indicación, por ejemplo <b>2d6+1</b> significa 2 dados de 6 caras y al resultado le sumas 1<br>
 			</p>
 
-			<h5>¿Comó puedo armar una partida?</h5>
+			<h5>¿Cómo puedo armar una partida?</h5>
 			<p>
 				Para armar un partida, necesitas un deck de cartas de unidades,
-				La carta puede tener el dibujo de cada unidad, no necesita tener la estadisticas fisicamente.
+				La carta puede tener el dibujo de cada unidad, no necesita tener la estadísticas físicamente.
 
 				Las cartas deben estar distribuidas de forma pareja a menos que alguna unidad sea demasiado fuerte, 
 				pueden haber menos unidades de esta.<br>
@@ -124,22 +124,22 @@
 
 			<li>Se puede regresar al paso anterior una vez más, cada jugador tiene derecho a ver 2 sets de unidades para comprar.</li>
 
-			<li>Todos los jugadores eligen 3 unidades de su mano y las voltean, distribuyendolas en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
+			<li>Todos los jugadores eligen 3 unidades de su mano y las voltean, distribuyéndola en una rejilla personal de 3x3 y luego colocan indicadores de HP sobre cada una de ellas.</li>
 
-			<li>Cada jugador tira un dado y se ordenaran de menor a mayor y en este órden jugaran uno contra uno.</li>
+			<li>Cada jugador tira un dado y se ordenaran de menor a mayor y en este orden jugaran uno contra uno.</li>
 
 			<li>En este momento <b>empieza una etapa de ronda de combate</b>, en cada combate, se tira una moneda para decidir quien tiene preferencia.</li>
 
-			<li>El combate gira al rededor de "ticks" de juego, en cada tick, se le agrega la cantidad de energia por tick apropiada a cada unidad en el tablero, 
-				cuando alguna unidad acumule suficiente energía podra actuar, en caso de empate, las unidades del jugador con preferencia atacan primero. Se repite este
+			<li>El combate gira al rededor de "ticks" de juego, en cada tick, se le agrega la cantidad de energía por tick apropiada a cada unidad en el tablero, 
+				cuando alguna unidad acumule suficiente energía podrá actuar, en caso de empate, las unidades del jugador con preferencia atacan primero. Se repite este
 				proceso las veces que consideren necesarias hasta que alguien se quede sin unidades.</li>
 
-			<li>A la hora de atacar se <b>determinan los objetivos</b> apropiados segun lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
-			<li>Se <b>tiran los dados</b> segun el ataque de la unidad atacando y se determinan los efectos activos para aumentar una bonificación.</li>
+			<li>A la hora de atacar se <b>determinan los objetivos</b> apropiados según lo que dice la unidad que ataca leyendo debajo de "Objetivos"</li>
+			<li>Se <b>tiran los dados</b> según el ataque de la unidad atacando y se determinan los efectos activos para aumentar una bonificación.</li>
 
-			<li>Despues de atacar, <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
+			<li>Después de atacar, <b>la unidad atacando puede ser movida</b> a cualquier lugar de su rejilla personal.</li>
 
-			<li>Los perdedores perderan vida segun el numero de unidades vivas en el territorio de su oponente.</li>
+			<li>Los perdedores perderán vida según el numero de unidades vivas en el territorio de su oponente.</li>
 			<li>Se regresa a la <u>etapa de compra</u> para continuar jugando contra otros jugadores</li>
 
 		</div>
