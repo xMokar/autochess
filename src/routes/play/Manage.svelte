@@ -3,11 +3,10 @@ import type { Player } from '$lib/system';
 import Combat from './Combat.svelte';
 import ManagePlayer from './ManagePlayer.svelte';
 
-let {players,onfold,ondamage,onendcombat}:{
+let {players,ondamage,onendcombat}:{
 	players:Player[],
 	ondamage:(player:Player, amount:number)=>void,
 	onendcombat:()=>void,
-	onfold:()=>void
 } = $props()
 let player:Player|undefined = $state(undefined)
 let view = $state("main")
@@ -67,9 +66,6 @@ let onmanage = (p:Player) => {
 	</div>
 {:else if view == "manage" && player}
 	{#snippet actions()}
-		<button class="btn btn-warning" onclick={onfold}>
-			Darse por vencido
-		</button>
 		<button class="btn btn-secondary" onclick={onclose}>
 			Cerrar
 		</button>

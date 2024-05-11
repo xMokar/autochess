@@ -49,12 +49,6 @@ let resetPlayer = (player:Player) => {
 	player.hand = []
 	player.field = []
 }
-let onfold = () => {
-	if(!currentPlayer) return
-	resetPlayer(currentPlayer)
-	currentPlayerIndex = undefined
-	mode = "shop"
-}
 let onrestart = () => {
 	for(let player of players) {
 		resetPlayer(player)
@@ -144,7 +138,7 @@ let onendcombat = () => {
 	{:else if currentPlayer && mode=="shop"}
 		<Shop player={currentPlayer} {oncontinue} {onroll} {onbuy} />
 	{:else if mode=="manage"}
-		<Manage {players} {onfold} {ondamage} {onendcombat} />
+		<Manage {players} {ondamage} {onendcombat} />
 	{:else if mode=="victory"}
 		{@const winner = livingPlayers[0]}
 		<div>
