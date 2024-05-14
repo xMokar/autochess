@@ -16,9 +16,7 @@
 	onclose={() => (show = false)}
 	onclick={() => dialog.close()}
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	{@render body()}
-	<!-- svelte-ignore a11y-autofocus -->
 </dialog>
 
 <style>
