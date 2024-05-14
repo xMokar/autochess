@@ -32,14 +32,12 @@
 	</div>
 	<div class="card-body">
 
-		<div class="unit position-relative">
-			<span {onclick} role="button">
+		<div class="unit position-relative" {onclick} role="button">
 			<img src="/units/{unit.id}.png" width="100%" class="position-absolute {unit.id}" alt={unit.name} />
-			</span>
 			<div class="overlay position-absolute bottom-0 pb-2 ps-2">
 				{#each unit.traits as trait}
-					<div class="trait mb-1">
-						<TraitIcon {trait} /> {trait.name}&nbsp;<br>
+					<div class="trait mb-1 pe-3">
+						<TraitIcon {trait} /> {trait.name}<br>
 					</div>
 				{/each}
 				
