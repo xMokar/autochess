@@ -24,16 +24,22 @@ let {player, onclick, onrelease, boardActions, takenUnit}:{
 		{/if}
 	</div>
 	<div class="card-body">
-		{#if player.hand.length==0}
-			No tienes cartas en la mano.
-		{/if}
 		<div class="row">
 			{#each player.hand as unit, index}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
 					<UnitCard {unit} onclick={() => onclick(index)} actions={undefined} field={undefined} />
 				</div>
 			{/each}
-			{#if takenUnit}
+			{#if player.hand.length == 0 && !takenUnit}
+				<div class="col-3 mb-2 d-flex align-items-stretch">
+					<div class="card w-100">
+						<div class="card-header p-0">Oops</div>
+						<div class="card-body" style="height: 120px">
+							No tienes cartas en la mano.
+						</div>
+					</div>
+				</div>
+			{:else if takenUnit}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
 					<DropUnitCard unit={takenUnit} onclick={onrelease}/>
 				</div>
