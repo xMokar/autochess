@@ -1,7 +1,5 @@
 <script lang="ts">
 import { Units, type Player, type Unit } from "$lib/system";
-    import ShopBoard from "./ShopBoard.svelte";
-import Hand from "./Hand.svelte";
 import ShopContents from "./ShopContents.svelte";
     import ManagePlayer from "./ManagePlayer.svelte";
 

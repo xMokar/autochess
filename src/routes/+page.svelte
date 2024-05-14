@@ -4,15 +4,6 @@
     import { calculateDamage } from "$lib/combat";
     import UnitTraits from "$lib/UnitTraits.svelte";
     import UnitInfo from "$lib/UnitInfo.svelte";
-	let sides = [1,2,3,4,5,6]
-	function table(face:number) {
-		// No me gusta la distribución matematica del cuatro
-		// esta distribuida parejo, prefiero que este distribuida
-		// prefiriendo numeros altos
-		if (face==4) 
-			return [1,2,3,3,4,4]
-		return sides.map(x => Math.ceil(x/(6/(face))))
-	}
 	let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
 	let targetTable = (source:Unit) => {
 		return units.map((target) => ({
