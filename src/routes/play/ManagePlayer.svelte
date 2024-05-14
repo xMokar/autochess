@@ -14,7 +14,7 @@ function ontakeFromHand(index:number) {
 }
 function ontakeFromBoard(c:Coordinate) {
 	if (takenUnit) {
-		onreleaseOnHand()
+		onreleaseOnBoard(c)
 	}
 	let index=player.field.findIndex(au => c.x==au.setx && c.y==au.sety)
 	takenUnit = player.field[index].unit
