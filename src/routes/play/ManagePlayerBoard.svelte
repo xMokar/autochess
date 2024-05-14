@@ -32,7 +32,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 							<DropUnitCard onclick={() => onrelease(g)} unit={takenUnit} />
 						{/if}
 						{#if fieldUnit}
-							<UnitCard field={player.field} unit={fieldUnit.unit} actions={undefined} onclick={() => onclick(g)} />
+							<UnitCard field={player.field} unit={fieldUnit.unit} onclick={() => onclick(g)} />
 						{/if}
 					</div>
 				{/each}

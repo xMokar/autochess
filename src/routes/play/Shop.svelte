@@ -52,7 +52,7 @@ let oncontinue = () => {
 	<button onclick={oncontinue} class="btn btn-outline-danger">Siguiente jugador</button>
 {/snippet}
 <ShopContents {player} {buttons} {cards} {onbuy} {rolled} />
-<ManagePlayer {player} actions={undefined} />
+<ManagePlayer {player} />
 
 <p>
 	<b>Instrucciones:</b><br>

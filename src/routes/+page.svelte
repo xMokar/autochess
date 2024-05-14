@@ -44,7 +44,7 @@
 				<div class="card">
 					<div class="card-header"><UnitTraits {unit} />{unit.name}</div>
 					<div class="card-body">
-						<UnitInfo {unit} field={undefined} />
+						<UnitInfo {unit} />
 					</div>
 				</div>
 			</div>

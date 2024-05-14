@@ -4,13 +4,12 @@
     import type { Snippet } from "svelte";
     import DropUnitCard from "./DropUnitCard.svelte";
 
-let {player, onclick, onrelease, boardActions, takenUnit}:{
+let {player, onclick, onrelease, boardActions = undefined, takenUnit}:{
 	player:Player, 
-	boardActions:Snippet|undefined,
+	boardActions?:Snippet|undefined,
 	onclick:(i:number)=>void,
 	onrelease:()=>void,
 	takenUnit:Unit|undefined,
-	closeText:string
 } = $props();
 
 </script>
@@ -27,7 +26,7 @@ let {player, onclick, onrelease, boardActions, takenUnit}:{
 		<div class="row">
 			{#each player.hand as unit, index}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
-					<UnitCard {unit} onclick={() => onclick(index)} actions={undefined} field={undefined} />
+					<UnitCard {unit} onclick={() => onclick(index)} />
 				</div>
 			{/each}
 			{#if player.hand.length == 0 && !takenUnit}

@@ -3,10 +3,10 @@ import type { Coordinate, Player, Unit } from "$lib/system";
 import type { Snippet } from "svelte";
 import Hand from "./Hand.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
-    import UnitCard from "$lib/UnitCard.svelte";
-    import { fade } from "svelte/transition";
+import UnitCard from "$lib/UnitCard.svelte";
+import { fade } from "svelte/transition";
 
-let { player, actions }: {player:Player, actions:Snippet|undefined} = $props();
+let { player, actions }: {player:Player, actions?:Snippet|undefined} = $props();
 let takenUnit:Unit|undefined = $state(undefined)
 function ontakeFromHand(index:number) {
 	if (takenUnit) {
@@ -54,10 +54,10 @@ $effect(()=> {
 })
 </script>
 
-<Hand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} closeText="Tablero" />
+<Hand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} />
 <ManagePlayerBoard {player} onclick={ontakeFromBoard} onrelease={onreleaseOnBoard} {takenUnit} />
 {#if takenUnit}
 	<div class="position-fixed top-0 end-0" style="width: 250px" in:fade out:fade>
-		<UnitCard unit={takenUnit} onclick={onreleaseOnHand} field={undefined} actions={undefined} />
+		<UnitCard unit={takenUnit} onclick={onreleaseOnHand} />
 	</div>
 {/if}

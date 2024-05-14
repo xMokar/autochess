@@ -4,11 +4,11 @@
     import TraitIcon from "./TraitIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
 
-	let { unit, actions = undefined, onclick, field }:{
+	let { unit, actions = undefined, onclick, field = undefined}:{
 		unit:Unit, 
 		onclick:()=>void,
-		field:Field|undefined,
-		actions:any|undefined
+		field?:Field|undefined,
+		actions?:any|undefined
 	} = $props()
 	let showModal = $state(false)
 </script>
@@ -43,7 +43,9 @@
 			</div>
 		</div>
 			<div>
-				{@render actions()}
+				{#if actions}
+					{@render actions()}
+				{/if}
 			</div>
 	</div>
 </div>

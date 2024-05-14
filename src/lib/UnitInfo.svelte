@@ -4,7 +4,7 @@
     import UnitTraits from "./UnitTraits.svelte";
     import Effect from "./Effect.svelte";
 
-	let { unit, field=undefined }:{unit:Unit, field:Field|undefined} = $props()
+	let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
 </script>
 <div class="row">
 	

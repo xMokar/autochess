@@ -14,7 +14,7 @@ let {player}:{
 		<div class="row">
 			{#each player.field as unit}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
-					<UnitCard unit={unit.unit} onclick={() => undefined} actions={undefined} field={player.field} />
+					<UnitCard unit={unit.unit} onclick={() => undefined} field={player.field} />
 				</div>
 			{:else}
 				No tienes cartas en el tablero
