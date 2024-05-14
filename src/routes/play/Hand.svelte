@@ -2,6 +2,7 @@
     import UnitCard from "$lib/UnitCard.svelte";
     import type { Player, Unit } from "$lib/system";
     import type { Snippet } from "svelte";
+    import DropUnitCard from "./DropUnitCard.svelte";
 
 let {player, onclick, onrelease, boardActions, takenUnit}:{
 	player:Player, 
@@ -34,14 +35,8 @@ let {player, onclick, onrelease, boardActions, takenUnit}:{
 			{/each}
 			{#if takenUnit}
 				<div class="col-3 mb-2 d-flex align-items-stretch">
-					<div class="card w-100">
-						<div class="card-header">Soltar</div>
-						<div class="card-body">
-							<button class="btn btn-primary w-100 h-100" onclick={onrelease}>Soltar {takenUnit.name} aquí</button>
-						</div>
-					</div>
+					<DropUnitCard unit={takenUnit} onclick={onrelease}/>
 				</div>
-
 			{/if}
 		</div>
 	</div>

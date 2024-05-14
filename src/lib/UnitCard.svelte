@@ -30,7 +30,7 @@
 			<button onclick={() => showModal=true} class="btn btn-sm btn-secondary"><span class="bi bi-info-circle-fill"></span></button>
 		</div>
 	</div>
-	<div class="card-body">
+	<div class="card-body p-0" style="height: 150px">
 
 		<div class="unit position-relative" {onclick} role="button">
 			<img src="/units/{unit.id}.png" width="100%" class="position-absolute {unit.id}" alt={unit.name} />
@@ -51,7 +51,6 @@
 
 <style>
 .unit {
-  max-height: 200px!important; 
   height: 150px;
   width: 100%;
   overflow: hidden;
