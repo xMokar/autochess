@@ -1,5 +1,6 @@
 <script lang="ts">
     import { type Field, type Unit } from "$lib/system";
+    import type { Snippet } from "svelte";
     import Modal from "./Modal.svelte";
     import TraitIcon from "./TraitIcon.svelte";
     import UnitInfo from "./UnitInfo.svelte";
@@ -8,7 +9,7 @@
 		unit:Unit, 
 		onclick:()=>void,
 		field?:Field|undefined,
-		actions?:any|undefined
+		actions?:Snippet|undefined
 	} = $props()
 	let showModal = $state(false)
 </script>
