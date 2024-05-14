@@ -7,6 +7,9 @@ import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
 let { player, actions }: {player:Player, actions:Snippet|undefined} = $props();
 let takenUnit:Unit|undefined = $state(undefined)
 function ontakeFromHand(index:number) {
+	if (takenUnit) {
+		onreleaseOnHand()
+	}
 	[takenUnit] = player.hand.splice(index, 1)
 }
 function ontakeFromBoard(c:Coordinate) {
