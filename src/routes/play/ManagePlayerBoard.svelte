@@ -19,6 +19,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 let moving:ActiveUnit|undefined = $state(undefined)
 function movestart(c:Coordinate) {
 	moving=player.field.find(au => c.x==au.setx && c.y==au.sety)
+	document.getElementById("board")?.scrollIntoView();
 }
 
 function moveend(c:Coordinate) {
