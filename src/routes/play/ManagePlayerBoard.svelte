@@ -28,7 +28,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 				<div class="row row-cols-3">
 				{#each grid as g}
 					{@const fieldUnit = player.field.find(u => u.setx==g.x && u.sety==g.y)}
-					<div class="col d-flex align-items-stretch mb-1">
+					<div class="col d-flex align-items-stretch mb-1" style="height: 150px">
 						{#if takenUnit!== undefined && !fieldUnit}
 							<DropUnitCard onclick={() => onrelease(g)} unit={takenUnit} />
 						{/if}
