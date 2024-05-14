@@ -1,6 +1,7 @@
 <script lang="ts">
 import UnitCard from '$lib/UnitCard.svelte';
     import type { Coordinate, Player, Unit } from '$lib/system';
+    import { fade } from 'svelte/transition';
     import DropUnitCard from './DropUnitCard.svelte';
 
 let { player, onclick, onrelease, takenUnit}:{
@@ -32,7 +33,9 @@ let grid = Array(9).fill(0).map((_, i) => ({
 							<DropUnitCard onclick={() => onrelease(g)} unit={takenUnit} />
 						{/if}
 						{#if fieldUnit}
-							<UnitCard field={player.field} unit={fieldUnit.unit} onclick={() => onclick(g)} />
+							<div in:fade>
+								<UnitCard field={player.field} unit={fieldUnit.unit} onclick={() => onclick(g)} />
+							</div>
 						{/if}
 					</div>
 				{/each}

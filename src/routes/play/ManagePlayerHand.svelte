@@ -3,6 +3,7 @@
     import type { Player, Unit } from "$lib/system";
     import type { Snippet } from "svelte";
     import DropUnitCard from "./DropUnitCard.svelte";
+    import { fade } from "svelte/transition";
 
 let {player, onclick, onrelease, boardActions = undefined, takenUnit}:{
 	player:Player, 
@@ -25,7 +26,7 @@ let {player, onclick, onrelease, boardActions = undefined, takenUnit}:{
 	<div class="card-body">
 		<div class="row">
 			{#each player.hand as unit, index}
-				<div class="col-3 mb-2 d-flex align-items-stretch">
+				<div class="col-3 mb-2 d-flex align-items-stretch" in:fade>
 					<UnitCard {unit} onclick={() => onclick(index)} />
 				</div>
 			{/each}
