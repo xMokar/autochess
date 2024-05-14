@@ -31,8 +31,8 @@
 	</div>
 	<div class="card-body p-0" style="height: 120px">
 
-		<div class="unit position-relative" {onclick} role="button">
-			<img src="/units/{unit.id}.png" width="100%" class="position-absolute {unit.id}" alt={unit.name} />
+		<button {onclick} class="unit p-0 position-relative">
+			<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt={unit.name} />
 			<div class="overlay position-absolute bottom-0 pb-2 ps-2">
 				{#each unit.traits as trait}
 					<div class="trait mb-1 pe-3" style="font-size: 80%">
@@ -41,7 +41,7 @@
 				{/each}
 				
 			</div>
-		</div>
+		</button>
 			<div>
 				{#if actions}
 					{@render actions()}
