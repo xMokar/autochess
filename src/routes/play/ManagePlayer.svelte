@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { Coordinate, Player, Unit } from "$lib/system";
 import type { Snippet } from "svelte";
-import Hand from "./Hand.svelte";
+import ManagePlayerHand from "./ManagePlayerHand.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
 import UnitCard from "$lib/UnitCard.svelte";
 import { fade } from "svelte/transition";
@@ -54,7 +54,7 @@ $effect(()=> {
 })
 </script>
 
-<Hand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} />
+<ManagePlayerHand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} />
 <ManagePlayerBoard {player} onclick={ontakeFromBoard} onrelease={onreleaseOnBoard} {takenUnit} />
 {#if takenUnit}
 	<div class="position-fixed top-0 end-0" style="width: 250px" in:fade out:fade>

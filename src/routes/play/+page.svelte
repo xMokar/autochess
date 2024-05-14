@@ -2,7 +2,7 @@
     import { goto } from "$app/navigation";
 	import { type Unit, type Player } from "$lib/system";
     import Manage from "./Manage.svelte";
-    import SelectPlayer from "./SelectPlayer.svelte";
+    import PlayerSetup from "./PlayerSetup.svelte";
     import Shop from "./Shop.svelte";
 
 let player1 = $state({ 
@@ -134,7 +134,7 @@ let onendcombat = () => {
 	<a href="/" class="btn btn-primary">Guía del juego</a>
 	<button onclick={onrestart} class="btn btn-secondary">Reiniciar</button>
 	{#if mode=="selectplayer"}
-		<SelectPlayer {players} onselect={onstart} {onnewplayer} {onremoveplayer} />
+		<PlayerSetup {players} onselect={onstart} {onnewplayer} {onremoveplayer} />
 	{:else if currentPlayer && mode=="shop"}
 		<Shop player={currentPlayer} {oncontinue} {onroll} {onbuy} />
 	{:else if mode=="manage"}
