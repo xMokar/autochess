@@ -57,7 +57,11 @@ $effect(()=> {
 <ManagePlayerHand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} />
 <ManagePlayerBoard {player} onclick={ontakeFromBoard} onrelease={onreleaseOnBoard} {takenUnit} />
 {#if takenUnit}
-	<div class="position-fixed top-0 end-0" style="width: 250px" in:fade out:fade>
-		<UnitCard unit={takenUnit} onclick={onreleaseOnHand} />
+	<div class="position-fixed top-0 end-0" in:fade out:fade>
+		<div class="row">
+			<div class="offset-8 col-4">
+				<UnitCard unit={takenUnit} onclick={onreleaseOnHand} />
+			</div>
+		</div>
 	</div>
 {/if}
