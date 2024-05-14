@@ -22,7 +22,7 @@ let { player, buttons, cards, onbuy, rolled }:{
 		Oro: {player.gold} Cartas en la mano: {player.hand.length}<br>
 		<div class="row mt-2">
 				{#each cards as unit, i}
-					<div class="col-md-3 mb-1 d-flex align-items-stretch">
+					<div class="col-3 mb-1 d-flex align-items-stretch">
 						<UnitCard onclick={() => onbuy(i)} {unit} actions={undefined} field={undefined} />
 					</div>
 				{:else}
