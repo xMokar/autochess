@@ -24,8 +24,8 @@ declare global {
 		value: number
 	}
 
-	export type CombatTraitFunction = (defender:Unit) => Effect
-	export type TeamTraitFunction = (field:Field) => Effect
+	export type CombatTraitFunction = (defender:Unit) => Effect[]
+	export type TeamTraitFunction = (field:Field) => Effect[]
 
 	export interface EffectFunctionArgs {
 		attacker: Unit

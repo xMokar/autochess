@@ -113,8 +113,8 @@ function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction
 		let type = "attack.modifier"
 		let def_trait= defender.traits.find(t => t.id===trait.id)
 		if(!defender || !def_trait || def_trait.id !== trait.id)
-			return { type, value, message, active: false } as Effect
-		return { type , value, message, active: true } as Effect
+			return [{ type, value, message, active: false }]
+		return [{ type , value, message, active: true }]
 	}
 } 
 
@@ -132,8 +132,8 @@ function teamTraitsBetween(trait:Trait, min:number, max:number, value:number): T
 		let type = "attack.modifier"
 		let support = field?.filter(u => u.hp>0 && u.unit.traits.find(t => t.id==trait.id)).length??0
 		if((support >= min) && (support <= max))
-			return { type, value, message, active: true } as Effect
-		return { type, value, message, active: false }
+			return [{ type, value, message, active: true }]
+		return [{ type, value, message, active: false }]
 	}
 }
 
