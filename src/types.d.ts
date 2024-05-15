@@ -50,7 +50,7 @@ declare global {
 		combatTraits: CombatTraitFunction[];
 		teamTraits: TeamTraitFunction[];
 	}
-	export interface ActiveUnit {
+	export interface BoardUnit {
 		player?:Player,
 		unit:Unit
 		setx:number
@@ -59,9 +59,10 @@ declare global {
 		x:number
 		y:number
 		energy:number
+		effects:Effect[]
 	}
 
-	export type Field = ActiveUnit[]
+	export type Field = BoardUnit[]
 	export interface Player {
 		id: string,
 		name: string,

@@ -21,6 +21,7 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
+					effects: [],
 				},
 				{
 					hp: 0,
@@ -30,6 +31,7 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
+					effects: [],
 				}
 			],
 		} as Player
@@ -54,6 +56,7 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
+					effects: [],
 				},
 				{
 					hp: 0,
@@ -63,6 +66,7 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
+					effects: [],
 				}
 			]
 		} as Player
@@ -76,15 +80,15 @@ export function getPlayers() {
 export function syncUserData(player:Player) {
 	// updateStats, this reloads the unit data from
 	// the database to overwrite the cached version
-	for(let au of player.field) {
-		if(!au.unit)
+	for(let bu of player.field) {
+		if(!bu.unit)
 			return
-		au.unit = UnitMap[au.unit.id]
+		bu.unit = UnitMap[bu.unit.id]
 	}
 	// updatePlayerField runs through the player
 	// field to set each unit its player instance
-	//for(let au of player.field) {
-	//	au.player = untrack(() => player)
+	//for(let bu of player.field) {
+	//	bu.player = untrack(() => player)
 	//}
 }
 

@@ -19,23 +19,23 @@ function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
 	return coordinates.slice(1)
 }
 
-function coordinatesToActiveUnits(field:Field) {
-	return (c:Coordinate) => field.find(activeUnit => activeUnit.x==c.x && activeUnit.y==c.y)
+function coordinatesToBoardUnits(field:Field) {
+	return (c:Coordinate) => field.find(boardUnit => boardUnit.x==c.x && boardUnit.y==c.y)
 }
 
-let calculateDistance = (attacker:ActiveUnit, defender:ActiveUnit) => {
+let calculateDistance = (attacker:BoardUnit, defender:BoardUnit) => {
 	let distance = Math.sqrt(
 		Math.pow(attacker.x- defender.x, 2)+
 		Math.pow(attacker.y- defender.y, 2)
 	)
 	return { target: defender, distance }
 }
-let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
-		random: (_:ActiveUnit, target:Field) => !target.length? []:
+let targetting:{[key:string]: (c:BoardUnit, f:Field) => BoardUnit[]} = {
+		random: (_:BoardUnit, target:Field) => !target.length? []:
 			[target[Math.floor(Math.random()*target.length)]]
 		,
-		everyone: (_:ActiveUnit, target:Field) => target,
-		nearby: (attacker:ActiveUnit, target:Field) => {
+		everyone: (_:BoardUnit, target:Field) => target,
+		nearby: (attacker:BoardUnit, target:Field) => {
 			let closest = target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
@@ -43,42 +43,42 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 				.slice(0, 2)
 			return !closest.length? []: [closest[Math.floor(Math.random()*closest.length)]]
 		},
-		closest1: (attacker:ActiveUnit, target:Field) => target
+		closest1: (attacker:BoardUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
 		,
-		weakest1: (attacker:ActiveUnit, target:Field) => target
+		weakest1: (attacker:BoardUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a,b) => (a.target.hp-b.target.hp))
 				.map(({target}) => target)
 				.slice(0, 1)
 		,
-		farthest1: (attacker:ActiveUnit, target:Field) => target
+		farthest1: (attacker:BoardUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
 		, 
-		farthest2: (attacker:ActiveUnit, target:Field) => target
+		farthest2: (attacker:BoardUnit, target:Field) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,2)
 		, 
-		farthest1_direct: (attacker:ActiveUnit, target:Field) => {
+		farthest1_direct: (attacker:BoardUnit, target:Field) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
 			if(!farthest1) return []
 			let blocker = coordinatesBetween(attacker, farthest1)
-				.map(coordinatesToActiveUnits(target))
+				.map(coordinatesToBoardUnits(target))
 				.filter(x => x)
 				.shift()
 			return [blocker??farthest1]
 		}
 }
 
-function Attack(attacker:Player, activeUnit:ActiveUnit, defender:Player) {
+function Attack(attacker:Player, boardUnit:BoardUnit, defender:Player) {
 	let output:string[] = []
 	let damage:DamageRoll = {
 			damage:0,
@@ -86,24 +86,24 @@ function Attack(attacker:Player, activeUnit:ActiveUnit, defender:Player) {
 			min:0,
 			roll:'',
 	}
-	if(!activeUnit.hp) {
+	if(!boardUnit.hp) {
 		return {
 			output,
 			damage,
 		}
 	}
-	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
-		defender.field.filter(activeUnit => activeUnit.hp>0))
+	let targets = targetting[boardUnit.unit.targetting.id](boardUnit, 
+		defender.field.filter(boardUnit => boardUnit.hp>0))
 	if(!targets) {
-		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
+		//log.push(`<b>${turn.player.name}</b>: ${turn.boardUnit.unit.name} esta fuera de combate.`)
 		return {
 			output,
 			damage,
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage(activeUnit.unit, targetUnit.unit, attacker.field)
-		output.push(`<span class="text-${attacker.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${defender.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
+		let damage = calculateDamage(boardUnit.unit, targetUnit.unit, attacker.field)
+		output.push(`<span class="text-${attacker.color}">${boardUnit.unit.name}</span>(${boardUnit.hp}) ataca a <span class="text-${defender.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
 			output.push(`* <span class="text-${defender.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
@@ -116,7 +116,7 @@ function Attack(attacker:Player, activeUnit:ActiveUnit, defender:Player) {
 }
 
 interface Turn {
-	activeUnit:ActiveUnit,
+	boardUnit:BoardUnit,
 	attacker:Player,
 	defender:Player,
 }
@@ -125,24 +125,24 @@ export function combatRound(attacker:Player, defender:Player)  {
 	let output = []
 	output.push(`<b class="text-${attacker.color}">${attacker.name}</b> tiene preferencia.`)
 	let attackerUnits:Turn[] = attacker.field
-		.filter(activeUnit => activeUnit.hp>0)
-		.map(activeUnit => ({
-			activeUnit, attacker, defender
+		.filter(boardUnit => boardUnit.hp>0)
+		.map(boardUnit => ({
+			boardUnit, attacker, defender
 		}))
 	let defenderUnits:Turn[] = defender.field
-		.filter(activeUnit => activeUnit.hp>0)
-		.map(activeUnit => ({
-			activeUnit, attacker:defender, defender:attacker
+		.filter(boardUnit => boardUnit.hp>0)
+		.map(boardUnit => ({
+			boardUnit, attacker:defender, defender:attacker
 		}))
 	let units = [...attackerUnits, ...defenderUnits]
 	let tick = () => {
 		output.push('Tick')
 		for(let unit of units) {
-			unit.activeUnit.energy+=unit.activeUnit.unit.energypertick
+			unit.boardUnit.energy+=unit.boardUnit.unit.energypertick
 		}
 	}
 	let unitsReady = () => units
-		.filter(u => u.activeUnit.energy==u.activeUnit.unit.energymax)
+		.filter(u => u.boardUnit.energy==u.boardUnit.unit.energymax)
 
 	let total = {
 		[attacker.name]: {
@@ -158,13 +158,13 @@ export function combatRound(attacker:Player, defender:Player)  {
 	for(let i = 0; i < 20; i++) {
 		tick()
 		for(let turn of unitsReady()) {
-			let attack = Attack(turn.attacker, turn.activeUnit, turn.defender)
+			let attack = Attack(turn.attacker, turn.boardUnit, turn.defender)
 			if (!attack.damage)
 				continue
 			total[turn.attacker.name].dmgmax += attack.damage.max
 			total[turn.attacker.name].dmg += attack.damage.damage
 			output.push(...attack.output)
-			turn.activeUnit.energy=0
+			turn.boardUnit.energy=0
 		}
 	}
 	output.push('')
@@ -172,16 +172,16 @@ export function combatRound(attacker:Player, defender:Player)  {
 }
 
 function setBattleCoordinates(player:Player) {
-	for(let activeUnit of player.field) {
-		activeUnit.x = activeUnit.setx
-		activeUnit.y = player.mirrored? -activeUnit.sety-1: activeUnit.sety
+	for(let boardUnit of player.field) {
+		boardUnit.x = boardUnit.setx
+		boardUnit.y = player.mirrored? -boardUnit.sety-1: boardUnit.sety
 	}
 }
 
 function resetUnits(player:Player) {
-	for(let activeUnit of player.field) {
-		activeUnit.energy = 0
-		activeUnit.hp = activeUnit.unit.hp
+	for(let boardUnit of player.field) {
+		boardUnit.energy = 0
+		boardUnit.hp = boardUnit.unit.hp
 	}
 }
 
@@ -203,8 +203,8 @@ export function fight(player1:Player, player2:Player) {
 		log.push(...combatRound(player1, player2))
 	else
 		log.push(...combatRound(player2, player1))
-	player1Alive = player1.field.filter(activeUnit => activeUnit.hp>0).length>0
-	player2Alive = player2.field.filter(activeUnit => activeUnit.hp>0).length>0
+	player1Alive = player1.field.filter(boardUnit => boardUnit.hp>0).length>0
+	player2Alive = player2.field.filter(boardUnit => boardUnit.hp>0).length>0
 
 	let showFieldHP = (player:Player) => {
 		log.push('Unidades vivas:')

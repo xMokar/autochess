@@ -17,7 +17,7 @@ function ontakeFromBoard(c:Coordinate) {
 	if (takenUnit) {
 		onreleaseToBoard(c)
 	}
-	let index=player.field.findIndex(au => c.x==au.setx && c.y==au.sety)
+	let index=player.field.findIndex(bu => c.x==bu.setx && c.y==bu.sety)
 	takenUnit = player.field[index].unit
 	player.field.splice(index, 1)
 }

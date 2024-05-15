@@ -15,8 +15,8 @@ function fieldToArray(field:Field, mirrored:boolean=false) {
 	let newfield = Array(9).fill(undefined).map((_, i) => {
 		let x = i%3
 		let y = Math.floor(i/3)
-		return field.find(activeUnit => {
-			return (activeUnit.setx == x) && (activeUnit.sety == y)
+		return field.find(boardUnit => {
+			return (boardUnit.setx == x) && (boardUnit.sety == y)
 		})
 	})
 	if(!mirrored) return newfield
@@ -39,7 +39,7 @@ function add(index:number) {
 }
 
 
-let isAlive = $derived(player.field.filter(activeUnit => activeUnit.hp>0).length>0)
+let isAlive = $derived(player.field.filter(boardUnit => boardUnit.hp>0).length>0)
 let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 </script>
 <div class="card mb-1 border-{player.color}" >
@@ -54,9 +54,9 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 
 	<div class="card-body p-1">
 		<div class="row gx-1">
-			{#each fieldArray as activeUnit, index (index)}
+			{#each fieldArray as boardUnit, index (index)}
 				{#snippet actions()}
-					<select onchange={add(index)} value={activeUnit?activeUnit.unit.id:""} class="mw-100 form-control">
+					<select onchange={add(index)} value={boardUnit?boardUnit.unit.id:""} class="mw-100 form-control">
 						<option value="">-</option>
 						{#each Units as unit}
 							<option value="{unit.id}">{unit.name}</option>
@@ -64,9 +64,9 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 					</select>
 				{/snippet}
 				<div class="col-4 mb-1" style="min-height: 175px">
-					{#if activeUnit}
+					{#if boardUnit}
 						
-						<UnitCard unit={activeUnit.unit} {actions} onclick={() => undefined} field={player.field} />
+						<UnitCard unit={boardUnit.unit} {actions} onclick={() => undefined} field={player.field} />
 					{:else}
 						<div class="card h-100 border-{player.color}">
 							<div class="card-header" style="height: 4.5rem">Espacio vacio
