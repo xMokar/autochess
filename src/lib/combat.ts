@@ -246,14 +246,11 @@ export function calculateCombatTraits(attacker:Unit, defender:Unit) {
 export function calculateTeamTraits(attacker:Unit,field:Field) {
 	return attacker.teamTraits.map(effect => effect(field))
 }
-export function calculateDamage(attacker:Unit,defender:Unit|undefined,field:Field|undefined=undefined) {
+export function calculateDamage(attacker:Unit,defender:Unit,field:Field=[]) {
 	// ahora el daño se calculara asi:
 	// obtenemos todos los effectos que apliquen de la unidad
-	let teamEffects = !field? []:
-		calculateTeamTraits(attacker,field)
-		
-	let combatEffects = !defender? []:
-		calculateCombatTraits(attacker, defender)
+	let teamEffects = calculateTeamTraits(attacker,field)
+	let combatEffects = calculateCombatTraits(attacker, defender)
 		
 	let effects = [...teamEffects, ...combatEffects]
 	// obtenemos el dado unit.attack y lo tiramos
