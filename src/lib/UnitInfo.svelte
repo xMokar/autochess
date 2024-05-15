@@ -1,5 +1,5 @@
 <script lang="ts">
-import { NoUnit } from "$lib/system";
+import { NoUnit } from "$lib/database";
 import { calculateCombatTraits, calculateTeamTraits } from "./combat";
 import UnitTraits from "./UnitTraits.svelte";
 import Effect from "./Effect.svelte";

@@ -1,4 +1,4 @@
-import { UnitMap } from "./system";
+import { UnitMap } from "./database";
 
 export function getPlayers() {
 	let player1 = JSON.parse(localStorage.getItem('player1')??"null")??{ 

@@ -1,4 +1,4 @@
-import { RollDice } from "./system";
+import { RollDice } from "./database";
 
 function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;

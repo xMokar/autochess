@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Units } from "$lib/system";
+import { Units } from "$lib/database";
 import ShopContents from "./ShopContents.svelte";
 import ManagePlayer from "./ManagePlayer.svelte";
 

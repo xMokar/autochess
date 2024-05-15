@@ -1,6 +1,6 @@
 <script lang="ts">
 import { updatePlayer } from '$lib/state';
-import { Units } from '$lib/system'
+import { Units } from '$lib/database'
 import UnitCard from '$lib/UnitCard.svelte';
 
 let { player, mirrored=false, onAddUnit, onRemoveUnit }:{

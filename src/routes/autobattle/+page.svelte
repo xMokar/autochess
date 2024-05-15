@@ -1,7 +1,7 @@
 <script lang="ts">
 import { initBattle, fight } from "$lib/combat";
 import { getPlayers } from "$lib/state";
-import { UnitMap } from "$lib/system";
+import { UnitMap } from "$lib/database";
 import FieldGrid from "./FieldGrid.svelte";
 
 let [ _player1, _player2 ] = getPlayers()

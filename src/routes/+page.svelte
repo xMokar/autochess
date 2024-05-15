@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Units } from "$lib/system";
+import { Units } from "$lib/database";
 import { goto } from "$app/navigation";
 import { calculateDamage } from "$lib/combat";
 import UnitTraits from "$lib/UnitTraits.svelte";
