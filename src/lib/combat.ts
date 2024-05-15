@@ -264,7 +264,7 @@ export function calculateDamage(attacker:Unit,defender:Unit|undefined,field:Fiel
 	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	// aplicamos los efectos de dañó
 	for (let effect of effects) {
-		if(effect.type != "damage") continue;
+		if(effect.type != "attack.modifier") continue;
 		if(effect.active) {
 			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
 			damage += effect.value

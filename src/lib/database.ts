@@ -110,7 +110,7 @@ function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction
 	return (defender: Unit) => {
 		let fullvalue = value>=0?`+${value}`:value
 		let message = `${fullvalue} contra <span class="icon">${trait.icon}</span>`
-		let type = "damage"
+		let type = "attack.modifier"
 		let def_trait= defender.traits.find(t => t.id===trait.id)
 		if(!defender || !def_trait || def_trait.id !== trait.id)
 			return { type, value, message, active: false } as Effect
@@ -129,7 +129,7 @@ function teamTraitsBetween(trait:Trait, min:number, max:number, value:number): T
 		else 
 			rangeMessage = `al menos ${min}`
 		let message = `${fullvalue} si tienes ${rangeMessage} <span class="icon">${trait.icon}</span>`
-		let type = "damage"
+		let type = "attack.modifier"
 		let support = field?.filter(u => u.hp>0 && u.unit.traits.find(t => t.id==trait.id)).length??0
 		if((support >= min) && (support <= max))
 			return { type, value, message, active: true } as Effect
