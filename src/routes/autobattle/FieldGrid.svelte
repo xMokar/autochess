@@ -1,7 +1,7 @@
 <script lang="ts">
 import { updatePlayer } from '$lib/state';
-import { type Player, type Field, Units, type Coordinate } from '$lib/system'
-    import UnitCard from '$lib/UnitCard.svelte';
+import { Units } from '$lib/system'
+import UnitCard from '$lib/UnitCard.svelte';
 
 let { player, mirrored=false, onAddUnit, onRemoveUnit }:{
 	player:Player, 

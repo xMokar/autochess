@@ -1,23 +1,23 @@
 <script lang="ts">
-    import { Units, type Unit } from "$lib/system";
-    import { goto } from "$app/navigation";
-    import { calculateDamage } from "$lib/combat";
-    import UnitTraits from "$lib/UnitTraits.svelte";
-    import UnitInfo from "$lib/UnitInfo.svelte";
-	let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
-	let targetTable = (source:Unit) => {
-		return units.map((target) => ({
-			target,
-			damage: calculateDamage(source, target)
-			}))
-			.sort((a, b) => ((b.damage.min+b.damage.max)/2)-((a.damage.min+a.damage.max)/2))
-	}
+import { Units } from "$lib/system";
+import { goto } from "$app/navigation";
+import { calculateDamage } from "$lib/combat";
+import UnitTraits from "$lib/UnitTraits.svelte";
+import UnitInfo from "$lib/UnitInfo.svelte";
+let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
+let targetTable = (source:Unit) => {
+	return units.map((target) => ({
+		target,
+		damage: calculateDamage(source, target)
+		}))
+		.sort((a, b) => ((b.damage.min+b.damage.max)/2)-((a.damage.min+a.damage.max)/2))
+}
 
-	function reset() {
-		localStorage.removeItem("player1")
-		localStorage.removeItem("player2")
-		goto("/autobattle")
-	}
+function reset() {
+	localStorage.removeItem("player1")
+	localStorage.removeItem("player2")
+	goto("/autobattle")
+}
 </script>
 <div class="container mt-2">
 	<div class="d-print-none">

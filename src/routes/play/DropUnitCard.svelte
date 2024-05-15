@@ -1,6 +1,4 @@
 <script lang="ts">
-import type { Unit } from "$lib/system";
-
 let { onclick, unit }:{
 	unit:Unit,
 	onclick:()=>void

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { initBattle, fight } from "$lib/combat";
-    import { getPlayers } from "$lib/state";
-    import { UnitMap, type Coordinate, type Player } from "$lib/system";
+import { initBattle, fight } from "$lib/combat";
+import { getPlayers } from "$lib/state";
+import { UnitMap } from "$lib/system";
 import FieldGrid from "./FieldGrid.svelte";
 
 let [ _player1, _player2 ] = getPlayers()
@@ -81,6 +81,7 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 		x: c.x,
 		y: c.y,
 		hp: 0,
+		energy: 0,
 		unit: UnitMap[value]
 	})
 }

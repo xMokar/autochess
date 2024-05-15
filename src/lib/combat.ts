@@ -1,4 +1,4 @@
-import { RollDice, type ActiveUnit, type Coordinate, type DamageRoll, type Field, type Player, type Unit } from "./system";
+import { RollDice } from "./system";
 
 function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;

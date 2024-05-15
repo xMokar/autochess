@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { NoUnit, type Field, type Unit } from "$lib/system";
-    import { calculateCombatTraits, calculateTeamTraits } from "./combat";
-    import UnitTraits from "./UnitTraits.svelte";
-    import Effect from "./Effect.svelte";
+import { NoUnit } from "$lib/system";
+import { calculateCombatTraits, calculateTeamTraits } from "./combat";
+import UnitTraits from "./UnitTraits.svelte";
+import Effect from "./Effect.svelte";
 
-	let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
+let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
 </script>
 <div class="row">
 	

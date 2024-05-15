@@ -1,5 +1,4 @@
 <script lang="ts">
-import type { Player } from '$lib/system';
 import Combat from './Combat.svelte';
 import ManagePlayer from './ManagePlayer.svelte';
 

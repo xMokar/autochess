@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { fight } from "$lib/combat";
-import type { Player } from "$lib/system";
+import { fight } from "$lib/combat";
 
 let { players, onendcombat, ondamage }:{
 	players:Player[],

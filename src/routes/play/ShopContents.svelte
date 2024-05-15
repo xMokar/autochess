@@ -1,7 +1,6 @@
 <script lang="ts">
 import UnitCard from '$lib/UnitCard.svelte';
-    import type { Player, Unit } from '$lib/system';
-    import type { Snippet } from 'svelte';
+import type { Snippet } from 'svelte';
 
 let { player, buttons, cards, onbuy, rolled }:{
 	player:Player,

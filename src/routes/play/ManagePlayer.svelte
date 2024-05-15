@@ -1,5 +1,4 @@
 <script lang="ts">
-import type { Coordinate, Player, Unit } from "$lib/system";
 import type { Snippet } from "svelte";
 import ManagePlayerBench from "./ManagePlayerBench.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";

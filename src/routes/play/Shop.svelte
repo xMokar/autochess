@@ -1,7 +1,7 @@
 <script lang="ts">
-import { Units, type Player, type Unit } from "$lib/system";
+import { Units } from "$lib/system";
 import ShopContents from "./ShopContents.svelte";
-    import ManagePlayer from "./ManagePlayer.svelte";
+import ManagePlayer from "./ManagePlayer.svelte";
 
 let {player, oncontinue: oncontinue_parent, onroll: onroll_parent, onbuy: onbuy_parent}:{
 	player:Player,

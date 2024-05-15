@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-	import { type Unit, type Player } from "$lib/system";
-    import Manage from "./Manage.svelte";
-    import PlayerSetup from "./PlayerSetup.svelte";
-    import Shop from "./Shop.svelte";
+import { goto } from "$app/navigation";
+import Manage from "./Manage.svelte";
+import PlayerSetup from "./PlayerSetup.svelte";
+import Shop from "./Shop.svelte";
 
 let player1 = $state({ 
 			id: 'player1',

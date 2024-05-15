@@ -1,16 +1,3 @@
-export interface Trait {
-	
-	id: string;
-	name: string;
-	icon: string;
-}
-
-interface Targetting {
-	id: string;
-	name: string;
-	targets: number;
-}
-
 let targetting:Targetting[] = [
 	{
 		id: 'closest1',
@@ -56,45 +43,6 @@ let targetting:Targetting[] = [
 ]
 
 let TargettingMap = Object.fromEntries(targetting.map(t => [ t.id, t ]))
-interface Dice {
-	amount: number,
-	sides: number,
-	modifier: number,
-}
-
-export interface Effect {
-	type: string,
-	message: string,
-	active: boolean,
-	value: number
-}
-
-export type CombatTraitFunction = (defender:Unit) => Effect
-export type TeamTraitFunction = (field:Field) => Effect
-
-export interface EffectFunctionArgs {
-	attacker: Unit
-	defender?: Unit
-	field?: Field
-}
-
-export type EffectFunction = (args:EffectFunctionArgs) => Effect
-
-export interface Unit {
-	id: string;
-	name: string;
-	info: string;
-	hp: number,
-	defense: number;
-	energymax: number;
-	energypertick: number;
-	traits: Trait[];
-	targetting: Targetting;
-	cost: number;
-	attack: Dice;
-	combatTraits: CombatTraitFunction[];
-	teamTraits: TeamTraitFunction[];
-}
 
 export let NoUnit = {
 	id: '',
@@ -156,32 +104,6 @@ let Traits:Trait[] = [
 	},
 ]
 export let TraitMap = Object.fromEntries(Traits.map(c => [ c.id, c ]))
-
-export interface ActiveUnit {
-	player?:Player,
-	unit:Unit
-	setx:number
-	sety:number
-	hp: number
-	x:number
-	y:number
-	energy:number
-}
-
-export type Field = ActiveUnit[]
-export interface Player {
-	id: string,
-	name: string,
-	hp: number,
-	field: Field,
-	mirrored: boolean,
-	color: string,
-	finished: boolean,
-	maxgold: number,
-	gold: number,
-	rolls: number,
-	hand: Unit[]
-}
 
 let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
@@ -433,15 +355,3 @@ export function RollDice(dice:Dice) {
 		.reduce((total, num) => total+num)
 }
 
-
-export interface DamageRoll {
-	damage:number,
-	max:number,
-	min:number,
-	roll:string,
-}
-
-export interface Coordinate {
-	x: number;
-	y: number;
-}

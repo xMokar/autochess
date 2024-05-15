@@ -1,6 +1,4 @@
 <script lang="ts">
-import type { Effect } from "./system";
-
 let { effect }:{effect:Effect} = $props();
 </script>
 <style>

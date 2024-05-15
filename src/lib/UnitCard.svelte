@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { type Field, type Unit } from "$lib/system";
-    import type { Snippet } from "svelte";
-    import Modal from "./Modal.svelte";
-    import TraitIcon from "./TraitIcon.svelte";
-    import UnitInfo from "./UnitInfo.svelte";
+import type { Snippet } from "svelte";
+import Modal from "./Modal.svelte";
+import TraitIcon from "./TraitIcon.svelte";
+import UnitInfo from "./UnitInfo.svelte";
 
-	let { unit, actions = undefined, onclick, field = undefined}:{
-		unit:Unit, 
-		onclick:()=>void,
-		field?:Field|undefined,
-		actions?:Snippet|undefined
-	} = $props()
-	let showModal = $state(false)
+let { unit, actions = undefined, onclick, field = undefined}:{
+	unit:Unit, 
+	onclick:()=>void,
+	field?:Field|undefined,
+	actions?:Snippet|undefined
+} = $props()
+let showModal = $state(false)
 </script>
 
 {#snippet card()}

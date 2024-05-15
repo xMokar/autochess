@@ -1,6 +1,5 @@
 <script lang="ts">
-    import TraitIcon from "./TraitIcon.svelte";
-import type { Unit } from "./system";
+import TraitIcon from "./TraitIcon.svelte";
 
 let { unit }:{unit:Unit} = $props()
 </script>

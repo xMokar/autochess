@@ -1,6 +1,4 @@
 <script lang="ts">
-import type { Player } from "$lib/system";
-
 let {players, onselect, onremoveplayer, onnewplayer}:{
 	players:Player[], 
 	onnewplayer:()=>void,
