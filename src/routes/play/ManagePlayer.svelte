@@ -1,35 +1,35 @@
 <script lang="ts">
 import type { Coordinate, Player, Unit } from "$lib/system";
 import type { Snippet } from "svelte";
-import ManagePlayerHand from "./ManagePlayerHand.svelte";
+import ManagePlayerBench from "./ManagePlayerBench.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
 import UnitCard from "$lib/UnitCard.svelte";
 import { fade } from "svelte/transition";
 
 let { player, actions }: {player:Player, actions?:Snippet|undefined} = $props();
 let takenUnit:Unit|undefined = $state(undefined)
-function ontakeFromHand(index:number) {
+function ontakeFromBench(index:number) {
 	if (takenUnit) {
-		onreleaseOnHand()
+		onreleaseToBench()
 	}
 	[takenUnit] = player.hand.splice(index, 1)
 }
 function ontakeFromBoard(c:Coordinate) {
 	if (takenUnit) {
-		onreleaseOnBoard(c)
+		onreleaseToBoard(c)
 	}
 	let index=player.field.findIndex(au => c.x==au.setx && c.y==au.sety)
 	takenUnit = player.field[index].unit
 	player.field.splice(index, 1)
 }
-function onreleaseOnHand() {
+function onreleaseToBench() {
 	if(!takenUnit)
 		return
 	player.hand.push(takenUnit)
 	takenUnit = undefined
 }
 
-function onreleaseOnBoard(c:Coordinate) {
+function onreleaseToBoard(c:Coordinate) {
 	if(takenUnit===undefined) {
 		console.log("ERROR: transferCard() taken===undefined")
 		return
@@ -54,10 +54,10 @@ $effect(()=> {
 })
 </script>
 
-<ManagePlayerHand {player} onclick={ontakeFromHand} onrelease={onreleaseOnHand} boardActions={actions} {takenUnit} />
-<ManagePlayerBoard {player} onclick={ontakeFromBoard} onrelease={onreleaseOnBoard} {takenUnit} />
+<ManagePlayerBench {player} onclick={ontakeFromBench} onrelease={onreleaseToBench} {actions} {takenUnit} />
+<ManagePlayerBoard {player} onclick={ontakeFromBoard} onrelease={onreleaseToBoard} {takenUnit} />
 {#if takenUnit}
 	<div class="position-fixed top-0 end-0" in:fade out:fade style="width: 210px">
-		<UnitCard unit={takenUnit} onclick={onreleaseOnHand} />
+		<UnitCard unit={takenUnit} onclick={onreleaseToBench} />
 	</div>
 {/if}

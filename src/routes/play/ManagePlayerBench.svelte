@@ -5,9 +5,9 @@
     import DropUnitCard from "./DropUnitCard.svelte";
     import { fade } from "svelte/transition";
 
-let {player, onclick, onrelease, boardActions = undefined, takenUnit}:{
+let {player, onclick, onrelease, actions = undefined, takenUnit}:{
 	player:Player, 
-	boardActions?:Snippet|undefined,
+	actions?:Snippet|undefined,
 	onclick:(i:number)=>void,
 	onrelease:()=>void,
 	takenUnit:Unit|undefined,
@@ -16,10 +16,10 @@ let {player, onclick, onrelease, boardActions = undefined, takenUnit}:{
 </script>
 <div class="card mt-2" id="hand">
 	<div class="card-header bg-{player.color} text-light">
-		Viendo la mano de {player.name}
-		{#if boardActions}
+		Banca
+		{#if actions}
 		<div class="float-end">
-		{@render boardActions()}
+		{@render actions()}
 		</div>
 		{/if}
 	</div>

@@ -20,7 +20,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 </script>
 <div class="card mt-2" id="board">
 	<div class="card-header bg-{player.color} text-light">
-		Tablero de {player.name}
+		Tablero
 	</div>
 	<div class="card-body">
 		<div class="row">
