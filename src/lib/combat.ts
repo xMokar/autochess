@@ -1,4 +1,9 @@
-import { RollDice } from "./database";
+function RollDice(dice:Dice) {
+	return Array(dice.amount)
+		.fill(0)
+		.map(_ => Math.floor(Math.random()*dice.sides)+1+dice.modifier)
+		.reduce((total, num) => total+num)
+}
 
 function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
     const dx = point2.x - point1.x;
@@ -18,12 +23,12 @@ function coordinatesToActiveUnits(field:Field) {
 	return (c:Coordinate) => field.find(activeUnit => activeUnit.x==c.x && activeUnit.y==c.y)
 }
 
-let calculateDistance = (source:ActiveUnit, target:ActiveUnit) => {
+let calculateDistance = (attacker:ActiveUnit, defender:ActiveUnit) => {
 	let distance = Math.sqrt(
-		Math.pow(source.x- target.x, 2)+
-		Math.pow(source.y- target.y, 2)
+		Math.pow(attacker.x- defender.x, 2)+
+		Math.pow(attacker.y- defender.y, 2)
 	)
-	return { target, distance }
+	return { target: defender, distance }
 }
 let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		random: (_:ActiveUnit, target:Field) => !target.length? []:
@@ -73,7 +78,7 @@ let targetting:{[key:string]: (c:ActiveUnit, f:Field) => ActiveUnit[]} = {
 		}
 }
 
-function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
+function Attack(attacker:Player, activeUnit:ActiveUnit, defender:Player) {
 	let output:string[] = []
 	let damage:DamageRoll = {
 			damage:0,
@@ -88,7 +93,7 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		}
 	}
 	let targets = targetting[activeUnit.unit.targetting.id](activeUnit, 
-		target.field.filter(activeUnit => activeUnit.hp>0))
+		defender.field.filter(activeUnit => activeUnit.hp>0))
 	if(!targets) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.activeUnit.unit.name} esta fuera de combate.`)
 		return {
@@ -97,11 +102,11 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage(activeUnit.unit, targetUnit.unit, source.field)
-		output.push(`<span class="text-${source.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${target.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
+		let damage = calculateDamage(activeUnit.unit, targetUnit.unit, attacker.field)
+		output.push(`<span class="text-${attacker.color}">${activeUnit.unit.name}</span>(${activeUnit.hp}) ataca a <span class="text-${defender.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
-			output.push(`* <span class="text-${target.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
+			output.push(`* <span class="text-${defender.color}">${targetUnit.unit.name}</b></span> <span class="text-warning">ha caido</span>`)
 		}
 	}
 	return {
@@ -112,24 +117,24 @@ function Attack(source:Player, activeUnit:ActiveUnit, target:Player) {
 
 interface Turn {
 	activeUnit:ActiveUnit,
-	source:Player,
-	target:Player,
+	attacker:Player,
+	defender:Player,
 }
 
-export function combatRound(source:Player, target:Player)  {
+export function combatRound(attacker:Player, defender:Player)  {
 	let output = []
-	output.push(`<b class="text-${source.color}">${source.name}</b> tiene preferencia.`)
-	let sourceUnits:Turn[] = source.field
+	output.push(`<b class="text-${attacker.color}">${attacker.name}</b> tiene preferencia.`)
+	let attackerUnits:Turn[] = attacker.field
 		.filter(activeUnit => activeUnit.hp>0)
 		.map(activeUnit => ({
-			activeUnit, source, target
+			activeUnit, attacker, defender
 		}))
-	let targetUnits:Turn[] = target.field
+	let defenderUnits:Turn[] = defender.field
 		.filter(activeUnit => activeUnit.hp>0)
 		.map(activeUnit => ({
-			activeUnit, source:target, target: source
+			activeUnit, attacker:defender, defender:attacker
 		}))
-	let units = [...sourceUnits, ...targetUnits]
+	let units = [...attackerUnits, ...defenderUnits]
 	let tick = () => {
 		output.push('Tick')
 		for(let unit of units) {
@@ -140,11 +145,11 @@ export function combatRound(source:Player, target:Player)  {
 		.filter(u => u.activeUnit.energy==u.activeUnit.unit.energymax)
 
 	let total = {
-		[source.name]: {
+		[attacker.name]: {
 			dmgmax: 0,
 			dmg: 0,
 		},
-		[target.name]: {
+		[defender.name]: {
 			dmgmax: 0,
 			dmg: 0,
 		}
@@ -153,11 +158,11 @@ export function combatRound(source:Player, target:Player)  {
 	for(let i = 0; i < 20; i++) {
 		tick()
 		for(let turn of unitsReady()) {
-			let attack = Attack(turn.source, turn.activeUnit, turn.target)
+			let attack = Attack(turn.attacker, turn.activeUnit, turn.defender)
 			if (!attack.damage)
 				continue
-			total[turn.source.name].dmgmax += attack.damage.max
-			total[turn.source.name].dmg += attack.damage.damage
+			total[turn.attacker.name].dmgmax += attack.damage.max
+			total[turn.attacker.name].dmg += attack.damage.damage
 			output.push(...attack.output)
 			turn.activeUnit.energy=0
 		}

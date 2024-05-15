@@ -105,7 +105,6 @@ let Traits:Trait[] = [
 ]
 export let TraitMap = Object.fromEntries(Traits.map(c => [ c.id, c ]))
 
-let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 
 function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction {
 	return (defender: Unit) => {
@@ -346,12 +345,7 @@ export let Units:Unit[] = [
 
 export let UnitMap = Object.fromEntries(Units.map(card => [ card.id, card ]))
 
+let costFrequency = [ 0, 29, 22, 18, 12, 10 ]
 export let Pool = Units.flatMap(card => Array(costFrequency[card.cost]).fill(card))
 
-export function RollDice(dice:Dice) {
-	return Array(dice.amount)
-		.fill(0)
-		.map(_ => Math.floor(Math.random()*dice.sides)+1+dice.modifier)
-		.reduce((total, num) => total+num)
-}
 
