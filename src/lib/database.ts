@@ -62,6 +62,11 @@ export let NoUnit = {
 
 let Traits:Trait[] = [
 	{
+		id: 'unit',
+		name: '',
+		icon: '',
+	},
+	{
 		id: 'fire',
 		name: 'Fuego',
 		icon: '🔥',
@@ -107,36 +112,106 @@ export let TraitMap = Object.fromEntries(Traits.map(c => [ c.id, c ]))
 
 
 function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction {
-	return (defender: Unit) => {
+	return (defender: BoardUnit) => {
 		let fullvalue = value>=0?`+${value}`:value
 		let message = `${fullvalue} contra <span class="icon">${trait.icon}</span>`
 		let type = "attack.modifier"
-		let def_trait= defender.traits.find(t => t.id===trait.id)
+		let def_trait= defender.unit.traits.find(t => t.id===trait.id)
 		if(!defender || !def_trait || def_trait.id !== trait.id)
-			return [{ type, value, message, active: false }]
-		return [{ type , value, message, active: true }]
+			return [{ type, value, message, active: false, target: TraitMap.unit }]
+		return [{ type , value, message, active: true, target: TraitMap.unit }]
 	}
 } 
 
-function teamTraitsBetween(trait:Trait, min:number, max:number, value:number): TeamTraitFunction {
-	return (field:Field) => {
-		let fullvalue = value>=0?`+${value}`:value
-		let rangeMessage = ""
-		if (min==max)
-			rangeMessage = `solo ${min}`
-		else if (max<9) 
-			rangeMessage = `de ${min} a ${max}`
-		else 
-			rangeMessage = `al menos ${min}`
-		let message = `${fullvalue} si tienes ${rangeMessage} <span class="icon">${trait.icon}</span>`
-		let type = "attack.modifier"
-		let support = field?.filter(u => u.hp>0 && u.unit.traits.find(t => t.id==trait.id)).length??0
-		if((support >= min) && (support <= max))
-			return [{ type, value, message, active: true }]
-		return [{ type, value, message, active: false }]
+let boardTraitRanks:TraitRank[] = [
+	{ 
+		trait: TraitMap.fire, 
+		levels: [
+			{
+				amount: 1,
+				effects: [{type: "attack.modifier", value: 1, target: TraitMap.earth }]
+			},
+			{
+				amount: 2,
+				effects: [{type: "attack.modifier", value: 3, target: TraitMap.earth }]
+			},
+		],
+	},
+	{
+		trait: TraitMap.earth, 
+		levels: [
+			{
+				amount: 1,
+				effects: [{type: "attack.modifier", value: 1, target: TraitMap.metal }]
+			},
+			{
+				amount: 2,
+				effects: [{type: "attack.modifier", value: 3, target: TraitMap.metal }]
+			},
+		],
+	},
+	{
+		trait: TraitMap.wood,
+		levels: [
+			{
+				amount: 1,
+				effects: [{type: "attack.modifier", value: 1, target: TraitMap.fire }]
+			},
+			{
+				amount: 2,
+				effects: [{type: "attack.modifier", value: 3, target: TraitMap.fire }]
+			},
+		],
+	},
+	{
+		trait: TraitMap.water, 
+		levels: [
+			{
+				amount: 1,
+				effects: [{type: "attack.modifier", value: 1, target: TraitMap.wood }]
+			},
+			{
+				amount: 2,
+				effects: [{type: "attack.modifier", value: 3, target: TraitMap.wood }]
+			},
+		],
+	},
+	{
+		trait: TraitMap.metal, 
+		levels: [
+			{
+				amount: 1,
+				effects: [{type: "attack.modifier", value: 1, target: TraitMap.water }]
+			},
+			{
+				amount: 2,
+				effects: [{type: "attack.modifier", value: 3, target: TraitMap.water }]
+			},
+		],
 	}
-}
+]
 
+export function updatePlayerTraits(player:Player) {
+	let countUnitTraits = (trait:Trait) => player.field
+		.reduce((total, curr) => total+(curr.unit.traits.map(t=>t.id).includes(trait.id)? 1: 0), 0)
+	player.traits = boardTraitRanks.map(traitrank => (
+		{ ...traitrank, 
+			active: countUnitTraits(traitrank.trait),
+			level: 0 
+		} as TraitRankActive))
+		.filter(traitrank => traitrank.active>0)
+		.map(traitrank => {
+			// create a copy of the levels sorted by amount descending
+			// to get the first biggest level matching
+			traitrank.level = traitrank.levels.findLastIndex(rank => traitrank.active>=rank.amount)
+			traitrank.effects = traitrank.levels[traitrank.level].effects
+			return traitrank
+		})
+	player.field.forEach(bu => {
+		bu.effects = player.traits.flatMap(trait => trait.effects)
+			.filter(trait => bu.unit.traits.map(t => t.id).includes(trait.target.id))
+	})
+}
 
 export let Units:Unit[] = [ 
 	{ 
@@ -145,9 +220,6 @@ export let Units:Unit[] = [
 		info: `Es una bella chica de cabello azul con cola de pez. Ataca invocando una ola magica desde atras del enemigo.`,
 		hp: 15,
 		attack: { amount: 2, sides: 4, modifier: 1 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.metal, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.fire, 3),
 			damageAgainstUnitEffect(TraitMap.water, -3),
@@ -155,7 +227,7 @@ export let Units:Unit[] = [
 		defense:0,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.water, TraitMap.female],
+		traits: [TraitMap.unit, TraitMap.water, TraitMap.female],
 		targetting: TargettingMap.farthest1,
 		cost: 1,
 	},
@@ -167,13 +239,10 @@ export let Units:Unit[] = [
 		defense:0,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.water, TraitMap.guardian],
+		traits: [TraitMap.unit, TraitMap.water, TraitMap.guardian],
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.metal, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.fire, 3),
 			damageAgainstUnitEffect(TraitMap.water, -3),
@@ -187,13 +256,10 @@ export let Units:Unit[] = [
 		defense:0,
 		energymax: 3,
 		energypertick: 1,
-		traits: [TraitMap.metal, TraitMap.male],
+		traits: [TraitMap.unit, TraitMap.metal, TraitMap.male],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 4 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.earth, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.wood, 3),
 			damageAgainstUnitEffect(TraitMap.metal, -3),
@@ -207,13 +273,10 @@ export let Units:Unit[] = [
 		defense:1,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.metal, TraitMap.guardian],
+		traits: [TraitMap.unit, TraitMap.metal, TraitMap.guardian],
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.earth, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.wood, 3),
 			damageAgainstUnitEffect(TraitMap.metal, -3),
@@ -227,13 +290,10 @@ export let Units:Unit[] = [
 		defense: 0,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.fire, TraitMap.female],
+		traits: [TraitMap.unit, TraitMap.fire, TraitMap.female],
 		targetting: TargettingMap.farthest1_direct,
 		cost: 1,
 		attack: { amount: 1, sides: 8, modifier: 2 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.wood, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.metal, 3),
 			damageAgainstUnitEffect(TraitMap.fire, -3),
@@ -247,13 +307,10 @@ export let Units:Unit[] = [
 		defense: 0,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.fire, TraitMap.guardian],
+		traits: [TraitMap.unit, TraitMap.fire, TraitMap.guardian],
 		targetting: TargettingMap.closest1,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.wood, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.metal, 3),
 			damageAgainstUnitEffect(TraitMap.fire, -3),
@@ -267,13 +324,10 @@ export let Units:Unit[] = [
 		defense: 0,
 		energymax: 3,
 		energypertick: 1,
-		traits: [TraitMap.wood, TraitMap.male],
+		traits: [TraitMap.unit, TraitMap.wood, TraitMap.male],
 		targetting: TargettingMap.farthest2,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 1 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.water, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.earth, 3),
 			damageAgainstUnitEffect(TraitMap.wood, -3),
@@ -287,13 +341,10 @@ export let Units:Unit[] = [
 		defense: 0,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.wood, TraitMap.guardian],
+		traits: [TraitMap.unit, TraitMap.wood, TraitMap.guardian],
 		targetting: TargettingMap.nearby,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 3 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.water, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.earth, 3),
 			damageAgainstUnitEffect(TraitMap.wood, -3),
@@ -305,15 +356,12 @@ export let Units:Unit[] = [
 		info: `Creatura magica de tierra viva.\nAtaca haciendo temblar la tierra.`,
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.earth, TraitMap.guardian],
+		traits: [TraitMap.unit, TraitMap.earth, TraitMap.guardian],
 		targetting: TargettingMap.everyone,
 		hp: 20,
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 4, modifier: 0 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.fire, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.water, 3),
 			damageAgainstUnitEffect(TraitMap.earth, -3),
@@ -323,18 +371,14 @@ export let Units:Unit[] = [
 		id: 'druid',
 		name: 'Druida',
 		info: `Es un hechicero que controla las fuerzas de la naturaleza.\nAtaca lanzando un mini-meteorito.`,
-
 		energymax: 4,
 		energypertick: 1,
-		traits: [TraitMap.earth,TraitMap.male],
+		traits: [TraitMap.unit, TraitMap.earth,TraitMap.male],
 		targetting: TargettingMap.random,
 		hp: 15,
 		defense:0,
 		cost: 1,
 		attack: { amount: 1, sides: 10, modifier: 1 },
-		teamTraits: [
-			teamTraitsBetween(TraitMap.fire, 1, 9, 1),
-		],
 		combatTraits: [
 			damageAgainstUnitEffect(TraitMap.water, 3),
 			damageAgainstUnitEffect(TraitMap.earth, -3),

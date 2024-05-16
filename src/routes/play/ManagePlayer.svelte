@@ -4,6 +4,8 @@ import ManagePlayerBench from "./ManagePlayerBench.svelte";
 import ManagePlayerBoard from "./ManagePlayerBoard.svelte";
 import UnitCard from "$lib/UnitCard.svelte";
 import { fade } from "svelte/transition";
+import { createBoardUnit } from "$lib/combat";
+    import { updatePlayerTraits } from "$lib/database";
 
 let { player, actions }: {player:Player, actions?:Snippet|undefined} = $props();
 let takenUnit:Unit|undefined = $state(undefined)
@@ -20,11 +22,13 @@ function ontakeFromBoard(c:Coordinate) {
 	let index=player.field.findIndex(bu => c.x==bu.setx && c.y==bu.sety)
 	takenUnit = player.field[index].unit
 	player.field.splice(index, 1)
+	updatePlayerTraits(player)
 }
 function onreleaseToBench() {
 	if(!takenUnit)
 		return
 	player.hand.push(takenUnit)
+	updatePlayerTraits(player)
 	takenUnit = undefined
 }
 
@@ -33,16 +37,8 @@ function onreleaseToBoard(c:Coordinate) {
 		console.log("ERROR: transferCard() taken===undefined")
 		return
 	}
-	let unit = takenUnit
-	player.field.push({
-		unit,
-		setx: c.x,
-		sety: c.y,
-		x: c.x,
-		y: c.y,
-		hp: unit.hp,
-		energy: 0,
-	})
+	player.field.push(createBoardUnit(takenUnit, c))
+	updatePlayerTraits(player)
 	takenUnit = undefined
 }
 

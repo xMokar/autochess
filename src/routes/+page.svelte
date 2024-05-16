@@ -1,14 +1,19 @@
 <script lang="ts">
 import { Units } from "$lib/database";
 import { goto } from "$app/navigation";
-import { calculateDamage } from "$lib/combat";
+import { calculateDamage, createBoardUnit } from "$lib/combat";
 import UnitTraits from "$lib/UnitTraits.svelte";
 import UnitInfo from "$lib/UnitInfo.svelte";
 let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
 let targetTable = (source:Unit) => {
+	let dummyPlayer = {
+		name: 'dummy',
+	} as Player
 	return units.map((target) => ({
 		target,
-		damage: calculateDamage(source, target)
+		damage: calculateDamage(dummyPlayer,
+			createBoardUnit(source, {x:0, y:0}), 
+			createBoardUnit(target, {x:0, y:0}))
 		}))
 		.sort((a, b) => ((b.damage.min+b.damage.max)/2)-((a.damage.min+a.damage.max)/2))
 }

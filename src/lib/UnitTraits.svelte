@@ -5,7 +5,7 @@ let { unit }:{unit:Unit} = $props()
 </script>
 
 <span style="float-end">
-	{#each unit.traits as trait}
+	{#each unit.traits.filter(t => t.name) as trait}
 		<TraitIcon {trait} />
 	{/each}
 </span>

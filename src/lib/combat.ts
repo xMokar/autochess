@@ -102,7 +102,7 @@ function Attack(attacker:Player, boardUnit:BoardUnit, defender:Player) {
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage(boardUnit.unit, targetUnit.unit, attacker.field)
+		let damage = calculateDamage(attacker, boardUnit, targetUnit)
 		output.push(`<span class="text-${attacker.color}">${boardUnit.unit.name}</span>(${boardUnit.hp}) ataca a <span class="text-${defender.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
@@ -240,37 +240,30 @@ export function fight(player1:Player, player2:Player) {
 	}
 }
 
-export function calculateCombatTraits(attacker:Unit, defender:Unit) {
-	return attacker.combatTraits.map(effect => effect(defender))
-}
-export function calculateTeamTraits(attacker:Unit,field:Field) {
-	return attacker.teamTraits.map(effect => effect(field))
+export function calculateCombatTraits(attacker:BoardUnit, defender:BoardUnit) {
+	return attacker.unit.combatTraits.map(effect => effect(defender))
 }
 
-function resetEffects(unit:BoardUnit, field:Field) {
-	unit.effects = calculateTeamTraits(unit.unit, field).flatMap(x=>x)
-}
-
-export function calculateDamage(attacker:Unit,defender:Unit,field:Field=[]) {
+export function calculateDamage(player:Player, attacker:BoardUnit,defender:BoardUnit) {
 	// ahora el daño se calculara asi:
 	// obtenemos todos los effectos que apliquen de la unidad
-	let teamEffects = calculateTeamTraits(attacker,field)
 	let combatEffects = calculateCombatTraits(attacker, defender)
-		
-	let effects = [...teamEffects.flatMap(x=>x), ...combatEffects.flatMap(x=>x)]
+
+	let traitEffects = player.traits.flatMap(trait => trait.effects)
+		.filter(effect => attacker.unit.traits.includes(effect.target))
+	console.log(player.name, 'attacker', attacker.unit.name, 'attacking', defender.unit.name)
+	console.log('trait effects', traitEffects)
+	console.log('combat effects', combatEffects)
+	let effects = [...traitEffects, ...combatEffects.flatMap(x=>x)]
+
 	// buscamos efectos de attack.modifier
-	let attackModBonus = 0
-	for (let effect of effects) {
-		if(effect.type != "attack.modifier") continue;
-		if(effect.active) {
-			//console.log(`- Agregar efecto ${effect.value} (${effect.message})`)
-			attackModBonus+=effect.value
-		} 
-	}
+	let attackModBonus = effects
+		.filter(effect => effect.type=="attack.modifier")
+		.reduce((total, effect) => total+effect.value, 0)
 	// obtenemos el dado unit.attack y lo tiramos
-	let damage = RollDice(attacker.attack)+attackModBonus
-	let min = attacker.attack.amount+attacker.attack.modifier+attackModBonus
-	let max = attacker.attack.amount*attacker.attack.sides+attacker.attack.modifier+attackModBonus
+	let damage = RollDice(attacker.unit.attack)+attackModBonus
+	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier+attackModBonus
+	let max = attacker.unit.attack.amount*attacker.unit.attack.sides+attacker.unit.attack.modifier+attackModBonus
 	//console.log(`${attacker.unit.name} ataca a ${defender?.unit.name} con ${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}`)
 	min = Math.max(min, 0)
 	//console.log(`Dmg: ${damage} Min: ${min}, Max: ${max}, effects: ${effectDamage}`)
@@ -279,6 +272,19 @@ export function calculateDamage(attacker:Unit,defender:Unit,field:Field=[]) {
 		damage,
 		min,
 		max,
-		roll: `${attacker.attack.amount}d${attacker.attack.sides}+${attacker.attack.modifier}+${attackModBonus}`
+		roll: `${attacker.unit.attack.amount}d${attacker.unit.attack.sides}+${attacker.unit.attack.modifier}+${attackModBonus}`
 	} as DamageRoll
+}
+
+export function createBoardUnit(unit:Unit, c:Coordinate): BoardUnit {
+	return {
+		unit,
+		setx: c.x,
+		sety: c.y,
+		x: c.x,
+		y: c.y,
+		hp: unit.hp,
+		energy: 0,
+		effects: []
+	}
 }

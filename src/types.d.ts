@@ -1,6 +1,5 @@
 declare global {
 	export interface Trait {
-		
 		id: string;
 		name: string;
 		icon: string;
@@ -18,13 +17,12 @@ declare global {
 	}
 
 	export interface Effect {
+		target: Trait,
 		type: string,
-		message: string,
-		active: boolean,
 		value: number
 	}
 
-	export type CombatTraitFunction = (defender:Unit) => Effect[]
+	export type CombatTraitFunction = (defender:BoardUnit) => Effect[]
 	export type TeamTraitFunction = (field:Field) => Effect[]
 
 	export interface EffectFunctionArgs {
@@ -48,7 +46,6 @@ declare global {
 		cost: number;
 		attack: Dice;
 		combatTraits: CombatTraitFunction[];
-		teamTraits: TeamTraitFunction[];
 	}
 	export interface BoardUnit {
 		player?:Player,
@@ -59,9 +56,22 @@ declare global {
 		x:number
 		y:number
 		energy:number
-		effects:Effect[]
+		effects: Effect[]
 	}
 
+	interface TraitRank {
+		trait: Trait
+		levels: {
+			amount: number
+			effects: Effect[]
+		}[]
+	}
+
+	interface TraitRankActive extends TraitRank {
+		active: number,
+		level: number
+		effects: Effect[]
+	}
 	export type Field = BoardUnit[]
 	export interface Player {
 		id: string,
@@ -74,6 +84,7 @@ declare global {
 		maxgold: number,
 		gold: number,
 		rolls: number,
+		traits: TraitRankActive[],
 		hand: Unit[]
 	}
 

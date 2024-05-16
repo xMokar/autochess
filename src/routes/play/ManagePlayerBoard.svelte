@@ -33,7 +33,7 @@ let grid = Array(9).fill(0).map((_, i) => ({
 						{/if}
 						{#if fieldUnit}
 							<div in:fade>
-								<UnitCard field={player.field} unit={fieldUnit.unit} onclick={() => onclick(g)} />
+								<UnitCard field={player.field} unit={fieldUnit.unit} boardUnit={fieldUnit} onclick={() => onclick(g)} />
 							</div>
 						{/if}
 					</div>
@@ -41,7 +41,11 @@ let grid = Array(9).fill(0).map((_, i) => ({
 				</div>
 			</div>
 			<div class="col-3">
-				...
+				<ul>
+				{#each player.traits as trait}
+					<li>{trait.trait.name}: {trait.active}/{trait.levels[trait.level].amount}</li>
+				{/each}
+				</ul>
 			</div>
 		</div>
 	</div>

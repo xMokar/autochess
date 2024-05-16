@@ -1,10 +1,12 @@
 <script lang="ts">
-import { NoUnit } from "$lib/database";
-import { calculateCombatTraits, calculateTeamTraits } from "./combat";
 import UnitTraits from "./UnitTraits.svelte";
-import Effect from "./Effect.svelte";
+    import Attribute from "./Attribute.svelte";
 
-let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
+let { unit, boardUnit=undefined }:{
+	unit:Unit, 
+	field?:Field|undefined,
+	boardUnit?:BoardUnit|undefined
+} = $props()
 </script>
 <div class="row">
 	
@@ -26,11 +28,11 @@ let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
 	</div>
 	<div class="col-12 col-md-6">
 		<b>Ataque:</b>
-		<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+{unit.attack.modifier}</span>
+		<span class="float-end">{unit.attack.amount}d{unit.attack.sides}+<Attribute value={unit.attack.modifier} {boardUnit} bonus="attack.modifier" /></span>
 	</div>
 	<div class="col-12 col-md-6">
 		<b>HP:</b> 
-		<span class="float-end">{unit.hp}</span>
+		<span class="float-end"><Attribute value={unit.hp} {boardUnit} bonus="hp" /></span>
 	</div>
 	<div class="col-12 col-md-6 position-relative">
 		<b>Def:</b> 
@@ -49,19 +51,15 @@ let { unit, field=undefined }:{unit:Unit, field?:Field|undefined} = $props()
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}
 		</div>
-		<b>Efectos de equipo:</b><br>
-		<div class="ms-2">
-		{#each calculateTeamTraits(unit, field??[]) as effect}
-			<Effect {effect} />
-		{/each}
-		</div>
+		<!--
 		<b>Efectos de combate:</b><br>
-		{#each calculateCombatTraits(unit, NoUnit) as effect}
+		{#each calculateCombatTraits(createBoardUnit(unit, {x:0, y:0}), createBoardUnit(NoUnit, [], {x:0, y:0})) as effect}
 			<div class="ms-2">
 				<Effect {effect} />
 			</div>
 
 		{/each}
+		-->
 	</div>
 </div>
 

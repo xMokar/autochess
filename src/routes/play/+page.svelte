@@ -4,34 +4,7 @@ import Manage from "./Manage.svelte";
 import PlayerSetup from "./PlayerSetup.svelte";
 import Shop from "./Shop.svelte";
 
-let player1 = $state({ 
-			id: 'player1',
-			name: 'Azul',
-			hp: 3,
-			mirrored: false,
-			color: 'primary',
-			finished: false,
-			maxgold: 5,
-			gold: 10,
-			rolls: 2,
-			hand: [],
-			field: [ ],
-		} as Player)
-let player2 = $state({
-			id: 'player2',
-			name: 'Rojo',
-			hp: 3,
-			mirrored: true,
-			color: 'danger',
-			finished: false,
-			maxgold: 5,
-			gold: 10,
-			rolls: 2,
-			hand: [],
-			field: []
-		} as Player
-)
-let players:Player[] = $state([player1, player2])
+let players:Player[] = $state([])
 let livingPlayers = $derived(players.filter(player => player.hp>0))
 
 let mode= $state("selectplayer")
@@ -102,12 +75,15 @@ let onnewplayer = () => {
 			color: colors[id],
 			finished: false,
 			maxgold: 5,
-			gold: 10,
+			gold: 20,
 			rolls: 2,
+			traits: [],
 			hand: [],
 			field: []
 	})
 }
+onnewplayer()
+onnewplayer()
 let onremoveplayer = (player:Player) => {
 	players = players.filter(p => player.id!=p.id)
 }

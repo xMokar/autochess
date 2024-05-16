@@ -11,6 +11,7 @@ export function getPlayers() {
 			maxgold: 5,
 			gold: 5,
 			rolls: 2,
+			traits: [],
 			hand: [],
 			field: [
 				{
@@ -21,7 +22,6 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
-					effects: [],
 				},
 				{
 					hp: 0,
@@ -31,7 +31,6 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
-					effects: [],
 				}
 			],
 		} as Player
@@ -47,6 +46,7 @@ export function getPlayers() {
 			gold: 5,
 			rolls: 2,
 			hand: [],
+			traits: [],
 			field: [
 				{
 					unit: UnitMap.druid,
@@ -56,7 +56,6 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
-					effects: [],
 				},
 				{
 					hp: 0,
@@ -66,7 +65,6 @@ export function getPlayers() {
 					x: 0,
 					y: 0,
 					energy: 0,
-					effects: [],
 				}
 			]
 		} as Player

@@ -4,8 +4,9 @@ import Modal from "./Modal.svelte";
 import TraitIcon from "./TraitIcon.svelte";
 import UnitInfo from "./UnitInfo.svelte";
 
-let { unit, actions = undefined, onclick, field = undefined}:{
+let { unit, actions = undefined, onclick, field = undefined, boardUnit = undefined}:{
 	unit:Unit, 
+	boardUnit?:BoardUnit,
 	onclick:()=>void,
 	field?:Field|undefined,
 	actions?:Snippet|undefined
@@ -17,7 +18,7 @@ let showModal = $state(false)
 	<div class="card">
 		<div class="card-header">{unit.name}</div>
 		<div class="card-body">
-			<UnitInfo {unit} {field} />
+			<UnitInfo {unit} {field} {boardUnit} />
 		</div>
 	</div>
 {/snippet}
@@ -34,8 +35,8 @@ let showModal = $state(false)
 		<button {onclick} class="unit p-0 position-relative">
 			<img src="/units/{unit.id}.png" width="100%" class="{unit.id}" alt={unit.name} />
 			<div class="overlay position-absolute bottom-0 pb-2 ps-2">
-				{#each unit.traits as trait}
-					<div class="trait mb-1 pe-3" style="font-size: 80%">
+				{#each unit.traits.filter(t => t.name) as trait}
+					<div class="trait mb-1 pe-3 ps-2 text-start" style="font-size: 80%">
 						<TraitIcon {trait} /> {trait.name}<br>
 					</div>
 				{/each}
