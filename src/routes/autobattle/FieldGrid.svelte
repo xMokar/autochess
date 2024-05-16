@@ -9,18 +9,18 @@ let { player, mirrored=false, onAddUnit, onRemoveUnit }:{
 	onAddUnit: (player:Player, c:Coordinate, value:string)=>void,
 	onRemoveUnit: (player:Player, c:Coordinate)=>void
 } = $props()
-let fieldArray = $derived(fieldToArray(player.field, mirrored))
+let boardArray = $derived(boardToArray(player.board, mirrored))
 
-function fieldToArray(field:Field, mirrored:boolean=false) {
-	let newfield = Array(9).fill(undefined).map((_, i) => {
+function boardToArray(board:Board, mirrored:boolean=false) {
+	let newboard = Array(9).fill(undefined).map((_, i) => {
 		let x = i%3
 		let y = Math.floor(i/3)
-		return field.find(boardUnit => {
+		return board.find(boardUnit => {
 			return (boardUnit.setx == x) && (boardUnit.sety == y)
 		})
 	})
-	if(!mirrored) return newfield
-	return [ ...newfield.slice(6), ...newfield.slice(3,6), ...newfield.slice(0,3)]
+	if(!mirrored) return newboard
+	return [ ...newboard.slice(6), ...newboard.slice(3,6), ...newboard.slice(0,3)]
 }
 
 function add(index:number) {
@@ -39,7 +39,7 @@ function add(index:number) {
 }
 
 
-let isAlive = $derived(player.field.filter(boardUnit => boardUnit.hp>0).length>0)
+let isAlive = $derived(player.board.filter(boardUnit => boardUnit.hp>0).length>0)
 let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 </script>
 <div class="card mb-1 border-{player.color}" >
@@ -49,12 +49,12 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 		no big deal :)
 		-->
 		<input type="text" bind:value={player.name} />
-		<span class="badge bg-danger position-absolute top-0 end-0">{player.field.reduce((total, v) => total+v.hp, 0)}</span><br>
+		<span class="badge bg-danger position-absolute top-0 end-0">{player.board.reduce((total, v) => total+v.hp, 0)}</span><br>
 	</div>
 
 	<div class="card-body p-1">
 		<div class="row gx-1">
-			{#each fieldArray as boardUnit, index (index)}
+			{#each boardArray as boardUnit, index (index)}
 				{#snippet actions()}
 					<select onchange={add(index)} value={boardUnit?boardUnit.unit.id:""} class="mw-100 form-control">
 						<option value="">-</option>
@@ -66,7 +66,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 				<div class="col-4 mb-1" style="min-height: 175px">
 					{#if boardUnit}
 						
-						<UnitCard unit={boardUnit.unit} {actions} onclick={() => undefined} field={player.field} />
+						<UnitCard unit={boardUnit.unit} {actions} onclick={() => undefined} board={player.board} />
 					{:else}
 						<div class="card h-100 border-{player.color}">
 							<div class="card-header" style="height: 4.5rem">Espacio vacio

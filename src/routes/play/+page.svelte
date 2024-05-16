@@ -19,7 +19,7 @@ let resetPlayer = (player:Player) => {
 	player.rolls = 2
 	player.gold = 10
 	player.hand = []
-	player.field = []
+	player.board = []
 }
 let onrestart = () => {
 	for(let player of players) {
@@ -79,7 +79,7 @@ let onnewplayer = () => {
 			rolls: 2,
 			traits: [],
 			hand: [],
-			field: []
+			board: []
 	})
 }
 onnewplayer()

@@ -4,11 +4,11 @@ import Modal from "./Modal.svelte";
 import TraitIcon from "./TraitIcon.svelte";
 import UnitInfo from "./UnitInfo.svelte";
 
-let { unit, actions = undefined, onclick, field = undefined, boardUnit = undefined}:{
+let { unit, actions = undefined, onclick, board = undefined, boardUnit = undefined}:{
 	unit:Unit, 
 	boardUnit?:BoardUnit,
 	onclick:()=>void,
-	field?:Field|undefined,
+	board?:Board|undefined,
 	actions?:Snippet|undefined
 } = $props()
 let showModal = $state(false)
@@ -18,7 +18,7 @@ let showModal = $state(false)
 	<div class="card">
 		<div class="card-header">{unit.name}</div>
 		<div class="card-body">
-			<UnitInfo {unit} {field} {boardUnit} />
+			<UnitInfo {unit} {board} {boardUnit} />
 		</div>
 	</div>
 {/snippet}

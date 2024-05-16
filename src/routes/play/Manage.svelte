@@ -42,7 +42,7 @@ let onmanage = (p:Player) => {
 			<tr>
 				<td>{p.name}</td>
 				<td>{p.hp}</td>
-				<td>{p.field.length}</td>
+				<td>{p.board.length}</td>
 				<td>
 					<button onclick={() => onmanage(p)} class="btn btn-{p.color} me-2">
 						Administrar
@@ -53,7 +53,7 @@ let onmanage = (p:Player) => {
 			<tr>
 				<td colspan="3"></td>
 				<td colspan="2">
-					<button disabled={!(players[0].field.length==3 && players[1].field.length==3)} 
+					<button disabled={!(players[0].board.length==3 && players[1].board.length==3)} 
 						onclick={() => doFight()} class="btn btn-secondary">
 						Pelear
 					</button>

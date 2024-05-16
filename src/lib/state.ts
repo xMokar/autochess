@@ -13,7 +13,7 @@ export function getPlayers() {
 			rolls: 2,
 			traits: [],
 			hand: [],
-			field: [
+			board: [
 				{
 					unit: UnitMap.tank,
 					hp: 0,
@@ -47,7 +47,7 @@ export function getPlayers() {
 			rolls: 2,
 			hand: [],
 			traits: [],
-			field: [
+			board: [
 				{
 					unit: UnitMap.druid,
 					hp: 0,
@@ -78,14 +78,14 @@ export function getPlayers() {
 export function syncUserData(player:Player) {
 	// updateStats, this reloads the unit data from
 	// the database to overwrite the cached version
-	for(let bu of player.field) {
+	for(let bu of player.board) {
 		if(!bu.unit)
 			return
 		bu.unit = UnitMap[bu.unit.id]
 	}
-	// updatePlayerField runs through the player
-	// field to set each unit its player instance
-	//for(let bu of player.field) {
+	// updatePlayerBoard runs through the player
+	// board to set each unit its player instance
+	//for(let bu of player.board) {
 	//	bu.player = untrack(() => player)
 	//}
 }

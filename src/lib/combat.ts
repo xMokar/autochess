@@ -19,8 +19,8 @@ function coordinatesBetween(point1:Coordinate, point2:Coordinate) {
 	return coordinates.slice(1)
 }
 
-function coordinatesToBoardUnits(field:Field) {
-	return (c:Coordinate) => field.find(boardUnit => boardUnit.x==c.x && boardUnit.y==c.y)
+function coordinatesToBoardUnits(board:Board) {
+	return (c:Coordinate) => board.find(boardUnit => boardUnit.x==c.x && boardUnit.y==c.y)
 }
 
 let calculateDistance = (attacker:BoardUnit, defender:BoardUnit) => {
@@ -30,12 +30,12 @@ let calculateDistance = (attacker:BoardUnit, defender:BoardUnit) => {
 	)
 	return { target: defender, distance }
 }
-let targetting:{[key:string]: (c:BoardUnit, f:Field) => BoardUnit[]} = {
-		random: (_:BoardUnit, target:Field) => !target.length? []:
+let targetting:{[key:string]: (c:BoardUnit, f:Board) => BoardUnit[]} = {
+		random: (_:BoardUnit, target:Board) => !target.length? []:
 			[target[Math.floor(Math.random()*target.length)]]
 		,
-		everyone: (_:BoardUnit, target:Field) => target,
-		nearby: (attacker:BoardUnit, target:Field) => {
+		everyone: (_:BoardUnit, target:Board) => target,
+		nearby: (attacker:BoardUnit, target:Board) => {
 			let closest = target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
@@ -43,31 +43,31 @@ let targetting:{[key:string]: (c:BoardUnit, f:Field) => BoardUnit[]} = {
 				.slice(0, 2)
 			return !closest.length? []: [closest[Math.floor(Math.random()*closest.length)]]
 		},
-		closest1: (attacker:BoardUnit, target:Field) => target
+		closest1: (attacker:BoardUnit, target:Board) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => a.distance-b.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
 		,
-		weakest1: (attacker:BoardUnit, target:Field) => target
+		weakest1: (attacker:BoardUnit, target:Board) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a,b) => (a.target.hp-b.target.hp))
 				.map(({target}) => target)
 				.slice(0, 1)
 		,
-		farthest1: (attacker:BoardUnit, target:Field) => target
+		farthest1: (attacker:BoardUnit, target:Board) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,1)
 		, 
-		farthest2: (attacker:BoardUnit, target:Field) => target
+		farthest2: (attacker:BoardUnit, target:Board) => target
 				.map((target) => calculateDistance(attacker, target))
 				.sort((a, b) => b.distance-a.distance)
 				.map(({target}) => target) 
 				.slice(0,2)
 		, 
-		farthest1_direct: (attacker:BoardUnit, target:Field) => {
+		farthest1_direct: (attacker:BoardUnit, target:Board) => {
 			let [farthest1] = targetting.farthest1(attacker, target)
 			if(!farthest1) return []
 			let blocker = coordinatesBetween(attacker, farthest1)
@@ -93,7 +93,7 @@ function Attack(attacker:Player, boardUnit:BoardUnit, defender:Player) {
 		}
 	}
 	let targets = targetting[boardUnit.unit.targetting.id](boardUnit, 
-		defender.field.filter(boardUnit => boardUnit.hp>0))
+		defender.board.filter(boardUnit => boardUnit.hp>0))
 	if(!targets) {
 		//log.push(`<b>${turn.player.name}</b>: ${turn.boardUnit.unit.name} esta fuera de combate.`)
 		return {
@@ -124,12 +124,12 @@ interface Turn {
 export function combatRound(attacker:Player, defender:Player)  {
 	let output = []
 	output.push(`<b class="text-${attacker.color}">${attacker.name}</b> tiene preferencia.`)
-	let attackerUnits:Turn[] = attacker.field
+	let attackerUnits:Turn[] = attacker.board
 		.filter(boardUnit => boardUnit.hp>0)
 		.map(boardUnit => ({
 			boardUnit, attacker, defender
 		}))
-	let defenderUnits:Turn[] = defender.field
+	let defenderUnits:Turn[] = defender.board
 		.filter(boardUnit => boardUnit.hp>0)
 		.map(boardUnit => ({
 			boardUnit, attacker:defender, defender:attacker
@@ -172,14 +172,14 @@ export function combatRound(attacker:Player, defender:Player)  {
 }
 
 function setBattleCoordinates(player:Player) {
-	for(let boardUnit of player.field) {
+	for(let boardUnit of player.board) {
 		boardUnit.x = boardUnit.setx
 		boardUnit.y = player.mirrored? -boardUnit.sety-1: boardUnit.sety
 	}
 }
 
 function resetUnits(player:Player) {
-	for(let boardUnit of player.field) {
+	for(let boardUnit of player.board) {
 		boardUnit.energy = 0
 		boardUnit.hp = boardUnit.unit.hp
 	}
@@ -203,12 +203,12 @@ export function fight(player1:Player, player2:Player) {
 		log.push(...combatRound(player1, player2))
 	else
 		log.push(...combatRound(player2, player1))
-	player1Alive = player1.field.filter(boardUnit => boardUnit.hp>0).length>0
-	player2Alive = player2.field.filter(boardUnit => boardUnit.hp>0).length>0
+	player1Alive = player1.board.filter(boardUnit => boardUnit.hp>0).length>0
+	player2Alive = player2.board.filter(boardUnit => boardUnit.hp>0).length>0
 
-	let showFieldHP = (player:Player) => {
+	let showBoardHP = (player:Player) => {
 		log.push('Unidades vivas:')
-		for(let unit of player.field) {
+		for(let unit of player.board) {
 			if(unit.hp===0)
 				continue
 			log.push(`${unit.unit.name}: ${unit.hp}/${unit.unit.hp}`)
@@ -222,7 +222,7 @@ export function fight(player1:Player, player2:Player) {
 			log
 		}
 	} else if (player1Alive) {
-		showFieldHP(player1)
+		showBoardHP(player1)
 		log.push(`<b class="text-${player1.color}">${player1.name}</b> es el ganador`)
 		return {
 			winner: player1,
@@ -230,7 +230,7 @@ export function fight(player1:Player, player2:Player) {
 			log
 		}
 	} else  {
-		showFieldHP(player2)
+		showBoardHP(player2)
 		log.push(`<b class="text-${player2.color}">${player2.name}</b> es el ganador`)
 		return {
 			winner: player2,

@@ -38,7 +38,7 @@ let nextFight = () => {
 	log = result.log
 	winner = result.winner
 	if(result.loser) {
-		let unitsAlive = result.winner.field.filter(u => u.hp>0).length
+		let unitsAlive = result.winner.board.filter(u => u.hp>0).length
 		ondamage(result.loser, unitsAlive)
 	}
 

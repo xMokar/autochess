@@ -23,12 +23,12 @@ declare global {
 	}
 
 	export type CombatTraitFunction = (defender:BoardUnit) => Effect[]
-	export type TeamTraitFunction = (field:Field) => Effect[]
+	export type TeamTraitFunction = (board:Board) => Effect[]
 
 	export interface EffectFunctionArgs {
 		attacker: Unit
 		defender?: Unit
-		field?: Field
+		board?: Board
 	}
 
 	export type EffectFunction = (args:EffectFunctionArgs) => Effect
@@ -72,12 +72,12 @@ declare global {
 		level: number
 		effects: Effect[]
 	}
-	export type Field = BoardUnit[]
+	export type Board = BoardUnit[]
 	export interface Player {
 		id: string,
 		name: string,
 		hp: number,
-		field: Field,
+		board: Board,
 		mirrored: boolean,
 		color: string,
 		finished: boolean,

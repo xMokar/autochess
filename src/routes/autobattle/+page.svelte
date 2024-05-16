@@ -2,7 +2,7 @@
 import { initBattle, fight } from "$lib/combat";
 import { getPlayers } from "$lib/state";
 import { UnitMap } from "$lib/database";
-import FieldGrid from "./FieldGrid.svelte";
+import BoardGrid from "./BoardGrid.svelte";
 
 let [ _player1, _player2 ] = getPlayers()
 let home = $state(_player1)
@@ -69,13 +69,13 @@ let stats = $state({
 })
 
 let onRemoveUnit = (player:Player, c:Coordinate) => {
-	player.field=player.field.filter(i => !(i.setx==c.x && i.sety==c.y))
+	player.board=player.board.filter(i => !(i.setx==c.x && i.sety==c.y))
 }
 let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	if(!value) {
 		return;
 	}
-	player.field.push({
+	player.board.push({
 		setx: c.x,
 		sety: c.y,
 		x: c.x,
@@ -108,6 +108,6 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 			{@html msg}<br>
 		{/each}
 	</div>
-			<FieldGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
-			<FieldGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
+			<BoardGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
+			<BoardGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
 </div>

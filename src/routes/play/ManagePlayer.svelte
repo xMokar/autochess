@@ -19,9 +19,9 @@ function ontakeFromBoard(c:Coordinate) {
 	if (takenUnit) {
 		onreleaseToBoard(c)
 	}
-	let index=player.field.findIndex(bu => c.x==bu.setx && c.y==bu.sety)
-	takenUnit = player.field[index].unit
-	player.field.splice(index, 1)
+	let index=player.board.findIndex(bu => c.x==bu.setx && c.y==bu.sety)
+	takenUnit = player.board[index].unit
+	player.board.splice(index, 1)
 	updatePlayerTraits(player)
 }
 function onreleaseToBench() {
@@ -37,7 +37,7 @@ function onreleaseToBoard(c:Coordinate) {
 		console.log("ERROR: transferCard() taken===undefined")
 		return
 	}
-	player.field.push(createBoardUnit(takenUnit, c))
+	player.board.push(createBoardUnit(takenUnit, c))
 	updatePlayerTraits(player)
 	takenUnit = undefined
 }

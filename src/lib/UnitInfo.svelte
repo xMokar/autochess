@@ -4,7 +4,7 @@ import UnitTraits from "./UnitTraits.svelte";
 
 let { unit, boardUnit=undefined }:{
 	unit:Unit, 
-	field?:Field|undefined,
+	board?:Board|undefined,
 	boardUnit?:BoardUnit|undefined
 } = $props()
 </script>
