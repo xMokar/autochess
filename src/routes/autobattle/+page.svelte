@@ -1,5 +1,5 @@
 <script lang="ts">
-import { initBattle, fight } from "$lib/combat";
+import { initBattle, fight, createBoardUnit } from "$lib/combat";
 import { getPlayers } from "$lib/state";
 import { UnitMap } from "$lib/database";
 import BoardGrid from "./BoardGrid.svelte";
@@ -75,15 +75,7 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	if(!value) {
 		return;
 	}
-	player.board.push({
-		setx: c.x,
-		sety: c.y,
-		x: c.x,
-		y: c.y,
-		hp: 0,
-		energy: 0,
-		unit: UnitMap[value]
-	})
+	player.board.push(createBoardUnit(UnitMap[value], c))
 }
 </script>
 

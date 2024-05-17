@@ -13,26 +13,7 @@ export function getPlayers() {
 			rolls: 2,
 			traits: [],
 			hand: [],
-			board: [
-				{
-					unit: UnitMap.tank,
-					hp: 0,
-					setx: 0,
-					sety: 0,
-					x: 0,
-					y: 0,
-					energy: 0,
-				},
-				{
-					hp: 0,
-					unit: UnitMap.archer,
-					setx: 0,
-					sety: 1,
-					x: 0,
-					y: 0,
-					energy: 0,
-				}
-			],
+			board: [],
 		} as Player
 
 	let player2 = JSON.parse(localStorage.getItem('player2')??"null")??{
@@ -47,26 +28,7 @@ export function getPlayers() {
 			rolls: 2,
 			hand: [],
 			traits: [],
-			board: [
-				{
-					unit: UnitMap.druid,
-					hp: 0,
-					setx: 0,
-					sety: 0,
-					x: 0,
-					y: 0,
-					energy: 0,
-				},
-				{
-					hp: 0,
-					unit: UnitMap.firemage,
-					setx: 0,
-					sety: 1,
-					x: 0,
-					y: 0,
-					energy: 0,
-				}
-			]
+			board: [ ]
 		} as Player
 
 	syncUserData(player1)
