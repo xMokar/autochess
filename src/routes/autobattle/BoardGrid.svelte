@@ -63,13 +63,13 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 						{/each}
 					</select>
 				{/snippet}
-				<div class="col-4 mb-1" style="min-height: 175px">
+				<div class="col-4 mb-1">
 					{#if boardUnit}
 						
 						<UnitCard unit={boardUnit.unit} {boardUnit} {actions} onclick={() => onRemoveUnit(player, {x: boardUnit.setx, y: boardUnit.sety})} board={player.board} />
 					{:else}
 						<div class="card h-100 border-{player.color}">
-							<div class="card-header" style="height: 4.5rem">Espacio vacio
+							<div class="card-header p-0 ps-2">Espacio vacio
 							</div>
 							<div class="card-body p-1">
 								{@render actions()}
