@@ -6,22 +6,9 @@ import UnitTraits from "$lib/UnitTraits.svelte";
 import UnitInfo from "$lib/UnitInfo.svelte";
 let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
 let targetTable = (source:Unit) => {
-	let dummyPlayer = {
-		id: '',
-		hp: 0,
-		mirrored: false,
-		color: '',
-		finished: false,
-		gold: 0, maxgold: 0, 
-		rolls:0,
-		name: 'dummy',
-		hand: [],
-		traits: [],
-		board: [],
-	} as Player
 	return units.map((target) => ({
 		target,
-		damage: calculateDamage(dummyPlayer,
+		damage: calculateDamage(
 			createBoardUnit(source, {x:0, y:0}), 
 			createBoardUnit(target, {x:0, y:0}))
 		}))

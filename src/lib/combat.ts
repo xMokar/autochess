@@ -102,7 +102,7 @@ function Attack(attacker:Player, boardUnit:BoardUnit, defender:Player) {
 		}
 	}
 	for(let targetUnit of targets) {
-		let damage = calculateDamage(attacker, boardUnit, targetUnit)
+		let damage = calculateDamage(boardUnit, targetUnit)
 		output.push(`<span class="text-${attacker.color}">${boardUnit.unit.name}</span>(${boardUnit.hp}) ataca a <span class="text-${defender.color}">${targetUnit.unit.name}</span>(${targetUnit.hp}): <b>${damage.damage}</b> (${damage.roll})`)
 		targetUnit.hp = Math.max(targetUnit.hp-damage.damage, 0)
 		if (targetUnit.hp==0) {
@@ -255,7 +255,7 @@ export function getBoardUnitCombatBonus(attacker:BoardUnit, defender:BoardUnit, 
 		.reduce((total, effect) => total+effect.value, 0)
 }
 
-export function calculateDamage(player:Player, attacker:BoardUnit,defender:BoardUnit) {
+export function calculateDamage(attacker:BoardUnit,defender:BoardUnit) {
 	// buscamos efectos de attack.modifier
 	let attackModBonus = getBoardUnitBonus(attacker, "attack.modifier")
 		+getBoardUnitCombatBonus(attacker, defender, "attack.modifier")
