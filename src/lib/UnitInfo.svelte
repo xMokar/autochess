@@ -1,6 +1,9 @@
 <script lang="ts">
 import UnitTraits from "./UnitTraits.svelte";
     import Attribute from "./Attribute.svelte";
+import Effect from './Effect.svelte';
+    import { calculateCombatTraits, createBoardUnit } from "./combat";
+    import { NoUnit } from "./database";
 
 let { unit, boardUnit=undefined }:{
 	unit:Unit, 
@@ -51,15 +54,13 @@ let { unit, boardUnit=undefined }:{
 		<div class="ms-2" style="height: 3rem">
 		{unit.targetting.name}
 		</div>
-		<!--
 		<b>Efectos de combate:</b><br>
-		{#each calculateCombatTraits(createBoardUnit(unit, {x:0, y:0}), createBoardUnit(NoUnit, [], {x:0, y:0})) as effect}
+		{#each calculateCombatTraits(createBoardUnit(unit, {x:0, y:0}), createBoardUnit(NoUnit, {x:0, y:0})) as effect}
 			<div class="ms-2">
 				<Effect {effect} />
 			</div>
 
 		{/each}
-		-->
 	</div>
 </div>
 

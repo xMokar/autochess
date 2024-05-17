@@ -241,7 +241,7 @@ export function fight(player1:Player, player2:Player) {
 }
 
 export function calculateCombatTraits(attacker:BoardUnit, defender:BoardUnit) {
-	return attacker.unit.combatTraits.map(effect => effect(defender))
+	return attacker.unit.combatTraits.flatMap(effect => effect(defender))
 }
 
 export function calculateDamage(player:Player, attacker:BoardUnit,defender:BoardUnit) {

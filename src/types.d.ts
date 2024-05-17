@@ -5,6 +5,8 @@ declare global {
 		icon: string;
 	}
 
+
+
 	interface Targetting {
 		id: string;
 		name: string;
@@ -21,8 +23,12 @@ declare global {
 		type: string,
 		value: number
 	}
+	export interface CombatEffect extends Effect {
+		active: boolean
+		message: test
+	}
 
-	export type CombatTraitFunction = (defender:BoardUnit) => Effect[]
+	export type CombatTraitFunction = (defender:BoardUnit) => CombatEffect[]
 	export type TeamTraitFunction = (board:Board) => Effect[]
 
 	export interface EffectFunctionArgs {
