@@ -22,7 +22,9 @@ let showModal = $state(false)
 		</div>
 	</div>
 {/snippet}
-<Modal bind:show={showModal} body={card} />
+{#if showModal}
+	<Modal onclose={()=>showModal=false} body={card} />
+{/if}
 <div class="card w-100">
 	<div class="card-header p-0 ps-2">
 		{unit.name}

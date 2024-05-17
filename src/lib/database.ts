@@ -213,9 +213,10 @@ export function updatePlayerTraits(player:Player) {
 			traitrank.effects = traitrank.levels[traitrank.level].effects
 			return traitrank
 		})
-	player.board.forEach(bu => {
+	player.board = player.board.map(bu => {
 		bu.effects = player.traits.flatMap(trait => trait.effects)
 			.filter(trait => bu.unit.traits.map(t => t.id).includes(trait.target.id))
+		return bu
 	})
 }
 

@@ -10,6 +10,7 @@ let { unit, boardUnit=undefined }:{
 	board?:Board|undefined,
 	boardUnit?:BoardUnit|undefined
 } = $props()
+
 </script>
 <div class="row">
 	

@@ -1,20 +1,23 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
 
-	let { show = $bindable(), body }:{show:boolean, body:Snippet} = $props()
+	let { body, onclose }:{ body:Snippet, onclose:()=>void} = $props()
 
 	let dialog:HTMLDialogElement; // HTMLDialogElement
 
 	$effect(() => {
-		if (dialog && show) dialog.showModal();
+		if (dialog) dialog.showModal();
 	})
+	function close() {
+		onclose()
+	}
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
-	onclose={() => (show = false)}
-	onclick={() => dialog.close()}
+	onclose={close}
+	onclick={close}
 >
 	{@render body()}
 </dialog>
