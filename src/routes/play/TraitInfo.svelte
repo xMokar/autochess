@@ -19,13 +19,10 @@ let modal = $state(false)
 	<div class="card">
 		<div class="card-header">Rasgo activo</div>
 		<div class="card-body">
-			<ul>
 			{#each trait.effects as effect}
-				<li>
-					<TraitIcon trait={effect.target} /> {@render type(effect.type)}: {effect.value>0? '+'+effect.value:effect.value}
-				</li>
+				<TraitIcon trait={effect.target} /> {@render type(effect.type)}: {effect.value>0? '+'+effect.value:effect.value}
+				<br>
 			{/each}
-			</ul>
 		</div>
 	</div>
 {/snippet}

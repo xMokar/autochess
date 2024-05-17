@@ -42,13 +42,10 @@ let grid = Array(9).fill(0).map((_, i) => ({
 				</div>
 			</div>
 			<div class="col-3">
-				<ul>
 				{#each player.traits as trait}
-					<li>
-						<TraitInfo {trait} />
-					</li>
+					<TraitInfo {trait} />
+					<br>
 				{/each}
-				</ul>
 			</div>
 		</div>
 	</div>

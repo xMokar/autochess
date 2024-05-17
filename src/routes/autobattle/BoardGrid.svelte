@@ -84,13 +84,9 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 				</div>
 			</div>
 			<div class="col-3">
-				<ul>
 				{#each player.traits as trait}
-					<li>
-						<TraitInfo {trait} />
-					</li>
+						<TraitInfo {trait} /><br>
 				{/each}
-				</ul>
 			</div>
 		</div>
 	</div>
