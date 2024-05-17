@@ -175,7 +175,10 @@ let boardTraitRanks:TraitRank[] = [
 			},
 			{
 				amount: 2,
-				effects: [{type: "attack.modifier", value: 3, target: TraitMap.wood }]
+				effects: [
+					{type: "attack.modifier", value: 3, target: TraitMap.wood },
+					{type: "hp", value: 4, target: TraitMap.unit},
+				]
 			},
 		],
 	},
