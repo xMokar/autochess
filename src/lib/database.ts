@@ -64,7 +64,7 @@ let Traits:Trait[] = [
 	{
 		id: 'unit',
 		name: '',
-		icon: '',
+		icon: '*️',
 	},
 	{
 		id: 'fire',
@@ -168,7 +168,10 @@ let boardTraitRanks:TraitRank[] = [
 		levels: [
 			{
 				amount: 1,
-				effects: [{type: "attack.modifier", value: 1, target: TraitMap.wood }]
+				effects: [
+					{type: "attack.modifier", value: 1, target: TraitMap.wood },
+					{type: "hp", value: 4, target: TraitMap.unit},
+				]
 			},
 			{
 				amount: 2,
