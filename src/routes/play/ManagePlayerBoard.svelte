@@ -2,6 +2,7 @@
 import UnitCard from '$lib/UnitCard.svelte';
 import { fade } from 'svelte/transition';
 import DropUnitCard from './DropUnitCard.svelte';
+    import TraitInfo from './TraitInfo.svelte';
 
 let { player, onclick, onrelease, takenUnit}:{
 	player:Player,
@@ -43,7 +44,9 @@ let grid = Array(9).fill(0).map((_, i) => ({
 			<div class="col-3">
 				<ul>
 				{#each player.traits as trait}
-					<li>{trait.trait.name}: {trait.active}/{trait.levels[trait.level].amount}</li>
+					<li>
+						<TraitInfo {trait} />
+					</li>
 				{/each}
 				</ul>
 			</div>

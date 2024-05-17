@@ -27,7 +27,7 @@ let showModal = $state(false)
 	<div class="card-header p-0 ps-2">
 		{unit.name}
 		<div class="float-end">
-			<button onclick={() => showModal=true} class="btn btn-sm btn-secondary"><span class="bi bi-info-circle-fill"></span></button>
+			<button onclick={() => showModal=true} class="btn btn-sm btn-secondary p-0"><span class="bi bi-info-circle-fill"></span></button>
 		</div>
 	</div>
 	<div class="card-body p-0" style="height: 120px">
