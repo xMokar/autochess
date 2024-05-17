@@ -181,7 +181,7 @@ function setBattleCoordinates(player:Player) {
 function resetUnits(player:Player) {
 	for(let boardUnit of player.board) {
 		boardUnit.energy = 0
-		boardUnit.hp = boardUnit.unit.hp
+		boardUnit.hp = boardUnit.unit.hp+getBoardUnitBonus(boardUnit, "hp")
 	}
 }
 
@@ -244,22 +244,22 @@ export function calculateCombatTraits(attacker:BoardUnit, defender:BoardUnit) {
 	return attacker.unit.combatTraits.flatMap(effect => effect(defender))
 }
 
-export function calculateDamage(player:Player, attacker:BoardUnit,defender:BoardUnit) {
-	// ahora el daño se calculara asi:
-	// obtenemos todos los effectos que apliquen de la unidad
-	let combatEffects = calculateCombatTraits(attacker, defender)
-
-	let traitEffects = player.traits.flatMap(trait => trait.effects)
-		.filter(effect => attacker.unit.traits.includes(effect.target))
-	console.log(player.name, 'attacker', attacker.unit.name, 'attacking', defender.unit.name)
-	console.log('trait effects', traitEffects)
-	console.log('combat effects', combatEffects)
-	let effects = [...traitEffects, ...combatEffects.flatMap(x=>x)]
-
-	// buscamos efectos de attack.modifier
-	let attackModBonus = effects
-		.filter(effect => effect.type=="attack.modifier")
+export function getBoardUnitBonus(unit:BoardUnit, type:string) {
+	return unit.effects
+		.filter(effect => effect.type==type)
 		.reduce((total, effect) => total+effect.value, 0)
+}
+export function getBoardUnitCombatBonus(attacker:BoardUnit, defender:BoardUnit, type:string) {
+	return calculateCombatTraits(attacker, defender)
+		.filter(effect => effect.type==type)
+		.reduce((total, effect) => total+effect.value, 0)
+}
+
+export function calculateDamage(player:Player, attacker:BoardUnit,defender:BoardUnit) {
+	// buscamos efectos de attack.modifier
+	let attackModBonus = getBoardUnitBonus(attacker, "attack.modifier")
+		+getBoardUnitCombatBonus(attacker, defender, "attack.modifier")
+
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)+attackModBonus
 	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier+attackModBonus
