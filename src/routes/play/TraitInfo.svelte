@@ -11,6 +11,8 @@ let modal = $state(false)
 {#snippet type(type:string)}
 	{#if type=="attack.modifier"}
 		Daño
+	{:else if type=="hp"}
+		HP
 	{:else}
 		{type}
 	{/if}
