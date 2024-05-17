@@ -1,7 +1,7 @@
 <script lang="ts">
 import { initBattle, fight, createBoardUnit } from "$lib/combat";
 import { getPlayers } from "$lib/state";
-import { UnitMap } from "$lib/database";
+import { UnitMap, updatePlayerTraits } from "$lib/database";
 import BoardGrid from "./BoardGrid.svelte";
 
 let [ _player1, _player2 ] = getPlayers()
@@ -70,12 +70,15 @@ let stats = $state({
 
 let onRemoveUnit = (player:Player, c:Coordinate) => {
 	player.board=player.board.filter(i => !(i.setx==c.x && i.sety==c.y))
+	updatePlayerTraits(player)
 }
 let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	if(!value) {
 		return;
 	}
 	player.board.push(createBoardUnit(UnitMap[value], c))
+	updatePlayerTraits(player)
+	console.log(player)
 }
 </script>
 
