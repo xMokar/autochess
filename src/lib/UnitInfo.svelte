@@ -36,7 +36,7 @@ let { unit, boardUnit=undefined }:{
 	</div>
 	<div class="col-12 col-md-6">
 		<b>HP:</b> 
-		<span class="float-end"><Attribute value={unit.hp} {boardUnit} bonus="hp" /></span>
+		<span class="float-end"><Attribute value={unit.maxhp} {boardUnit} bonus="hp" /></span>
 	</div>
 	<div class="col-12 col-md-6 position-relative">
 		<b>Def:</b> 

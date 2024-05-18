@@ -43,7 +43,7 @@ declare global {
 		id: string;
 		name: string;
 		info: string;
-		hp: number,
+		maxhp: number,
 		defense: number;
 		energymax: number;
 		energypertick: number;

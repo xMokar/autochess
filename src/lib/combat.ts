@@ -185,7 +185,7 @@ function setBattleCoordinates(player:Player) {
 export function resetUnits(player:Player) {
 	for(let boardUnit of player.board) {
 		boardUnit.energy = 0
-		boardUnit.hp = boardUnit.unit.hp+getBoardUnitBonus(boardUnit, "hp")
+		boardUnit.hp = boardUnit.unit.maxhp+getBoardUnitBonus(boardUnit, "hp")
 	}
 }
 
@@ -215,7 +215,7 @@ export function fight(player1:Player, player2:Player) {
 		for(let unit of player.board) {
 			if(unit.hp===0)
 				continue
-			log.push(`${unit.unit.name}: ${unit.hp}/${unit.unit.hp}`)
+			log.push(`${unit.unit.name}: ${unit.hp}/${unit.unit.maxhp}`)
 		}
 	}
 	if (player1Alive && player2Alive) {
@@ -288,7 +288,7 @@ export function createBoardUnit(unit:Unit, c:Coordinate): BoardUnit {
 		sety: c.y,
 		x: c.x,
 		y: c.y,
-		hp: unit.hp,
+		hp: unit.maxhp,
 		energy: 0,
 		effects: []
 	}
