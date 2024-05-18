@@ -28,11 +28,8 @@ let showModal = $state(false)
 {/if}
 <div class="card w-100">
 	<div class="card-header p-1">
+		<button onclick={() => showModal=true} class="btn btn-sm btn-info p-0"><span class="bi bi-info-circle"></span></button>
 		{unit.name}
-		<div class="float-end">
-			<button onclick={() => showModal=true} class="btn btn-sm btn-info p-0"><span class="bi bi-info-circle"></span></button>
-			<br>
-		</div>
 			{#if boardUnit}
 			{@const maxhp = boardUnit.unit.hp+getBoardUnitBonus(boardUnit, "hp") }
 			{@const percent = Math.floor(boardUnit.hp/maxhp*100) }
