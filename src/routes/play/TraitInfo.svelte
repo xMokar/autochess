@@ -19,7 +19,7 @@ let modal = $state(false)
 {/snippet}
 {#snippet info()}
 	<div class="card">
-		<div class="card-header"><TraitIcon trait={trait.trait} /> {trait.trait.name} nível {trait.level+1} ({trait.active}/{trait.levels[trait.level].amount})</div>
+		<div class="card-header"><TraitIcon trait={trait.trait} /> {trait.trait.name} nível {trait.level+1}</div>
 		<div class="card-body">
 			<p>{@html trait.message}</p>
 			{#each trait.effects as effect}
@@ -33,4 +33,4 @@ let modal = $state(false)
 <Modal onclose={() => modal = false} body={info} />
 {/if}
 <button class="btn btn-info btn-sm p-0" onclick={()=> modal=true}><span class="bi bi-info-circle"></span></button>
-<TraitIcon trait={trait.trait} /> {trait.trait.name} nível {trait.level+1} ({trait.active}/{trait.levels[trait.level].amount})
+<TraitIcon trait={trait.trait} /> {trait.trait.name} nível {trait.level+1}
