@@ -29,6 +29,9 @@ let showModal = $state(false)
 	<div class="card-header p-1">
 		{unit.name}
 		<div class="float-end">
+			{#if boardUnit}
+			<span class="badge bg-danger border border-dark">{boardUnit.hp}</span>
+			{/if}
 			<button onclick={() => showModal=true} class="btn btn-sm btn-info p-0"><span class="bi bi-info-circle"></span></button>
 		</div>
 	</div>
