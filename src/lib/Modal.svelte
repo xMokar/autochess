@@ -8,16 +8,13 @@
 	$effect(() => {
 		if (dialog) dialog.showModal();
 	})
-	function close() {
-		onclose()
-	}
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
-	onclose={close}
-	onclick={close}
+	{onclose}
+	onclick={onclose}
 >
 	{@render body()}
 </dialog>
@@ -30,7 +27,7 @@
 		padding: 0;
 	}
 	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.3);
+		background: rgba(0, 0, 0, 0.6);
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -44,7 +41,7 @@
 		}
 	}
 	dialog[open]::backdrop {
-		animation: fade 0.2s ease-out;
+		animation: fade 0.3s ease-out;
 	}
 	@keyframes fade {
 		from {
