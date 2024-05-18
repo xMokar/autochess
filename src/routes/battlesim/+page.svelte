@@ -92,15 +92,16 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 		<button onclick={run} class="btn btn-success">Pelear</button>
 		<button onclick={run100} class="btn btn-warning">Pelear x100</button>
 		{@html winner} ganó!
+		{#if stats.combats>0}
+			Combates: {stats.combats}
+			Victorias de <span class="text-{home.color}">{home.name}</span>: {stats.victories.home} 
+				({Math.round(stats.victories.home/stats.combats*100)}%)
+			Victorias de <span class="text-{visitor.color}">{visitor.name}</span>: {stats.victories.visitor} 
+				({Math.round(stats.victories.visitor/stats.combats*100)}%)
+		{/if}
 	</div>
 
 	<div>
-		<b>Estadisticas: </b>
-		Combates: {stats.combats}<br>
-		Victorias de <span class="text-{home.color}">{home.name}</span>: {stats.victories.home} 
-			({Math.round(stats.victories.home/stats.combats*100)}%)<br>
-		Victorias de <span class="text-{visitor.color}">{visitor.name}</span>: {stats.victories.visitor} 
-			({Math.round(stats.victories.visitor/stats.combats*100)}%)<br>
 	</div>
 			<BoardGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
 			<BoardGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
