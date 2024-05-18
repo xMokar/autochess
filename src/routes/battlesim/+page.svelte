@@ -1,5 +1,5 @@
 <script lang="ts">
-import { initBattle, fight, createBoardUnit } from "$lib/combat";
+import { initBattle, fight, createBoardUnit, resetUnits } from "$lib/combat";
 import { getPlayers, updatePlayer } from "$lib/state";
 import { UnitMap, updatePlayerTraits } from "$lib/database";
 import BoardGrid from "./BoardGrid.svelte";
@@ -72,6 +72,7 @@ let onRemoveUnit = (player:Player, c:Coordinate) => {
 	player.board=player.board.filter(i => !(i.setx==c.x && i.sety==c.y))
 	updatePlayerTraits(player)
 	updatePlayer(player)
+	resetUnits(player)
 }
 let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	if(!value) {
@@ -80,6 +81,7 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	player.board.push(createBoardUnit(UnitMap[value], c))
 	updatePlayerTraits(player)
 	updatePlayer(player)
+	resetUnits(player)
 }
 </script>
 
@@ -99,11 +101,11 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 			({Math.round(stats.victories.home/stats.combats*100)}%)<br>
 		Victorias de <span class="text-{visitor.color}">{visitor.name}</span>: {stats.victories.visitor} 
 			({Math.round(stats.victories.visitor/stats.combats*100)}%)<br>
+	</div>
+			<BoardGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
+			<BoardGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
 		<br>
 		{#each log as msg}
 			{@html msg}<br>
 		{/each}
-	</div>
-			<BoardGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
-			<BoardGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
 </div>

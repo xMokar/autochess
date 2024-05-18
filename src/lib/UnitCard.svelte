@@ -3,6 +3,7 @@ import type { Snippet } from "svelte";
 import Modal from "./Modal.svelte";
 import TraitIcon from "./TraitIcon.svelte";
 import UnitInfo from "./UnitInfo.svelte";
+    import { getBoardUnitBonus } from "./combat";
 
 let { unit, actions = undefined, onclick, board = undefined, boardUnit = undefined}:{
 	unit:Unit, 
@@ -29,11 +30,16 @@ let showModal = $state(false)
 	<div class="card-header p-1">
 		{unit.name}
 		<div class="float-end">
-			{#if boardUnit}
-			<span class="badge bg-danger border border-dark">{boardUnit.hp}</span>
-			{/if}
 			<button onclick={() => showModal=true} class="btn btn-sm btn-info p-0"><span class="bi bi-info-circle"></span></button>
+			<br>
 		</div>
+			{#if boardUnit}
+			{@const maxhp = boardUnit.unit.hp+getBoardUnitBonus(boardUnit, "hp") }
+			{@const percent = Math.floor(boardUnit.hp/maxhp*100) }
+			<div class="progress">
+				<div class="progress-bar bg-danger" role="progress-bar" style="width: {percent}%" aria-valuenow={percent} aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			{/if}
 	</div>
 	<div class="card-body p-0" style="height: 120px">
 

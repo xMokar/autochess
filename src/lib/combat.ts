@@ -182,7 +182,7 @@ function setBattleCoordinates(player:Player) {
 	}
 }
 
-function resetUnits(player:Player) {
+export function resetUnits(player:Player) {
 	for(let boardUnit of player.board) {
 		boardUnit.energy = 0
 		boardUnit.hp = boardUnit.unit.hp+getBoardUnitBonus(boardUnit, "hp")
