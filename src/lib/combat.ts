@@ -165,9 +165,13 @@ export function combatRound(attacker:Player, defender:Player)  {
 			total[turn.attacker.name].dmg += attack.damage.damage
 			output.push(...attack.output)
 			turn.boardUnit.energy=0
+
+			let defenders = turn.defender.board.filter(boardUnit => boardUnit.hp>0)
+			if(defenders.length==0) {
+				return output
+			}
 		}
 	}
-	output.push('')
 	return output
 }
 
