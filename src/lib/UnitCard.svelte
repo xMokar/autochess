@@ -26,7 +26,7 @@ let showModal = $state(false)
 	<Modal onclose={()=>showModal=false} body={card} />
 {/if}
 <div class="card w-100">
-	<div class="card-header p-0 ps-2">
+	<div class="card-header p-1">
 		{unit.name}
 		<div class="float-end">
 			<button onclick={() => showModal=true} class="btn btn-sm btn-info p-0"><span class="bi bi-info-circle"></span></button>
