@@ -168,7 +168,7 @@ export let boardTraitRanks:TraitRank[] = [
 	},
 	{
 		trait: TraitMap.water, 
-		message: 'El Agua nutre las semillas y plantas, permitiendo que crezcan y se conviertan en Madera.<br>Las unidades de agua harán más daño',
+		message: 'El Agua nutre las semillas y plantas, permitiendo que crezcan y se conviertan en Madera.<br>Las unidades de madera harán más daño',
 		levels: [
 			{
 				amount: 1,
