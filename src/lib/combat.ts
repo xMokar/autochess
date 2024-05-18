@@ -251,7 +251,7 @@ export function getBoardUnitBonus(unit:BoardUnit, type:string) {
 }
 export function getBoardUnitCombatBonus(attacker:BoardUnit, defender:BoardUnit, type:string) {
 	return calculateCombatTraits(attacker, defender)
-		.filter(effect => effect.type==type)
+		.filter(effect => effect.type==type && effect.active)
 		.reduce((total, effect) => total+effect.value, 0)
 }
 
