@@ -18,13 +18,13 @@ let targetTable = (source:Unit) => {
 function reset() {
 	localStorage.removeItem("player1")
 	localStorage.removeItem("player2")
-	goto("/autobattle")
+	goto("/battlesim")
 }
 </script>
 <div class="container mt-2">
 	<div class="d-print-none">
-		<a class="btn btn-success" href="/autobattle">AutoBattle</a>
-		<a class="btn btn-secondary" href="/play">Jugar</a>
+		<a class="btn btn-success" href="/battlesim">Simulador</a>
+		<a class="btn btn-primary" href="/play">Jugar</a>
 		<br>
 	</div>
 	<div class="row">
@@ -135,7 +135,7 @@ function reset() {
 		</div>
 
 	<div class="text-lighter d-print-none" style="font-size: 70%">
-		Si por algún motivo al entrar al AutoBattle solo sale una página en blanco, puedes resetear la memoria:
+		Si por algún motivo al entrar al battlesim solo sale una página en blanco, puedes resetear la memoria:
 		<button class="btn btn-sm btn-secondary" onclick={reset} style="font-size: 70%">Reset</button>
 	</div>
 

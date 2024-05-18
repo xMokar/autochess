@@ -84,7 +84,7 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 
 <div class="container mt-2">
 	<div class="mb-2">
-		<a class="btn btn-primary" href="/">Guía del juego</a>
+		<a class="btn btn-primary" href="/">Regresar</a>
 		<button onclick={resetAll} class="btn btn-secondary">Limpiar</button>
 		<button onclick={run} class="btn btn-success">Pelear</button>
 		<button onclick={run100} class="btn btn-warning">Pelear x100</button>

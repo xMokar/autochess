@@ -106,7 +106,7 @@ let onendcombat = () => {
 </script>
 
 <div class="container mt-2">
-	<a href="/" class="btn btn-primary">Guía del juego</a>
+	<a href="/" class="btn btn-primary">Regresar</a>
 	<button onclick={onrestart} class="btn btn-secondary">Reiniciar</button>
 	{#if mode=="selectplayer"}
 		<PlayerSetup {players} onselect={onstart} {onnewplayer} {onremoveplayer} />
