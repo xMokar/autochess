@@ -21,6 +21,7 @@ let modal = $state(false)
 	<div class="card">
 		<div class="card-header"><TraitIcon trait={trait.trait} /> {trait.trait.name} nível {trait.level+1} ({trait.active}/{trait.levels[trait.level].amount})</div>
 		<div class="card-body">
+			<p>{@html trait.message}</p>
 			{#each trait.effects as effect}
 				<TraitIcon trait={effect.target} /> {@render type(effect.type)}: {effect.value>0? '+'+effect.value:effect.value}
 				<br>

@@ -126,6 +126,7 @@ function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction
 export let boardTraitRanks:TraitRank[] = [
 	{ 
 		trait: TraitMap.fire, 
+		message: 'Al quemarse, el Fuego produce cenizas, que enriquecen y fertilizan la Tierra.<br>Las unidades de tierra harán más daño.',
 		levels: [
 			{
 				amount: 1,
@@ -139,6 +140,7 @@ export let boardTraitRanks:TraitRank[] = [
 	},
 	{
 		trait: TraitMap.earth, 
+		message: 'Dentro de la Tierra, los minerales y metales se forman y se extraen.<br>Las unidades de metal harán más daño.',
 		levels: [
 			{
 				amount: 1,
@@ -152,6 +154,7 @@ export let boardTraitRanks:TraitRank[] = [
 	},
 	{
 		trait: TraitMap.wood,
+		message: 'La Madera, representada por árboles y plantas, es el combustible que alimenta el Fuego.<br>Las unidades de fuego harán más daño',
 		levels: [
 			{
 				amount: 1,
@@ -165,6 +168,7 @@ export let boardTraitRanks:TraitRank[] = [
 	},
 	{
 		trait: TraitMap.water, 
+		message: 'El Agua nutre las semillas y plantas, permitiendo que crezcan y se conviertan en Madera.<br>Las unidades de agua harán más daño',
 		levels: [
 			{
 				amount: 1,
@@ -184,6 +188,7 @@ export let boardTraitRanks:TraitRank[] = [
 	},
 	{
 		trait: TraitMap.metal, 
+		message: 'El Metal, especialmente en forma de minerales, puede atraer y condensar agua. Además, en un sentido simbólico, el metal puede representar la pureza y la estructura que permite la conducción y el flujo del agua.<br>Las unidades de agua harán más daño',
 		levels: [
 			{
 				amount: 1,

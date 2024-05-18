@@ -58,6 +58,7 @@ function reset() {
 					<TraitIcon trait={traitRank.trait} /> {traitRank.trait.name}
 				</div>
 				<div class="card-body">
+					{@html traitRank.message}
 					<ul>
 						{#each traitRank.levels as level}
 							{level.amount}: {#each level.effects as effect}

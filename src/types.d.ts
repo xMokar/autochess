@@ -67,6 +67,7 @@ declare global {
 
 	interface TraitRank {
 		trait: Trait
+		message: string
 		levels: {
 			amount: number
 			effects: Effect[]
