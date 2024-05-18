@@ -126,29 +126,39 @@ function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction
 export let boardTraitRanks:TraitRank[] = [
 	{ 
 		trait: TraitMap.fire, 
-		message: 'Al quemarse, el Fuego produce cenizas, que enriquecen y fertilizan la Tierra.<br>Las unidades de tierra harán más daño.',
+		message: 'Al quemarse, el Fuego produce cenizas, que enriquecen y fertilizan la Tierra.<br>Las unidades de tierra tendrán más vida.',
 		levels: [
 			{
 				amount: 1,
-				effects: [{type: "attack.modifier", value: 1, target: TraitMap.earth }]
+				effects: [
+					{type: "hp", value: 2, target: TraitMap.earth },
+				]
 			},
 			{
 				amount: 2,
-				effects: [{type: "attack.modifier", value: 3, target: TraitMap.earth }]
+				effects: [
+					{type: "hp", value: 4, target: TraitMap.earth },
+					{type: "attack.modifier", value: 3, target: TraitMap.fire },
+				]
 			},
 		],
 	},
 	{
 		trait: TraitMap.earth, 
-		message: 'Dentro de la Tierra, los minerales y metales se forman y se extraen.<br>Las unidades de metal harán más daño.',
+		message: 'Dentro de la Tierra, los minerales y metales se forman y se extraen.<br>Las unidades de metal tendrán mas vida.',
 		levels: [
 			{
 				amount: 1,
-				effects: [{type: "attack.modifier", value: 1, target: TraitMap.metal }]
+				effects: [
+					{type: "hp", value: 2, target: TraitMap.metal },
+				]
 			},
 			{
 				amount: 2,
-				effects: [{type: "attack.modifier", value: 3, target: TraitMap.metal }]
+				effects: [
+					{type: "hp", value: 4, target: TraitMap.metal },
+					{type: "attack.modifier", value: 3, target: TraitMap.earth },
+				]
 			},
 		],
 	},
@@ -158,45 +168,54 @@ export let boardTraitRanks:TraitRank[] = [
 		levels: [
 			{
 				amount: 1,
-				effects: [{type: "attack.modifier", value: 1, target: TraitMap.fire }]
-			},
-			{
-				amount: 2,
-				effects: [{type: "attack.modifier", value: 3, target: TraitMap.fire }]
-			},
-		],
-	},
-	{
-		trait: TraitMap.water, 
-		message: 'El Agua nutre las semillas y plantas, permitiendo que crezcan y se conviertan en Madera.<br>Las unidades de madera harán más daño',
-		levels: [
-			{
-				amount: 1,
 				effects: [
-					{type: "attack.modifier", value: 1, target: TraitMap.wood },
-					{type: "hp", value: 4, target: TraitMap.unit},
+					{type: "attack.modifier", value: 1, target: TraitMap.fire },
 				]
 			},
 			{
 				amount: 2,
 				effects: [
-					{type: "attack.modifier", value: 3, target: TraitMap.wood },
-					{type: "hp", value: 4, target: TraitMap.unit},
+					{type: "attack.modifier", value: 2, target: TraitMap.wood },
+					{type: "attack.modifier", value: 2, target: TraitMap.fire },
+				]
+			},
+		],
+	},
+	{
+		trait: TraitMap.water, 
+		message: 'El Agua nutre las semillas y plantas, permitiendo que crezcan y se conviertan en Madera.<br>Las unidades de madera tendrán más vida.',
+		levels: [
+			{
+				amount: 1,
+				effects: [
+					{type: "hp", value: 2, target: TraitMap.wood},
+				]
+			},
+			{
+				amount: 2,
+				effects: [
+					{type: "hp", value: 4, target: TraitMap.wood},
+					{type: "attack.modifier", value: 3, target: TraitMap.water },
 				]
 			},
 		],
 	},
 	{
 		trait: TraitMap.metal, 
-		message: 'El Metal, especialmente en forma de minerales, puede atraer y condensar agua. Además, en un sentido simbólico, el metal puede representar la pureza y la estructura que permite la conducción y el flujo del agua.<br>Las unidades de agua harán más daño',
+		message: 'El Metal, especialmente en forma de minerales, puede atraer y condensar agua. Además, en un sentido simbólico, el metal puede representar la pureza y la estructura que permite la conducción y el flujo del agua.<br>Las unidades de agua tendrán más vida.',
 		levels: [
 			{
 				amount: 1,
-				effects: [{type: "attack.modifier", value: 1, target: TraitMap.water }]
+				effects: [
+					{type: "hp", value: 4, target: TraitMap.water }
+				]
 			},
 			{
 				amount: 2,
-				effects: [{type: "attack.modifier", value: 3, target: TraitMap.water }]
+				effects: [
+					{type: "hp", value: 4, target: TraitMap.water },
+					{type: "attack.modifier", value: 3, target: TraitMap.metal },
+				]
 			},
 		],
 	}
