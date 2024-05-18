@@ -1,9 +1,10 @@
 <script lang="ts">
-import { Units } from "$lib/database";
+import { Units, boardTraitRanks } from "$lib/database";
 import { goto } from "$app/navigation";
 import { calculateDamage, createBoardUnit } from "$lib/combat";
 import UnitTraits from "$lib/UnitTraits.svelte";
 import UnitInfo from "$lib/UnitInfo.svelte";
+import TraitIcon from "$lib/TraitIcon.svelte";
 let units = [...Units].sort((a,b) => (a.energymax/a.energypertick)-(b.energymax/b.energypertick))
 let targetTable = (source:Unit) => {
 	return units.map((target) => ({
@@ -42,6 +43,35 @@ function reset() {
 				</div>
 			</div>
 		{/each}
+	</div>
+
+	<h4>Rasgos</h4>
+	<div class="row">
+	{#each boardTraitRanks as traitRank}
+		<div class="col-3">
+			<div class="card mb-2">
+				<div class="card-header">
+					<TraitIcon trait={traitRank.trait} /> {traitRank.trait.name}
+				</div>
+				<div class="card-body">
+					<ul>
+						{#each traitRank.levels as level}
+							{level.amount}: {#each level.effects as effect}
+								<TraitIcon trait={effect.target} /> {effect.value>0? "+"+effect.value: effect} 
+								{#if effect.type=="attack.modifier"}
+									daño
+								{:else}
+									{effect.type}
+								{/if}
+							{/each}
+							<br>
+
+						{/each}
+					</ul>
+				</div>
+			</div>
+		</div>
+	{/each}
 	</div>
 	<h4>Tablas de balance</h4>
 	<div class="row">

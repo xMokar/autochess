@@ -123,7 +123,7 @@ function damageAgainstUnitEffect(trait:Trait, value:number): CombatTraitFunction
 	}
 } 
 
-let boardTraitRanks:TraitRank[] = [
+export let boardTraitRanks:TraitRank[] = [
 	{ 
 		trait: TraitMap.fire, 
 		levels: [
