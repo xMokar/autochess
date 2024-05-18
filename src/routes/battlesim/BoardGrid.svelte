@@ -42,6 +42,8 @@ function add(index:number) {
 
 let isAlive = $derived(player.board.filter(boardUnit => boardUnit.hp>0).length>0)
 let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
+let units = [...Units].sort((a, b) => a.name.localeCompare(b.name));
+
 </script>
 <div class="card mb-1 border-{player.color}" >
 	<div class="card-header {status} text-white">
@@ -68,7 +70,7 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 									<div class="card-body p-1">
 										<select onchange={add(index)} value="" class="mw-100 form-control">
 											<option value="">-</option>
-											{#each Units as unit}
+											{#each units as unit}
 												<option value="{unit.id}">{unit.name}</option>
 											{/each}
 										</select>
