@@ -241,7 +241,8 @@ export function fight(player1:Player, player2:Player) {
 }
 
 export function calculateCombatTraits(attacker:BoardUnit, defender:BoardUnit) {
-	return attacker.unit.combatTraits.flatMap(effect => effect(defender))
+	return attacker.unit.combatTraits
+		.flatMap(effect => effect(defender))
 }
 
 export function getBoardUnitBonus(unit:BoardUnit, type:string) {
@@ -259,7 +260,7 @@ export function calculateDamage(attacker:BoardUnit,defender:BoardUnit) {
 	// buscamos efectos de attack.modifier
 	let attackModBonus = getBoardUnitBonus(attacker, "attack.modifier")
 		+getBoardUnitCombatBonus(attacker, defender, "attack.modifier")
-
+	
 	// obtenemos el dado unit.attack y lo tiramos
 	let damage = RollDice(attacker.unit.attack)+attackModBonus
 	let min = attacker.unit.attack.amount+attacker.unit.attack.modifier+attackModBonus

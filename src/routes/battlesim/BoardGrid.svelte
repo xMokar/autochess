@@ -58,24 +58,20 @@ let status = $derived(isAlive? "bg-"+player.color: "bg-secondary")
 			<div class="col-9">
 				<div class="row gx-1">
 					{#each boardArray as boardUnit, index (index)}
-						{#snippet actions()}
-							<select onchange={add(index)} value={boardUnit?boardUnit.unit.id:""} class="mw-100 form-control">
-								<option value="">-</option>
-								{#each Units as unit}
-									<option value="{unit.id}">{unit.name}</option>
-								{/each}
-							</select>
-						{/snippet}
 						<div class="col-4 mb-1">
 							{#if boardUnit}
-								
 								<UnitCard unit={boardUnit.unit} {boardUnit} onclick={() => onRemoveUnit(player, {x: boardUnit.setx, y: boardUnit.sety})} board={player.board} />
 							{:else}
 								<div class="card h-100 border-{player.color}">
 									<div class="card-header p-0 ps-2">Espacio vacio
 									</div>
 									<div class="card-body p-1">
-										{@render actions()}
+										<select onchange={add(index)} value="" class="mw-100 form-control">
+											<option value="">-</option>
+											{#each Units as unit}
+												<option value="{unit.id}">{unit.name}</option>
+											{/each}
+										</select>
 									</div>
 								</div>
 							{/if}
