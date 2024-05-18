@@ -31,5 +31,5 @@ let modal = $state(false)
 {#if modal}
 <Modal onclose={() => modal = false} body={info} />
 {/if}
-<button class="btn btn-secondary btn-sm p-0" onclick={()=> modal=true}><span class="bi bi-info-circle-fill"></span></button>
+<button class="btn btn-info btn-sm p-0" onclick={()=> modal=true}><span class="bi bi-info-circle"></span></button>
 <TraitIcon trait={trait.trait} /> {trait.trait.name} {trait.active}/{trait.levels[trait.level].amount}
