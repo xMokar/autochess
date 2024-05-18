@@ -46,6 +46,10 @@ function reset() {
 	</div>
 
 	<h4>Rasgos</h4>
+	<p>
+		Por cada rasgo, según la cantidad de unidades que tengas en el tablero de ese rasgo, se activarán
+		sus efectos que aplican a ciertas otras unidades según el rasgo de ellas.
+	</p>
 	<div class="row">
 	{#each boardTraitRanks as traitRank}
 		<div class="col-3">
