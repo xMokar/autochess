@@ -34,7 +34,7 @@ function reset() {
 		</div>
 
 		{#each units as unit}
-			<div class="col-3 mb-2">
+			<div class="col-12 col-lg-3 mb-2">
 				<div class="card">
 					<div class="card-header"><UnitTraits {unit} />{unit.name}</div>
 					<div class="card-body">
@@ -52,7 +52,7 @@ function reset() {
 	</p>
 	<div class="row">
 	{#each boardTraitRanks as traitRank}
-		<div class="col-3">
+		<div class="col-6 col-lg-3">
 			<div class="card mb-2">
 				<div class="card-header">
 					<TraitIcon trait={traitRank.trait} /> {traitRank.trait.name}
@@ -104,8 +104,8 @@ function reset() {
 							</td>
 							<td class="text-end">{dmg.damage.min}-{dmg.damage.max}</td>
 							<td class="text-end">{(dmg.damage.min+dmg.damage.max)/2}</td>
-							<td class="text-end">{dmg.target.hp}</td>
-							<td class="text-end">{Math.floor(dmg.damage.min/dmg.target.hp*100)}-{Math.floor(dmg.damage.max/dmg.target.hp*100)}%</td>
+							<td class="text-end">{dmg.target.maxhp}</td>
+							<td class="text-end">{Math.floor(dmg.damage.min/dmg.target.maxhp*100)}-{Math.floor(dmg.damage.max/dmg.target.maxhp*100)}%</td>
 						</tr>
 					{/each}
 					</tbody>
