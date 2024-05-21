@@ -34,7 +34,7 @@ let showModal = $state(false)
 			{@const maxhp = boardUnit.unit.maxhp+getBoardUnitBonus(boardUnit, "hp") }
 			{@const percent = Math.floor(boardUnit.hp/maxhp*100) }
 			<div class="progress">
-				<div class="progress-bar bg-danger" role="progress-bar" style="width: {percent}%" aria-valuenow={percent} aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar bg-danger" role="progress-bar" style="width: {percent}%" aria-valuenow={percent} aria-valuemin="0" aria-valuemax="100">{boardUnit.hp}</div>
 			</div>
 			{/if}
 	</div>

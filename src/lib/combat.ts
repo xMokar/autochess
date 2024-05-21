@@ -121,7 +121,7 @@ interface Turn {
 	defender:Player,
 }
 
-export function combatRound(attacker:Player, defender:Player)  {
+export async function combatRound(attacker:Player, defender:Player)  {
 	let output = []
 	output.push(`<b class="text-${attacker.color}">${attacker.name}</b> tiene preferencia.`)
 	let attackerUnits:Turn[] = attacker.board
@@ -171,6 +171,7 @@ export function combatRound(attacker:Player, defender:Player)  {
 				return output
 			}
 		}
+		await delay(1000);
 	}
 	return output
 }
@@ -196,7 +197,7 @@ export function initBattle(player1:Player, player2: Player) {
 	}
 }
 
-export function fight(player1:Player, player2:Player) {
+export async function fight(player1:Player, player2:Player) {
 	let log = [`Combate entre <span class="text-${player1.color}">${player1.name}</span> y <span class="text-${player2.color}">${player2.name}</span>`]
 	initBattle(player1, player2)
 	let player1Alive = true
@@ -204,9 +205,9 @@ export function fight(player1:Player, player2:Player) {
 
 	let homeFirst = Math.random()*100>50
 	if (homeFirst)
-		log.push(...combatRound(player1, player2))
+		log.push(...await combatRound(player1, player2))
 	else
-		log.push(...combatRound(player2, player1))
+		log.push(...await combatRound(player2, player1))
 	player1Alive = player1.board.filter(boardUnit => boardUnit.hp>0).length>0
 	player2Alive = player2.board.filter(boardUnit => boardUnit.hp>0).length>0
 
@@ -292,4 +293,8 @@ export function createBoardUnit(unit:Unit, c:Coordinate): BoardUnit {
 		energy: 0,
 		effects: []
 	}
+}
+
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

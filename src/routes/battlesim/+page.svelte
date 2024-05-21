@@ -2,20 +2,23 @@
 import { initBattle, fight, createBoardUnit, resetUnits } from "$lib/combat";
 import { getPlayers, updatePlayer } from "$lib/state";
 import { UnitMap, updatePlayerTraits } from "$lib/database";
+import Explosions from "../play/Explosions.svelte";
 import BoardGrid from "./BoardGrid.svelte";
 
 let [ _player1, _player2 ] = getPlayers()
 let home = $state(_player1)
 let visitor = $state(_player2)
+let explosionComponent: { triggerExplosions: () => void };
+
 $effect(() => {
 	initBattle(home, visitor)
 })
 
 let winner = $state("Nadie")
-function run100() {
+async function run100() {
 	resetStats()
 	for(let i=0; i<100; i++) {
-		run()
+		await run()
 	}
 	if (stats.victories.home>stats.victories.visitor) {
 		winner = `<b class="text-${home.color}">${home.name}</b>`
@@ -26,16 +29,28 @@ function run100() {
 	}
 }
 
-function run() {
+async function run() {
 	log = []
-	let result = fight(home, visitor)
+	let result = await fight(home, visitor)
 	if(!result.winner) 
 		winner = "Nadie"
 	else {
 		winner = `<b class="text-${result.winner.color}">${result.winner.name}</b>`
 		if (result.winner == home) stats.victories.home++
 		else if(result.winner == visitor) stats.victories.visitor++
+		
 	}
+	/*var x = window.innerWidth / 2;
+	var y = window.innerHeight / 2;
+	explosionComponent.triggerExplosions(x, y);*/
+	/*for (let i = 0; i < 7; i++) {
+      const x = i === 0 ? window.innerWidth / 2 : Math.random() * window.innerWidth;
+      const y = i === 0 ? window.innerHeight / 2 : Math.random() * window.innerHeight;
+      for (let j = 0; j < 10; j++) {
+        explosionComponent.triggerExplosions(x, y);
+      }
+    }*/
+	explosionComponent.triggerExplosions();
 	stats.combats++
 	log = result.log
 	home = home
@@ -83,9 +98,11 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 	updatePlayer(player)
 	resetUnits(player)
 }
+
 </script>
 
 <div class="container mt-2">
+	<Explosions bind:this={explosionComponent} numExplosions={5} explosionSize="big" colors={['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']} />
 	<div class="mb-2">
 		<a class="btn btn-primary" href="/">Regresar</a>
 		<button onclick={resetAll} class="btn btn-secondary">Limpiar</button>
@@ -103,10 +120,13 @@ let onAddUnit = (player:Player, c:Coordinate, value:string) => {
 
 	<div>
 	</div>
+	
 			<BoardGrid player={visitor} mirrored={true} {onAddUnit} {onRemoveUnit} />
 			<BoardGrid player={home} mirrored={false} {onAddUnit} {onRemoveUnit}  />
 		<br>
 		{#each log as msg}
 			{@html msg}<br>
 		{/each}
+		
+	  
 </div>
